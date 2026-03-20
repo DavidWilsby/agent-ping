@@ -1,0 +1,7 @@
+src/
+tests/
+docs/
+.claude-plugin/
+.gitignore
+tsconfig.json
+*.vsix

@@ -1,0 +1,90 @@
+{
+  "name": "agent-ping",
+  "version": "1.0.0",
+  "description": "Plays a sound when Claude finishes responding. Works in Cursor, Windsurf, and any Claude Code environment.",
+  "main": "dist/extension.js",
+  "bin": {
+    "agent-ping": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "jest",
+    "vscode:prepublish": "npm run build"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "activationEvents": ["onStartupFinished"],
+  "categories": ["Other"],
+  "contributes": {
+    "configuration": {
+      "title": "Agent Ping",
+      "properties": {
+        "agentPing.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable Agent Ping entirely."
+        },
+        "agentPing.useSingleSound": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use one sound file for all events instead of per-event sounds."
+        },
+        "agentPing.singleSound": {
+          "type": "string",
+          "default": "",
+          "description": "Path to sound file used for all events when useSingleSound is true. Leave empty to use the bundled default."
+        },
+        "agentPing.stopSound": {
+          "type": "string",
+          "default": "",
+          "description": "Path to sound file played when Claude finishes a task. Leave empty to use the bundled default."
+        },
+        "agentPing.notificationSound": {
+          "type": "string",
+          "default": "",
+          "description": "Path to sound file played when Claude asks a question. Leave empty to use the bundled default."
+        },
+        "agentPing.permissionSound": {
+          "type": "string",
+          "default": "",
+          "description": "Path to sound file played when a permission prompt appears. Leave empty to use the bundled default."
+        },
+        "agentPing.questionDetection": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use smart question detection on Stop events to play a different sound when Claude is asking you something."
+        },
+        "agentPing.stopEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the Stop event sound."
+        },
+        "agentPing.notificationEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the Notification event sound."
+        },
+        "agentPing.permissionEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the Permission event sound."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.74.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": ["**/tests/**/*.test.ts"]
+  }
+}
