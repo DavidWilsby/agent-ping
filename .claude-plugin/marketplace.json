@@ -1,0 +1,11 @@
+{
+  "name": "agent-ping",
+  "owner": { "name": "David Wilsby" },
+  "plugins": [
+    {
+      "name": "agent-ping",
+      "source": ".",
+      "description": "Plays a sound when Claude finishes responding"
+    }
+  ]
+}
