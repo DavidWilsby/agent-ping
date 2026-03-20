@@ -24,5 +24,6 @@ export function play(soundPath: string): void {
       ['-c', `(New-Object Media.SoundPlayer '${soundPath}').PlaySync()`],
       { detached: true, stdio: 'ignore' }
     ).unref();
+    return;
   }
 }
