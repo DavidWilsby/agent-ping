@@ -44,6 +44,12 @@ export function resolveConfig(): Config {
   const fileConfig = readConfigFile();
   const base: Config = { ...BUNDLED_DEFAULTS, ...fileConfig };
 
+  // Empty string sound paths mean "use bundled default"
+  const soundKeys: (keyof Config)[] = ['singleSound', 'stopSound', 'notificationSound', 'permissionSound'];
+  for (const key of soundKeys) {
+    if (base[key] === '') (base as Record<keyof Config, unknown>)[key] = BUNDLED_DEFAULTS[key];
+  }
+
   const envSound = process.env.AGENT_PING_SOUND;
   const envStop = process.env.AGENT_PING_STOP_SOUND;
   const envNotify = process.env.AGENT_PING_NOTIFICATION_SOUND;
