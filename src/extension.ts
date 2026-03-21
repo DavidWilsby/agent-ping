@@ -46,8 +46,6 @@ function readVSCodeConfig(): Partial<Config> {
   const cfg = vscode.workspace.getConfiguration('agentPing');
   return {
     enabled: cfg.get<boolean>('enabled'),
-    useSingleSound: cfg.get<boolean>('useSingleSound'),
-    singleSound: cfg.get<string>('singleSound') ?? '',
     stopSound: cfg.get<string>('stopSound') ?? '',
     notificationSound: cfg.get<string>('notificationSound') ?? '',
     permissionSound: cfg.get<string>('permissionSound') ?? '',

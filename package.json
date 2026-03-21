@@ -31,16 +31,6 @@
           "default": true,
           "description": "Enable or disable Agent Ping entirely."
         },
-        "agentPing.useSingleSound": {
-          "type": "boolean",
-          "default": false,
-          "description": "Use one sound file for all events instead of per-event sounds."
-        },
-        "agentPing.singleSound": {
-          "type": "string",
-          "default": "",
-          "description": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file used for all events when Use Single Sound is enabled. Leave empty to use the bundled default."
-        },
         "agentPing.stopSound": {
           "type": "string",
           "default": "",

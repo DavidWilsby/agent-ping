@@ -8,7 +8,6 @@ import * as path from 'path';
 export type EventType = 'stop' | 'notification' | 'permission';
 
 function resolveSound(config: Config, event: 'stop' | 'notification' | 'permission'): string {
-  if (config.useSingleSound) return config.singleSound;
   if (event === 'stop') return config.stopSound;
   if (event === 'notification') return config.notificationSound;
   return config.permissionSound;

@@ -4,8 +4,6 @@ import * as os from 'os';
 
 export interface Config {
   enabled: boolean;
-  useSingleSound: boolean;
-  singleSound: string;
   stopSound: string;
   notificationSound: string;
   permissionSound: string;
@@ -19,8 +17,6 @@ const SOUNDS_DIR = path.join(__dirname, '..', 'sounds');
 
 export const BUNDLED_DEFAULTS: Config = {
   enabled: true,
-  useSingleSound: false,
-  singleSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
   stopSound: path.join(SOUNDS_DIR, 'Done.aiff'),
   notificationSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
   permissionSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
@@ -45,7 +41,7 @@ export function resolveConfig(): Config {
   const base: Config = { ...BUNDLED_DEFAULTS, ...fileConfig };
 
   // Empty string sound paths mean "use bundled default"
-  const soundKeys: (keyof Config)[] = ['singleSound', 'stopSound', 'notificationSound', 'permissionSound'];
+  const soundKeys: (keyof Config)[] = ['stopSound', 'notificationSound', 'permissionSound'];
   for (const key of soundKeys) {
     if (base[key] === '') (base as Record<keyof Config, unknown>)[key] = BUNDLED_DEFAULTS[key];
   }
