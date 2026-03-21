@@ -1,130 +1,39 @@
 # Agent Ping
 
-Agent Ping plays a sound when your AI agent finishes working — so you can look away, do something else, and come back when it's done. It works with Claude Code, Cursor, and Windsurf.
-
-Once installed, it runs automatically in the background. You do not need to configure anything to get started.
+Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed. Works with Claude Code, Cursor, and Windsurf. No Node.js required.
 
 ---
 
-## What it does
+## Install
 
-When you ask Claude (or another AI agent) to complete a task, Agent Ping listens for specific moments and plays a short sound:
+Open `~/.claude/settings.json` in a text editor.
 
-- When the agent finishes and is waiting for your next message
-- When the agent asks you a question
-- When the agent needs your permission to use a tool
+- **macOS:** `/Users/yourname/.claude/settings.json`
+- **Windows:** `C:\Users\yourname\.claude\settings.json`
 
-Think of it like a kitchen timer — you can step away and trust you will hear when something needs your attention.
-
----
-
-## Before you install
-
-You do not need to install Node.js or any other software. Agent Ping handles everything itself.
-
-You will need:
-
-- **Claude Code** installed and working (the CLI tool you type commands into)
-- A text editor to edit one configuration file
-
----
-
-## Step 1 — Edit your Claude settings file
-
-Claude Code uses a settings file stored in a hidden folder in your home directory. You need to add a few lines to this file before you can install the plugin.
-
-**Where to find the file:**
-
-- On macOS: `/Users/yourname/.claude/settings.json` (replace `yourname` with your actual username)
-- On Windows: `C:\Users\yourname\.claude\settings.json`
-
-The folder is hidden by default. On macOS, you can open it in Finder by pressing `Cmd + Shift + G` in any Finder window and pasting the path. On Windows, paste the path directly into the address bar in File Explorer.
-
-**Open the file in any text editor** (TextEdit on Mac, Notepad on Windows, or your code editor).
-
-**If the file does not exist yet**, create it as a new empty file at that location.
-
----
-
-## Step 2 — Add the marketplace entry
-
-The file contains JSON — a structured format that looks like nested curly braces `{ }`. You need to add an `extraKnownMarketplaces` section.
-
-**If the file is empty**, paste in exactly this:
+If the file does not exist, create it. Add the `hooks` section below. If the file already has content, merge it in — don't replace what's there, just add the `"hooks"` block inside the outer `{ }`.
 
 ```json
 {
-  "extraKnownMarketplaces": {
-    "agent-ping": {
-      "source": {
-        "source": "github",
-        "repo": "DavidWilsby/agent-ping"
-      }
-    }
+  "hooks": {
+    "Stop": [{ "hooks": [{ "type": "command", "command": "npx --yes agent-ping@latest stop" }] }],
+    "Notification": [{ "hooks": [{ "type": "command", "command": "npx --yes agent-ping@latest notification" }] }],
+    "PermissionRequest": [{ "hooks": [{ "type": "command", "command": "npx --yes agent-ping@latest permission" }] }]
   }
 }
 ```
 
-**If the file already has content**, you need to add the `extraKnownMarketplaces` block inside the existing outer `{ }` without duplicating the braces. For example, if your file currently looks like this:
-
-```json
-{
-  "someOtherSetting": true
-}
-```
-
-Change it to this:
-
-```json
-{
-  "someOtherSetting": true,
-  "extraKnownMarketplaces": {
-    "agent-ping": {
-      "source": {
-        "source": "github",
-        "repo": "DavidWilsby/agent-ping"
-      }
-    }
-  }
-}
-```
-
-Note the comma after `"someOtherSetting": true` — every entry except the last one needs a comma after it. Save the file when you are done.
+Save the file. Sounds will play automatically from now on. The first run downloads the package — after that it's cached.
 
 ---
 
-## Step 3 — Install the plugin
+## Custom sounds
 
-Open Claude Code (the chat interface where you type messages to Claude). In the chat input, type the following command exactly as written and press Enter:
-
-```
-/plugin install agent-ping@agent-ping
-```
-
-Claude Code will download and install the plugin. This may take a moment on the first run.
-
-That is it. Sounds will now play automatically whenever the agent finishes or needs your attention. No restart required.
-
----
-
-## Using custom sounds
-
-By default, Agent Ping plays its own built-in sounds. If you want to use your own sound files, you can tell it where to find them.
-
-Supported formats: WAV, MP3, and AIFF.
-
-Open the same `settings.json` file from Step 1. Add an `env` section with the paths to your sound files. For example:
+Add an `env` section to the same `settings.json` file with the full path to your sound files (WAV, MP3, or AIFF):
 
 ```json
 {
-  "extraKnownMarketplaces": {
-    "agent-ping": {
-      "source": {
-        "source": "github",
-        "repo": "DavidWilsby/agent-ping"
-      }
-    }
-  },
+  "hooks": { ... },
   "env": {
     "AGENT_PING_STOP_SOUND": "/Users/yourname/Sounds/done.wav",
     "AGENT_PING_NOTIFICATION_SOUND": "/Users/yourname/Sounds/ping.wav"
@@ -132,47 +41,28 @@ Open the same `settings.json` file from Step 1. Add an `env` section with the pa
 }
 ```
 
-Replace the file paths with the actual locations of your sound files. Use the full path, not a shortcut like `~/Sounds/done.wav`.
-
-**Two variables are available:**
-
 - `AGENT_PING_STOP_SOUND` — plays when the agent finishes a task
 - `AGENT_PING_NOTIFICATION_SOUND` — plays when the agent asks a question, sends a notification, or needs your permission
-
-If you want the same sound for everything, use `AGENT_PING_SOUND` instead of the two separate variables.
+- `AGENT_PING_SOUND` — use this instead to play the same sound for everything
 
 ---
 
 ## Optional — Settings panel in your editor
 
-If you prefer a visual interface for toggling sounds on or off per event, you can install the VS Code extension version of Agent Ping.
+Download the latest `.vsix` from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases) and install it for your editor. Replace the filename with the one you downloaded.
 
-**Download the file:**
-
-Go to [github.com/DavidWilsby/agent-ping/releases](https://github.com/DavidWilsby/agent-ping/releases) and download the latest `.vsix` file. It will have a name like `agent-ping-1.0.2.vsix`.
-
-**Install it from the terminal:**
-
-Open your terminal and run the command for your editor, replacing `agent-ping-1.0.2.vsix` with the actual filename you downloaded:
-
-For VS Code:
-```
+```bash
+# VS Code
 code --install-extension agent-ping-1.0.2.vsix
-```
 
-For Cursor:
-```
+# Cursor
 cursor --install-extension agent-ping-1.0.2.vsix
-```
 
-For Windsurf:
-```
+# Windsurf
 windsurf --install-extension agent-ping-1.0.2.vsix
 ```
 
-Once installed, search for `Agent Ping` in your editor's settings panel (usually found under File > Preferences > Settings or `Cmd + ,` on Mac) to see per-event controls.
-
-This step is entirely optional. The plugin installed in Step 3 works on its own without this extension.
+Then search for `Agent Ping` in your editor settings (`Cmd + ,` on Mac) to toggle sounds per event.
 
 ---
 
@@ -180,30 +70,16 @@ This step is entirely optional. The plugin installed in Step 3 works on its own 
 
 | Platform | How sound plays |
 | -------- | --------------- |
-| macOS    | Uses `afplay`, which is built into macOS — nothing extra needed |
-| Windows  | Uses PowerShell, which is built into Windows — nothing extra needed |
-| Linux    | Requires `paplay` (PulseAudio) or `aplay` to be installed |
-
-On Linux, if you are not sure whether these are installed, open a terminal and type `paplay --version`. If you see a version number, you are ready. If not, install PulseAudio through your system's package manager.
+| macOS    | `afplay` — built in, nothing extra needed |
+| Windows  | PowerShell — built in, nothing extra needed |
+| Linux    | Requires `paplay` (PulseAudio) or `aplay` |
 
 ---
 
 ## Troubleshooting
 
-**No sound plays at all**
+**No sound plays** — Check your system volume. If you set a custom sound path, make sure the file exists at that exact location and you used the full path (not `~/...`).
 
-First, check that your system volume is not muted or very low. Agent Ping uses your system's default audio output.
+**Wrong sound plays** — If `AGENT_PING_SOUND` is set in your `env`, it overrides everything. Remove it or switch to the two specific variables.
 
-Next, confirm the plugin installed correctly. In Claude Code, type `/plugin list` and check that `agent-ping` appears in the output.
-
-On Linux, check that `paplay` or `aplay` is installed (see Platform notes above).
-
-If you set a custom sound path, double-check that the file exists at exactly that location and that the path in `settings.json` is the full path, not a shortcut.
-
-**The wrong sound plays**
-
-If a custom sound plays when you expected the default, check the `env` section of your `settings.json`. If `AGENT_PING_SOUND` is set, it overrides everything. Remove it or replace it with the two specific variables (`AGENT_PING_STOP_SOUND` and `AGENT_PING_NOTIFICATION_SOUND`) to control them separately.
-
-**How to check that it is working**
-
-Ask Claude to do a simple task — for example, "What is 2 + 2?" When Claude responds, you should hear the stop sound. If you do, everything is working.
+**Test it** — Ask Claude "What is 2 + 2?" — you should hear the stop sound when it replies.
