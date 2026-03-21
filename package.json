@@ -1,6 +1,6 @@
 {
   "name": "agent-ping",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Plays a sound when Claude finishes responding. Works in Cursor, Windsurf, and any Claude Code environment.",
   "publisher": "dawi",
   "main": "dist/extension.js",

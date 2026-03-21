@@ -42,11 +42,7 @@ export async function handleEvent(event: EventType, stdin: string, config: Confi
 
   if (event === 'permission') {
     if (!config.permissionEnabled) return;
-    let payload: { permission_suggestions?: unknown[] } = {};
-    try { payload = JSON.parse(stdin); } catch { /* ignore */ }
-    if ((payload.permission_suggestions ?? []).length > 0) {
-      play(resolveSound(config, 'permission'));
-    }
+    play(resolveSound(config, 'permission'));
     return;
   }
 
