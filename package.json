@@ -39,22 +39,22 @@
         "agentPing.singleSound": {
           "type": "string",
           "default": "",
-          "description": "Path to sound file used for all events when useSingleSound is true. Leave empty to use the bundled default."
+          "description": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file used for all events when Use Single Sound is enabled. Leave empty to use the bundled default."
         },
         "agentPing.stopSound": {
           "type": "string",
           "default": "",
-          "description": "Path to sound file played when Claude finishes a task. Leave empty to use the bundled default."
+          "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseStopSound) · [Test sound](command:agentPing.testStopSound) · [Reset to default](command:agentPing.resetStopSound)"
         },
         "agentPing.notificationSound": {
           "type": "string",
           "default": "",
-          "description": "Path to sound file played when Claude asks a question. Leave empty to use the bundled default."
+          "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseNotificationSound) · [Test sound](command:agentPing.testNotificationSound) · [Reset to default](command:agentPing.resetNotificationSound)"
         },
         "agentPing.permissionSound": {
           "type": "string",
           "default": "",
-          "description": "Path to sound file played when a permission prompt appears. Leave empty to use the bundled default."
+          "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.choosePermissionSound) · [Test sound](command:agentPing.testPermissionSound) · [Reset to default](command:agentPing.resetPermissionSound)"
         },
         "agentPing.questionDetection": {
           "type": "boolean",
