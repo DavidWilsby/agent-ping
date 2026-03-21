@@ -23,8 +23,8 @@ describe('resolveConfig', () => {
     const config = resolveConfig();
     expect(config.enabled).toBe(true);
     expect(config.questionDetection).toBe(true);
-    expect(config.stopSound).toContain('stop.wav');
-    expect(config.notificationSound).toContain('notification.wav');
+    expect(config.stopSound).toContain('Done.aiff');
+    expect(config.notificationSound).toContain('Ping.aiff');
   });
 
   it('env var AGENT_PING_STOP_SOUND overrides stop sound', () => {

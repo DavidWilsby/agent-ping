@@ -117,7 +117,11 @@ function registerResetCommand(
 ): void {
   const disposable = vscode.commands.registerCommand(commandId, async () => {
     const cfg = vscode.workspace.getConfiguration('agentPing');
-    await cfg.update(settingKey, '', vscode.ConfigurationTarget.Global);
+    try {
+      await cfg.update(settingKey, '', vscode.ConfigurationTarget.Global);
+    } catch {
+      vscode.window.showErrorMessage('Agent Ping: Could not reset setting.');
+    }
   });
   context.subscriptions.push(disposable);
 }
