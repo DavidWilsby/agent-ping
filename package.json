@@ -31,11 +31,6 @@
           "default": true,
           "description": "Enable or disable Agent Ping entirely."
         },
-        "agentPing.questionDetection": {
-          "type": "boolean",
-          "default": true,
-          "description": "Use smart question detection on Stop events to play a different sound when Claude is asking you something."
-        },
         "agentPing.notificationSound": {
           "type": "string",
           "default": "",
@@ -65,6 +60,11 @@
           "type": "boolean",
           "default": true,
           "description": "Enable or disable the Stop event sound."
+        },
+        "agentPing.questionDetection": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use smart question detection on Stop events to play a different sound when Claude is asking you something."
         }
       }
     },
