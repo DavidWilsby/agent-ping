@@ -63,7 +63,7 @@ export async function handleEvent(event: EventType, stdin: string, config: Confi
     transcriptPath = findTranscript(payload.session_id);
   }
 
-  if (config.questionDetection && transcriptPath && detectQuestion(transcriptPath)) {
+  if (config.stopQuestionDetection && transcriptPath && detectQuestion(transcriptPath)) {
     play(resolveSound(config, 'notification'));
     return;
   }

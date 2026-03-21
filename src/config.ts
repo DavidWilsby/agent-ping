@@ -7,7 +7,7 @@ export interface Config {
   stopSound: string;
   notificationSound: string;
   permissionSound: string;
-  questionDetection: boolean;
+  stopQuestionDetection: boolean;
   stopEnabled: boolean;
   notificationEnabled: boolean;
   permissionEnabled: boolean;
@@ -20,7 +20,7 @@ export const BUNDLED_DEFAULTS: Config = {
   stopSound: path.join(SOUNDS_DIR, 'Done.aiff'),
   notificationSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
   permissionSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
-  questionDetection: true,
+  stopQuestionDetection: true,
   stopEnabled: true,
   notificationEnabled: true,
   permissionEnabled: true,

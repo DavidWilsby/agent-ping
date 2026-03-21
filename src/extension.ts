@@ -49,7 +49,7 @@ function readVSCodeConfig(): Partial<Config> {
     stopSound: cfg.get<string>('stopSound') ?? '',
     notificationSound: cfg.get<string>('notificationSound') ?? '',
     permissionSound: cfg.get<string>('permissionSound') ?? '',
-    questionDetection: cfg.get<boolean>('questionDetection'),
+    stopQuestionDetection: cfg.get<boolean>('stopQuestionDetection'),
     stopEnabled: cfg.get<boolean>('stopEnabled'),
     notificationEnabled: cfg.get<boolean>('notificationEnabled'),
     permissionEnabled: cfg.get<boolean>('permissionEnabled'),
