@@ -63,9 +63,22 @@ By default the plugin plays bundled sounds. Override with environment variables 
 
 Use `AGENT_PING_SOUND` to set one sound for all events. Specific vars take priority.
 
-### VS Code settings
+### VS Code / Cursor / Windsurf settings
 
-Search for `Agent Ping` in VS Code settings. Full per-event control including enable/disable toggles and question detection.
+Download the latest `.vsix` from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases) and install it for your editor:
+
+```bash
+# VS Code
+code --install-extension agent-ping-*.vsix
+
+# Cursor
+cursor --install-extension agent-ping-*.vsix
+
+# Windsurf
+windsurf --install-extension agent-ping-*.vsix
+```
+
+Then search for `Agent Ping` in your editor's settings panel for full per-event control including enable/disable toggles and question detection.
 
 ## Platform support
 
