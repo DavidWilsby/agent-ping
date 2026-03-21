@@ -1,6 +1,6 @@
 {
   "name": "agent-ping",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Plays a sound when Claude finishes responding. Works in Cursor, Windsurf, and any Claude Code environment.",
   "publisher": "agent-ping",
   "main": "dist/extension.js",
@@ -69,15 +69,42 @@
       }
     },
     "commands": [
-      { "command": "agentPing.chooseStopSound",          "title": "Agent Ping: Choose Stop Sound" },
-      { "command": "agentPing.testStopSound",            "title": "Agent Ping: Test Stop Sound" },
-      { "command": "agentPing.resetStopSound",           "title": "Agent Ping: Reset Stop Sound to Default" },
-      { "command": "agentPing.chooseNotificationSound",  "title": "Agent Ping: Choose Notification Sound" },
-      { "command": "agentPing.testNotificationSound",    "title": "Agent Ping: Test Notification Sound" },
-      { "command": "agentPing.resetNotificationSound",   "title": "Agent Ping: Reset Notification Sound to Default" },
-      { "command": "agentPing.choosePermissionSound",    "title": "Agent Ping: Choose Permission Sound" },
-      { "command": "agentPing.testPermissionSound",      "title": "Agent Ping: Test Permission Sound" },
-      { "command": "agentPing.resetPermissionSound",     "title": "Agent Ping: Reset Permission Sound to Default" }
+      {
+        "command": "agentPing.chooseStopSound",
+        "title": "Agent Ping: Choose Stop Sound"
+      },
+      {
+        "command": "agentPing.testStopSound",
+        "title": "Agent Ping: Test Stop Sound"
+      },
+      {
+        "command": "agentPing.resetStopSound",
+        "title": "Agent Ping: Reset Stop Sound to Default"
+      },
+      {
+        "command": "agentPing.chooseNotificationSound",
+        "title": "Agent Ping: Choose Notification Sound"
+      },
+      {
+        "command": "agentPing.testNotificationSound",
+        "title": "Agent Ping: Test Notification Sound"
+      },
+      {
+        "command": "agentPing.resetNotificationSound",
+        "title": "Agent Ping: Reset Notification Sound to Default"
+      },
+      {
+        "command": "agentPing.choosePermissionSound",
+        "title": "Agent Ping: Choose Permission Sound"
+      },
+      {
+        "command": "agentPing.testPermissionSound",
+        "title": "Agent Ping: Test Permission Sound"
+      },
+      {
+        "command": "agentPing.resetPermissionSound",
+        "title": "Agent Ping: Reset Permission Sound to Default"
+      }
     ]
   },
   "devDependencies": {
