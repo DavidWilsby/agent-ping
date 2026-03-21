@@ -1,8 +1,7 @@
-src/
-tests/
-docs/
-scripts/
-.claude-plugin/
-.gitignore
-tsconfig.json
+node_modules/
 *.vsix
+docs/
+.superpowers/
+tests/
+src/
+tsconfig.json
