@@ -36,35 +36,35 @@
           "default": true,
           "description": "Use smart question detection on Stop events to play a different sound when Claude is asking you something."
         },
-        "agentPing.stopSound": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseStopSound) · [Test sound](command:agentPing.testStopSound) · [Reset to default](command:agentPing.resetStopSound)"
-        },
         "agentPing.notificationSound": {
           "type": "string",
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseNotificationSound) · [Test sound](command:agentPing.testNotificationSound) · [Reset to default](command:agentPing.resetNotificationSound)"
-        },
-        "agentPing.permissionSound": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.choosePermissionSound) · [Test sound](command:agentPing.testPermissionSound) · [Reset to default](command:agentPing.resetPermissionSound)"
-        },
-        "agentPing.stopEnabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enable or disable the Stop event sound."
         },
         "agentPing.notificationEnabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable or disable the Notification event sound."
         },
+        "agentPing.permissionSound": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.choosePermissionSound) · [Test sound](command:agentPing.testPermissionSound) · [Reset to default](command:agentPing.resetPermissionSound)"
+        },
         "agentPing.permissionEnabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable or disable the Permission event sound."
+        },
+        "agentPing.stopSound": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseStopSound) · [Test sound](command:agentPing.testStopSound) · [Reset to default](command:agentPing.resetStopSound)"
+        },
+        "agentPing.stopEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the Stop event sound."
         }
       }
     },
