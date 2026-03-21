@@ -2,7 +2,8 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { Config } from './config';
+import { Config, BUNDLED_DEFAULTS } from './config';
+import { play } from './player';
 
 const AGENT_PING_HOOKS: Record<string, string> = {
   Stop: 'npx --yes agent-ping@latest stop',
@@ -63,6 +64,64 @@ function writeConfigFile(config: Partial<Config>): void {
   fs.writeFileSync(path.join(dir, 'config.json'), JSON.stringify(config, null, 2), 'utf-8');
 }
 
+function registerChooseCommand(
+  context: vscode.ExtensionContext,
+  commandId: string,
+  settingKey: keyof Config
+): void {
+  const disposable = vscode.commands.registerCommand(commandId, async () => {
+    const result = await vscode.window.showOpenDialog({
+      canSelectMany: false,
+      filters: { 'Sound files': ['wav', 'mp3', 'aiff', 'aif'] },
+      title: 'Choose Sound File',
+    });
+    if (!result || result.length === 0) return;
+    const cfg = vscode.workspace.getConfiguration('agentPing');
+    try {
+      await cfg.update(settingKey, result[0].fsPath, vscode.ConfigurationTarget.Global);
+    } catch {
+      vscode.window.showErrorMessage('Agent Ping: Could not save setting.');
+    }
+  });
+  context.subscriptions.push(disposable);
+}
+
+function registerTestCommand(
+  context: vscode.ExtensionContext,
+  commandId: string,
+  settingKey: keyof Config
+): void {
+  const disposable = vscode.commands.registerCommand(commandId, () => {
+    const cfg = vscode.workspace.getConfiguration('agentPing');
+    const rawValue = cfg.get<string>(settingKey);
+    const resolvedPath = (rawValue && rawValue.length > 0)
+      ? rawValue
+      : String(BUNDLED_DEFAULTS[settingKey]);
+    if (!fs.existsSync(resolvedPath)) {
+      vscode.window.showErrorMessage('Agent Ping: Could not play sound. Check that the file path is correct.');
+      return;
+    }
+    try {
+      play(resolvedPath);
+    } catch {
+      vscode.window.showErrorMessage('Agent Ping: Could not play sound.');
+    }
+  });
+  context.subscriptions.push(disposable);
+}
+
+function registerResetCommand(
+  context: vscode.ExtensionContext,
+  commandId: string,
+  settingKey: keyof Config
+): void {
+  const disposable = vscode.commands.registerCommand(commandId, async () => {
+    const cfg = vscode.workspace.getConfiguration('agentPing');
+    await cfg.update(settingKey, '', vscode.ConfigurationTarget.Global);
+  });
+  context.subscriptions.push(disposable);
+}
+
 export function activate(context: vscode.ExtensionContext): void {
   installClaudeHooks();
   writeConfigFile(readVSCodeConfig());
@@ -74,6 +133,18 @@ export function activate(context: vscode.ExtensionContext): void {
   });
 
   context.subscriptions.push(disposable);
+
+  registerChooseCommand(context, 'agentPing.chooseStopSound', 'stopSound');
+  registerChooseCommand(context, 'agentPing.chooseNotificationSound', 'notificationSound');
+  registerChooseCommand(context, 'agentPing.choosePermissionSound', 'permissionSound');
+
+  registerTestCommand(context, 'agentPing.testStopSound', 'stopSound');
+  registerTestCommand(context, 'agentPing.testNotificationSound', 'notificationSound');
+  registerTestCommand(context, 'agentPing.testPermissionSound', 'permissionSound');
+
+  registerResetCommand(context, 'agentPing.resetStopSound', 'stopSound');
+  registerResetCommand(context, 'agentPing.resetNotificationSound', 'notificationSound');
+  registerResetCommand(context, 'agentPing.resetPermissionSound', 'permissionSound');
 }
 
 export function deactivate(): void { /* no-op */ }
