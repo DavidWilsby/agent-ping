@@ -14,7 +14,7 @@ Add this to your `~/.claude/settings.json`:
     "agent-ping": {
       "source": {
         "source": "github",
-        "repo": "YOUR_GITHUB_USERNAME/agent-ping"
+        "repo": "DavidWilsby/agent-ping"
       }
     }
   }

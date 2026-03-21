@@ -1,11 +1,11 @@
-import { spawn } from 'child_process';
+import { spawn, spawnSync } from 'child_process';
 import * as fs from 'fs';
 
 export function play(soundPath: string): void {
   if (!fs.existsSync(soundPath)) return;
 
   if (process.platform === 'darwin') {
-    spawn('afplay', [soundPath], { detached: true, stdio: 'ignore' }).unref();
+    spawnSync('afplay', [soundPath]);
     return;
   }
 
