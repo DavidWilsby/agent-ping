@@ -4,6 +4,43 @@ import * as path from 'path';
 import * as os from 'os';
 import { Config } from './config';
 
+const AGENT_PING_HOOKS: Record<string, string> = {
+  Stop: 'npx --yes agent-ping@latest stop',
+  Notification: 'npx --yes agent-ping@latest notification',
+  PermissionRequest: 'npx --yes agent-ping@latest permission',
+};
+
+function installClaudeHooks(): void {
+  const settingsPath = path.join(os.homedir(), '.claude', 'settings.json');
+
+  let settings: Record<string, unknown> = {};
+  try {
+    settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8')) as Record<string, unknown>;
+  } catch {
+    // File missing or invalid — start fresh
+  }
+
+  const hooks = (settings['hooks'] as Record<string, unknown[]> | undefined) ?? {};
+  let changed = false;
+
+  for (const [event, command] of Object.entries(AGENT_PING_HOOKS)) {
+    const existing = (hooks[event] as Array<{ hooks: Array<{ command?: string }> }>) ?? [];
+    const alreadyInstalled = existing.some(group =>
+      group.hooks?.some(h => h.command?.includes('agent-ping'))
+    );
+    if (!alreadyInstalled) {
+      hooks[event] = [...existing, { hooks: [{ type: 'command', command }] }];
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    settings['hooks'] = hooks;
+    fs.mkdirSync(path.dirname(settingsPath), { recursive: true });
+    fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2), 'utf-8');
+  }
+}
+
 function readVSCodeConfig(): Partial<Config> {
   const cfg = vscode.workspace.getConfiguration('agentPing');
   return {
@@ -27,6 +64,7 @@ function writeConfigFile(config: Partial<Config>): void {
 }
 
 export function activate(context: vscode.ExtensionContext): void {
+  installClaudeHooks();
   writeConfigFile(readVSCodeConfig());
 
   const disposable = vscode.workspace.onDidChangeConfiguration((e) => {
