@@ -31,6 +31,11 @@
           "default": true,
           "description": "Enable or disable Agent Ping entirely."
         },
+        "agentPing.questionDetection": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use smart question detection on Stop events to play a different sound when Claude is asking you something."
+        },
         "agentPing.stopSound": {
           "type": "string",
           "default": "",
@@ -45,11 +50,6 @@
           "type": "string",
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.choosePermissionSound) · [Test sound](command:agentPing.testPermissionSound) · [Reset to default](command:agentPing.resetPermissionSound)"
-        },
-        "agentPing.questionDetection": {
-          "type": "boolean",
-          "default": true,
-          "description": "Use smart question detection on Stop events to play a different sound when Claude is asking you something."
         },
         "agentPing.stopEnabled": {
           "type": "boolean",
