@@ -17,7 +17,7 @@ export interface Config {
 
 const SOUNDS_DIR = path.join(__dirname, '..', 'sounds');
 
-const BUNDLED_DEFAULTS: Config = {
+export const BUNDLED_DEFAULTS: Config = {
   enabled: true,
   useSingleSound: false,
   singleSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
