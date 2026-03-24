@@ -4,14 +4,15 @@ import * as path from 'path';
 import * as os from 'os';
 import { Config, BUNDLED_DEFAULTS } from './config';
 import { play } from './player';
+import {
+  resolveGlobalBinDir,
+  buildHookCommand,
+  applyHookEntry,
+  HOOK_EVENT_COMMANDS,
+  HookGroup,
+} from './hooks';
 
-const AGENT_PING_HOOKS: Record<string, string> = {
-  Stop: 'npx --yes agent-ping@latest stop',
-  Notification: 'npx --yes agent-ping@latest notification',
-  StopFailure: 'npx --yes agent-ping@latest notification',
-};
-
-function installClaudeHooks(): void {
+function installClaudeHooks(binDir: string): void {
   const settingsPath = path.join(os.homedir(), '.claude', 'settings.json');
 
   let settings: Record<string, unknown> = {};
@@ -25,7 +26,7 @@ function installClaudeHooks(): void {
   let changed = false;
 
   // Remove legacy PermissionRequest hook installed by older versions
-  const permHooks = (hooks['PermissionRequest'] as Array<{ hooks: Array<{ command?: string }> }>) ?? [];
+  const permHooks = (hooks['PermissionRequest'] as HookGroup[]) ?? [];
   const filteredPerm = permHooks.filter(group =>
     !group.hooks?.some(h => h.command?.includes('agent-ping'))
   );
@@ -38,13 +39,12 @@ function installClaudeHooks(): void {
     changed = true;
   }
 
-  for (const [event, command] of Object.entries(AGENT_PING_HOOKS)) {
-    const existing = (hooks[event] as Array<{ hooks: Array<{ command?: string }> }>) ?? [];
-    const alreadyInstalled = existing.some(group =>
-      group.hooks?.some(h => h.command?.includes('agent-ping'))
-    );
-    if (!alreadyInstalled) {
-      hooks[event] = [...existing, { hooks: [{ type: 'command', command }] }];
+  for (const [event, cmdArg] of Object.entries(HOOK_EVENT_COMMANDS)) {
+    const existing = (hooks[event] as HookGroup[]) ?? [];
+    const command = buildHookCommand(cmdArg, binDir);
+    const result = applyHookEntry(existing, command);
+    if (result.changed) {
+      hooks[event] = result.groups;
       changed = true;
     }
   }
@@ -53,6 +53,21 @@ function installClaudeHooks(): void {
     settings['hooks'] = hooks;
     fs.mkdirSync(path.dirname(settingsPath), { recursive: true });
     fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2), 'utf-8');
+  }
+}
+
+async function ensureGlobalInstall(): Promise<string | null> {
+  let binDir = resolveGlobalBinDir();
+  if (binDir) return binDir;
+
+  while (true) {
+    const choice = await vscode.window.showWarningMessage(
+      'Agent Ping requires a global install. Run: npm i -g agent-ping',
+      'Retry',
+    );
+    if (choice !== 'Retry') return null;
+    binDir = resolveGlobalBinDir();
+    if (binDir) return binDir;
   }
 }
 
@@ -135,8 +150,11 @@ function registerResetCommand(
   context.subscriptions.push(disposable);
 }
 
-export function activate(context: vscode.ExtensionContext): void {
-  installClaudeHooks();
+export async function activate(context: vscode.ExtensionContext): Promise<void> {
+  const binDir = await ensureGlobalInstall();
+  if (binDir) {
+    installClaudeHooks(binDir);
+  }
   writeConfigFile(readVSCodeConfig());
 
   const disposable = vscode.workspace.onDidChangeConfiguration((e) => {

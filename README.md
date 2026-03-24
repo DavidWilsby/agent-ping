@@ -6,24 +6,30 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
 ## Install
 
-1. Download the latest `.vsix` file from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
+1. Install the CLI globally:
 
-2. Open your terminal, navigate to the folder where you downloaded the file, and run the command for your editor, replacing `agent-ping-x.x.x.vsix` with the filename you downloaded:
+   ```bash
+   npm i -g agent-ping
+   ```
+
+2. Download the latest `.vsix` file from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
+
+3. Open your terminal, navigate to the folder where you downloaded the file, and run the command for your editor, replacing `agent-ping-1.0.13.vsix` with the filename you downloaded:
 
    ```bash
    # VS Code
-   code --install-extension agent-ping-x.x.x.vsix
+   code --install-extension agent-ping-1.0.13.vsix
 
    # Cursor
-   cursor --install-extension agent-ping-x.x.x.vsix
+   cursor --install-extension agent-ping-1.0.13.vsix
 
    # Windsurf
-   windsurf --install-extension agent-ping-x.x.x.vsix
+   windsurf --install-extension agent-ping-1.0.13.vsix
    ```
 
-3. Reload your editor. Sounds will play automatically from now on — no further setup needed.
+4. Reload your editor. Sounds will play automatically from now on — no further setup needed.
 
-The extension wires everything up for you, including adding the required hooks to your Claude settings file.
+The global install lets Claude hooks invoke `agent-ping` directly, avoiding the ~500ms `npx` registry check on every event. If the global install is missing, the extension will show a warning with a **Retry** button.
 
 ---
 
@@ -32,6 +38,12 @@ The extension wires everything up for you, including adding the required hooks t
 1. Download the latest `.vsix` from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
 2. Run the same install command as above — it will replace the existing version automatically.
 3. Reload your editor.
+
+### Upgrading from v1.0.12 or earlier
+
+Older versions used `npx` to run hooks, which adds ~500ms of latency on every event. Starting with v1.0.13, hooks call the globally installed binary directly.
+
+To upgrade: run `npm i -g agent-ping` and reload your editor. The extension will detect the global binary and replace the old npx hooks automatically. If you skip the global install, the old hooks continue to work — you just won't get the speed improvement. If you dismiss the warning, reload your editor to see it again.
 
 ---
 
