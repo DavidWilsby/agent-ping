@@ -1,8 +1,34 @@
 {
   "name": "agent-ping",
+  "displayName": "Agent Ping",
   "version": "1.0.12",
-  "description": "Plays a sound when Claude finishes responding. Works in Cursor, Windsurf, and any Claude Code environment.",
+  "description": "Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed.",
   "publisher": "dawi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DavidWilsby/agent-ping.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DavidWilsby/agent-ping/issues"
+  },
+  "homepage": "https://github.com/DavidWilsby/agent-ping#readme",
+  "keywords": [
+    "claude",
+    "ai",
+    "agent",
+    "sound",
+    "notification",
+    "audio",
+    "ping",
+    "cursor",
+    "windsurf",
+    "hook"
+  ],
+  "galleryBanner": {
+    "color": "#1e1e2e",
+    "theme": "dark"
+  },
   "main": "dist/extension.js",
   "bin": {
     "agent-ping": "dist/cli.js"
