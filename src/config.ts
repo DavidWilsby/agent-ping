@@ -4,28 +4,20 @@ import * as os from 'os';
 
 export interface Config {
   enabled: boolean;
-  stopSound: string;
-  notificationSound: string;
-  permissionSound: string;
-  stopQuestionDetection: boolean;
-  notificationQuestionDetection: boolean;
-  stopEnabled: boolean;
   notificationEnabled: boolean;
-  permissionEnabled: boolean;
+  notificationSound: string;
+  stopEnabled: boolean;
+  stopSound: string;
 }
 
 const SOUNDS_DIR = path.join(__dirname, '..', 'sounds');
 
 export const BUNDLED_DEFAULTS: Config = {
   enabled: true,
-  stopSound: path.join(SOUNDS_DIR, 'Done.aiff'),
-  notificationSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
-  permissionSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
-  stopQuestionDetection: true,
-  notificationQuestionDetection: true,
-  stopEnabled: true,
   notificationEnabled: true,
-  permissionEnabled: true,
+  notificationSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
+  stopEnabled: true,
+  stopSound: path.join(SOUNDS_DIR, 'Done.aiff'),
 };
 
 function readConfigFile(): Partial<Config> {
@@ -43,27 +35,16 @@ export function resolveConfig(): Config {
   const base: Config = { ...BUNDLED_DEFAULTS, ...fileConfig };
 
   // Empty string sound paths mean "use bundled default"
-  const soundKeys: (keyof Config)[] = ['stopSound', 'notificationSound', 'permissionSound'];
+  const soundKeys: (keyof Config)[] = ['notificationSound', 'stopSound'];
   for (const key of soundKeys) {
     if (base[key] === '') (base as Record<keyof Config, unknown>)[key] = BUNDLED_DEFAULTS[key];
   }
 
-  const envSound = process.env.AGENT_PING_SOUND;
   const envStop = process.env.AGENT_PING_STOP_SOUND;
   const envNotify = process.env.AGENT_PING_NOTIFICATION_SOUND;
 
   if (envStop) base.stopSound = envStop;
-  if (envNotify) {
-    base.notificationSound = envNotify;
-    base.permissionSound = envNotify;
-  }
-  if (envSound) {
-    if (!envStop) base.stopSound = envSound;
-    if (!envNotify) {
-      base.notificationSound = envSound;
-      base.permissionSound = envSound;
-    }
-  }
+  if (envNotify) base.notificationSound = envNotify;
 
   return base;
 }
