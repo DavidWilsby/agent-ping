@@ -2,6 +2,12 @@ import * as fs from 'fs';
 
 const QUESTION_PATTERN = /\?[\s]*$|want me to|would you like|do you want|shall I|let me know/i;
 
+const ACTIONABLE_PATTERN = /\?[\s]*$|want me to|would you like|do you want|shall I|let me know|approve|allow|permission|waiting|paused/i;
+
+export function detectActionableMessage(message: string): boolean {
+  return ACTIONABLE_PATTERN.test(message.slice(-500));
+}
+
 export function detectQuestion(transcriptPath: string): boolean {
   try {
     const lines = fs.readFileSync(transcriptPath, 'utf-8').split('\n');

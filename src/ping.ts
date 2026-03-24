@@ -1,6 +1,6 @@
 import { Config } from './config';
 import { play } from './player';
-import { detectQuestion } from './detector';
+import { detectQuestion, detectActionableMessage } from './detector';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
@@ -36,6 +36,11 @@ export async function handleEvent(event: EventType, stdin: string, config: Confi
 
   if (event === 'notification') {
     if (!config.notificationEnabled) return;
+    if (config.notificationQuestionDetection) {
+      let payload: { message?: string } = {};
+      try { payload = JSON.parse(stdin); } catch { /* ignore */ }
+      if (!payload.message || !detectActionableMessage(payload.message)) return;
+    }
     play(resolveSound(config, 'notification'));
     return;
   }

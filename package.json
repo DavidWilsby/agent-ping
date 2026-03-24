@@ -1,6 +1,6 @@
 {
   "name": "agent-ping",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Plays a sound when Claude finishes responding. Works in Cursor, Windsurf, and any Claude Code environment.",
   "publisher": "dawi",
   "main": "dist/extension.js",
@@ -38,38 +38,44 @@
           "default": true,
           "description": "Enable or disable the Notification event sound."
         },
-        "agentPing.notificationSound": {
+        "agentPing.notificationQuestionDetection": {
           "order": 3,
+          "type": "boolean",
+          "default": true,
+          "description": "Only play the Notification sound when the message looks like a question or permission request. Disable to ping on all notifications."
+        },
+        "agentPing.notificationSound": {
+          "order": 4,
           "type": "string",
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseNotificationSound) · [Test sound](command:agentPing.testNotificationSound) · [Reset to default](command:agentPing.resetNotificationSound)"
         },
         "agentPing.permissionEnabled": {
-          "order": 4,
+          "order": 5,
           "type": "boolean",
           "default": true,
           "description": "Enable or disable the Permission event sound."
         },
         "agentPing.permissionSound": {
-          "order": 5,
+          "order": 6,
           "type": "string",
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.choosePermissionSound) · [Test sound](command:agentPing.testPermissionSound) · [Reset to default](command:agentPing.resetPermissionSound)"
         },
         "agentPing.stopEnabled": {
-          "order": 6,
+          "order": 7,
           "type": "boolean",
           "default": true,
           "description": "Enable or disable the Stop event sound."
         },
         "agentPing.stopQuestionDetection": {
-          "order": 7,
+          "order": 8,
           "type": "boolean",
           "default": true,
           "description": "Use smart question detection on Stop events to play a different sound when Claude is asking you something."
         },
         "agentPing.stopSound": {
-          "order": 8,
+          "order": 9,
           "type": "string",
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseStopSound) · [Test sound](command:agentPing.testStopSound) · [Reset to default](command:agentPing.resetStopSound)"
