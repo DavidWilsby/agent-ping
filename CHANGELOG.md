@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.12] — 2024
+## [1.0.12] — 2026-03-24
 
 ### Changed
 - Simplified to two sounds: **Notification** and **Stop**
@@ -17,7 +17,7 @@
 
 ---
 
-## [1.0.11] — 2024
+## [1.0.11] — 2026-03-24
 
 ### Added
 - Smart notification filtering — plays only when Claude is asking a question or waiting for input
@@ -25,21 +25,21 @@
 
 ---
 
-## [1.0.10] — 2024
+## [1.0.10] — 2026-03-22
 
 ### Fixed
 - Always play permission sound on `PermissionRequest` hook
 
 ---
 
-## [1.0.8] — 2024
+## [1.0.8] — 2026-03-21
 
 ### Added
 - Permission sound event and setting
 
 ---
 
-## [1.0.7] — 2024
+## [1.0.7] — 2026-03-21
 
 ### Changed
 - Renamed `questionDetection` to `stopQuestionDetection`
@@ -47,21 +47,21 @@
 
 ---
 
-## [1.0.6] — 2024
+## [1.0.6] — 2026-03-21
 
 ### Fixed
 - Question Detection setting position in settings panel
 
 ---
 
-## [1.0.5] — 2024
+## [1.0.5] — 2026-03-21
 
 ### Changed
 - Reordered settings: notification / permission / stop
 
 ---
 
-## [1.0.3–1.0.4] — 2024
+## [1.0.3–1.0.4] — 2026-03-21
 
 ### Changed
 - Publisher update
@@ -69,14 +69,14 @@
 
 ---
 
-## [1.0.2] — 2024
+## [1.0.2] — 2026-03-21
 
 ### Fixed
 - Treat empty string sound paths as bundled defaults
 
 ---
 
-## [1.0.1] — 2024
+## [1.0.1] — 2026-03-21
 
 ### Added
 - `Done.aiff` and `Ping.aiff` as bundled default sounds
@@ -84,7 +84,7 @@
 
 ---
 
-## [1.0.0] — 2024
+## [1.0.0] — 2026-03-20
 
 ### Added
 - Initial release
