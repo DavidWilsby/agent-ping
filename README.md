@@ -12,13 +12,13 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
    ```bash
    # VS Code
-   code --install-extension agent-ping-1.0.11.vsix
+   code --install-extension agent-ping-1.0.12.vsix
 
    # Cursor
-   cursor --install-extension agent-ping-1.0.11.vsix
+   cursor --install-extension agent-ping-1.0.12.vsix
 
    # Windsurf
-   windsurf --install-extension agent-ping-1.0.11.vsix
+   windsurf --install-extension agent-ping-1.0.12.vsix
    ```
 
 3. Reload your editor. Sounds will play automatically from now on — no further setup needed.
@@ -39,8 +39,7 @@ The extension wires everything up for you, including adding the required hooks t
 
 Open your editor settings (`Cmd+,` on Mac, `Ctrl+,` on Windows) and search for **Agent Ping**. Each sound event has a **Choose file…** link you can click to pick any WAV, MP3, or AIFF file from your computer.
 
-- **Notification** — plays when Claude asks a question or sends a notification
-- **Permission** — plays when Claude needs your permission to run a command
+- **Notification** — plays when Claude asks a question, needs your permission, or is waiting for input
 - **Stop** — plays when Claude finishes a task
 
 Use **Test sound** to preview, and **Reset to default** to go back to the bundled sound.
@@ -62,7 +61,6 @@ If you prefer, you can set sound paths directly in `~/.claude/settings.json`:
 
 - `AGENT_PING_STOP_SOUND` — plays when the agent finishes a task
 - `AGENT_PING_NOTIFICATION_SOUND` — plays when the agent asks a question, sends a notification, or needs your permission
-- `AGENT_PING_SOUND` — plays the same sound for all events
 
 Environment variables take priority over the settings panel.
 
@@ -80,8 +78,8 @@ Environment variables take priority over the settings panel.
 
 ## Troubleshooting
 
-**No sound plays** — Check your system volume. Open editor settings (`Cmd+,`) and search Agent Ping — make sure **Enabled** is on and the relevant event (Notification, Permission, or Stop) is also enabled. If you set a custom sound path, make sure the file exists at that exact location.
+**No sound plays** — Check your system volume. Open editor settings (`Cmd+,`) and search Agent Ping — make sure **Enabled** is on and the relevant event (Notification or Stop) is also enabled. If you set a custom sound path, make sure the file exists at that exact location.
 
-**Wrong sound plays** — Open editor settings and search Agent Ping to review which sound is set for each event. If `AGENT_PING_SOUND` is set in your `~/.claude/settings.json` env, it overrides everything — remove it or switch to the specific variables.
+**Wrong sound plays** — Open editor settings and search Agent Ping to review which sound is set for each event.
 
 **Test it** — Ask Claude "What is 2 + 2?" — you should hear the stop sound when it replies.
