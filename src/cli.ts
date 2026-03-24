@@ -3,7 +3,7 @@ import { resolveConfig } from './config';
 import { handleEvent, EventType } from './ping';
 
 const event = process.argv[2] as EventType;
-const validEvents: EventType[] = ['stop', 'notification', 'permission'];
+const validEvents: EventType[] = ['stop', 'notification'];
 
 if (!validEvents.includes(event)) {
   process.exit(0);

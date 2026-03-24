@@ -1,28 +1,8 @@
 import { spawn, spawnSync } from 'child_process';
 import * as fs from 'fs';
-import * as os from 'os';
-import * as path from 'path';
-
-const DEBOUNCE_MS = 50;
-const STAMP_FILE = path.join(os.tmpdir(), '.agent-ping-last-play');
-
-function isDebouncedOut(): boolean {
-  try {
-    const last = parseInt(fs.readFileSync(STAMP_FILE, 'utf-8'), 10);
-    return Date.now() - last < DEBOUNCE_MS;
-  } catch {
-    return false;
-  }
-}
-
-function writeStamp(): void {
-  try { fs.writeFileSync(STAMP_FILE, String(Date.now())); } catch { /* ignore */ }
-}
 
 export function play(soundPath: string): void {
   if (!fs.existsSync(soundPath)) return;
-  if (isDebouncedOut()) return;
-  writeStamp();
 
   if (process.platform === 'darwin') {
     spawnSync('afplay', [soundPath]);

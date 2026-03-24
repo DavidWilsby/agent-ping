@@ -8,7 +8,7 @@ import { play } from './player';
 const AGENT_PING_HOOKS: Record<string, string> = {
   Stop: 'npx --yes agent-ping@latest stop',
   Notification: 'npx --yes agent-ping@latest notification',
-  PermissionRequest: 'npx --yes agent-ping@latest permission',
+  StopFailure: 'npx --yes agent-ping@latest notification',
 };
 
 function installClaudeHooks(): void {
@@ -23,6 +23,20 @@ function installClaudeHooks(): void {
 
   const hooks = (settings['hooks'] as Record<string, unknown[]> | undefined) ?? {};
   let changed = false;
+
+  // Remove legacy PermissionRequest hook installed by older versions
+  const permHooks = (hooks['PermissionRequest'] as Array<{ hooks: Array<{ command?: string }> }>) ?? [];
+  const filteredPerm = permHooks.filter(group =>
+    !group.hooks?.some(h => h.command?.includes('agent-ping'))
+  );
+  if (filteredPerm.length !== permHooks.length) {
+    if (filteredPerm.length === 0) {
+      delete hooks['PermissionRequest'];
+    } else {
+      hooks['PermissionRequest'] = filteredPerm;
+    }
+    changed = true;
+  }
 
   for (const [event, command] of Object.entries(AGENT_PING_HOOKS)) {
     const existing = (hooks[event] as Array<{ hooks: Array<{ command?: string }> }>) ?? [];
