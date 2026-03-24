@@ -60,14 +60,10 @@ function readVSCodeConfig(): Partial<Config> {
   const cfg = vscode.workspace.getConfiguration('agentPing');
   return {
     enabled: cfg.get<boolean>('enabled'),
-    stopSound: cfg.get<string>('stopSound') ?? '',
-    notificationSound: cfg.get<string>('notificationSound') ?? '',
-    permissionSound: cfg.get<string>('permissionSound') ?? '',
-    stopQuestionDetection: cfg.get<boolean>('stopQuestionDetection'),
-    notificationQuestionDetection: cfg.get<boolean>('notificationQuestionDetection'),
-    stopEnabled: cfg.get<boolean>('stopEnabled'),
     notificationEnabled: cfg.get<boolean>('notificationEnabled'),
-    permissionEnabled: cfg.get<boolean>('permissionEnabled'),
+    notificationSound: cfg.get<string>('notificationSound') ?? '',
+    stopEnabled: cfg.get<boolean>('stopEnabled'),
+    stopSound: cfg.get<string>('stopSound') ?? '',
   };
 }
 
@@ -153,15 +149,12 @@ export function activate(context: vscode.ExtensionContext): void {
 
   registerChooseCommand(context, 'agentPing.chooseStopSound', 'stopSound');
   registerChooseCommand(context, 'agentPing.chooseNotificationSound', 'notificationSound');
-  registerChooseCommand(context, 'agentPing.choosePermissionSound', 'permissionSound');
 
   registerTestCommand(context, 'agentPing.testStopSound', 'stopSound');
   registerTestCommand(context, 'agentPing.testNotificationSound', 'notificationSound');
-  registerTestCommand(context, 'agentPing.testPermissionSound', 'permissionSound');
 
   registerResetCommand(context, 'agentPing.resetStopSound', 'stopSound');
   registerResetCommand(context, 'agentPing.resetNotificationSound', 'notificationSound');
-  registerResetCommand(context, 'agentPing.resetPermissionSound', 'permissionSound');
 }
 
 export function deactivate(): void { /* no-op */ }
