@@ -12,13 +12,13 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
    ```bash
    # VS Code
-   code --install-extension agent-ping-1.0.12.vsix
+   code --install-extension agent-ping-x.x.x.vsix
 
    # Cursor
-   cursor --install-extension agent-ping-1.0.12.vsix
+   cursor --install-extension agent-ping-x.x.x.vsix
 
    # Windsurf
-   windsurf --install-extension agent-ping-1.0.12.vsix
+   windsurf --install-extension agent-ping-x.x.x.vsix
    ```
 
 3. Reload your editor. Sounds will play automatically from now on — no further setup needed.

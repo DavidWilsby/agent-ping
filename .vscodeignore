@@ -1,0 +1,11 @@
+src/
+tests/
+docs/
+.superpowers/
+hooks/
+.claude-plugin/
+node_modules/
+*.vsix
+tsconfig.json
+.gitignore
+.npmignore
