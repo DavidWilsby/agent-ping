@@ -25,20 +25,6 @@ function installClaudeHooks(binDir: string): void {
   const hooks = (settings['hooks'] as Record<string, unknown[]> | undefined) ?? {};
   let changed = false;
 
-  // Remove legacy PermissionRequest hook installed by older versions
-  const permHooks = (hooks['PermissionRequest'] as HookGroup[]) ?? [];
-  const filteredPerm = permHooks.filter(group =>
-    !group.hooks?.some(h => h.command?.includes('agent-ping'))
-  );
-  if (filteredPerm.length !== permHooks.length) {
-    if (filteredPerm.length === 0) {
-      delete hooks['PermissionRequest'];
-    } else {
-      hooks['PermissionRequest'] = filteredPerm;
-    }
-    changed = true;
-  }
-
   for (const [event, cmdArg] of Object.entries(HOOK_EVENT_COMMANDS)) {
     const existing = (hooks[event] as HookGroup[]) ?? [];
     const command = buildHookCommand(cmdArg, binDir);

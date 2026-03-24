@@ -5,7 +5,7 @@ export function play(soundPath: string): void {
   if (!fs.existsSync(soundPath)) return;
 
   if (process.platform === 'darwin') {
-    spawnSync('afplay', [soundPath]);
+    spawn('afplay', [soundPath], { detached: true, stdio: 'ignore' }).unref();
     return;
   }
 

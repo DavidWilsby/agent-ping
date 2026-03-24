@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.14] — 2026-03-24
+
+### Fixed
+- Permission prompt sound now plays instantly — restored `PermissionRequest` hook which fires before the dialog appears, instead of relying on the slower `Notification` event
+- CLI no longer waits for stdin before playing sounds, eliminating a 5–10 second delay caused by Claude Code keeping the pipe open
+- macOS `afplay` now runs detached instead of blocking, so sequential hooks don't queue behind each other
+
+### Changed
+- `Notification` hook uses `--filtered` mode to skip `permission_prompt` (already handled by `PermissionRequest`), avoiding double sounds
+
+---
+
 ## [1.0.13] — 2026-03-24
 
 ### Changed

@@ -12,13 +12,13 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
    ```bash
    # VS Code
-   code --install-extension agent-ping-1.0.13.vsix
+   code --install-extension agent-ping-1.0.14.vsix
 
    # Cursor
-   cursor --install-extension agent-ping-1.0.13.vsix
+   cursor --install-extension agent-ping-1.0.14.vsix
 
    # Windsurf
-   windsurf --install-extension agent-ping-1.0.13.vsix
+   windsurf --install-extension agent-ping-1.0.14.vsix
    ```
 
 3. Install the CLI so Claude's hooks can trigger sounds:
@@ -41,9 +41,7 @@ The extension manages your editor settings and sound preferences. The CLI is wha
 
 ### Upgrading from v1.0.12 or earlier
 
-Older versions used `npx` to run hooks, which adds ~500ms of latency on every event. Starting with v1.0.13, hooks call the globally installed binary directly.
-
-To upgrade: run `npm i -g agent-ping` and reload your editor. The extension will detect the global binary and replace the old npx hooks automatically. If you skip the global install, the old hooks continue to work — you just won't get the speed improvement. If you dismiss the warning, reload your editor to see it again.
+Older versions used `npx` to run hooks, which added noticeable latency on every event. Starting with v1.0.13, hooks call the globally installed binary directly. Run `npm i -g agent-ping` and reload your editor. The extension will detect the global binary and replace the old npx hooks automatically. If you skip the global install, the old hooks continue to work — you just won't get the speed improvement. If you dismiss the warning, reload your editor to see it again.
 
 ---
 

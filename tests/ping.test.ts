@@ -67,17 +67,10 @@ describe('handleEvent — notification', () => {
     expect(play).not.toHaveBeenCalled();
   });
 
-  it('plays nothing for auth_success', async () => {
-    const { handleEvent } = require('../src/ping');
-    const stdin = JSON.stringify({ notification_type: 'auth_success' });
-    await handleEvent('notification', stdin, baseConfig);
-    expect(play).not.toHaveBeenCalled();
-  });
-
-  it('plays nothing for unknown notification type', async () => {
+  it('plays for any notification type', async () => {
     const { handleEvent } = require('../src/ping');
     await handleEvent('notification', '{}', baseConfig);
-    expect(play).not.toHaveBeenCalled();
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
   });
 });
 

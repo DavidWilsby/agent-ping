@@ -33,7 +33,7 @@ describe('play', () => {
     Object.defineProperty(process, 'platform', { value: 'darwin', configurable: true });
     const { play } = require('../src/player');
     play('/test/sound.wav');
-    expect(mockSpawnSync).toHaveBeenCalledWith('afplay', ['/test/sound.wav']);
+    expect(mockSpawn).toHaveBeenCalledWith('afplay', ['/test/sound.wav'], { detached: true, stdio: 'ignore' });
     Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
   });
 
