@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.13] — 2026-03-24
+
+### Changed
+- Hooks now call `agent-ping` directly instead of `npx --yes agent-ping@latest`, eliminating ~500ms registry latency on every event
+- Global install (`npm i -g agent-ping`) is now required — the extension shows a warning with a **Retry** button if the binary is not found
+- Old npx-style hooks are migrated to direct binary calls automatically on activation
+
+---
+
 ## [1.0.12] — 2026-03-24
 
 ### Changed

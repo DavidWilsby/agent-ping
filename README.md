@@ -6,15 +6,9 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
 ## Install
 
-1. Install the CLI globally:
+1. Download the latest `.vsix` file from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
 
-   ```bash
-   npm i -g agent-ping
-   ```
-
-2. Download the latest `.vsix` file from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
-
-3. Open your terminal, navigate to the folder where you downloaded the file, and run the command for your editor, replacing `agent-ping-1.0.13.vsix` with the filename you downloaded:
+2. Install the extension in your editor:
 
    ```bash
    # VS Code
@@ -27,9 +21,15 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
    windsurf --install-extension agent-ping-1.0.13.vsix
    ```
 
+3. Install the CLI so Claude's hooks can trigger sounds:
+
+   ```bash
+   npm i -g agent-ping
+   ```
+
 4. Reload your editor. Sounds will play automatically from now on — no further setup needed.
 
-The global install lets Claude hooks invoke `agent-ping` directly, avoiding the ~500ms `npx` registry check on every event. If the global install is missing, the extension will show a warning with a **Retry** button.
+The extension manages your editor settings and sound preferences. The CLI is what Claude's hooks actually call to play sounds — it needs to be installed globally so the hooks can find it. If the CLI is missing, the extension will show a warning with a **Retry** button.
 
 ---
 
