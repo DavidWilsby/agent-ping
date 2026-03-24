@@ -8,17 +8,17 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
 1. Download the latest `.vsix` file from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
 
-2. Open your terminal and run the command for your editor, replacing `agent-ping-x.x.x.vsix` with the filename you downloaded:
+2. Open your terminal, navigate to the folder where you downloaded the file, and run the command for your editor, replacing `agent-ping-x.x.x.vsix` with the filename you downloaded:
 
    ```bash
    # VS Code
-   code --install-extension agent-ping-1.0.10.vsix
+   code --install-extension agent-ping-1.0.11.vsix
 
    # Cursor
-   cursor --install-extension agent-ping-1.0.10.vsix
+   cursor --install-extension agent-ping-1.0.11.vsix
 
    # Windsurf
-   windsurf --install-extension agent-ping-1.0.10.vsix
+   windsurf --install-extension agent-ping-1.0.11.vsix
    ```
 
 3. Reload your editor. Sounds will play automatically from now on — no further setup needed.
