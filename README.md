@@ -89,6 +89,12 @@ Use **Test sound** to preview, and **Reset to default** to go back to the bundle
 
 ---
 
+## Volume
+
+Open your editor settings and search for **Agent Ping**. The **Volume** setting controls how loud all sounds play (0 = mute, 100 = full volume). The default is 50.
+
+---
+
 ## Custom sounds without the extension
 
 If you use the CLI without the VS Code extension (e.g., Claude Code in a terminal), you can set sound paths via environment variables in `~/.claude/settings.json`:
@@ -97,7 +103,8 @@ If you use the CLI without the VS Code extension (e.g., Claude Code in a termina
 {
   "env": {
     "AGENT_PING_STOP_SOUND": "/Users/yourname/Sounds/done.wav",
-    "AGENT_PING_NOTIFICATION_SOUND": "/Users/yourname/Sounds/ping.wav"
+    "AGENT_PING_NOTIFICATION_SOUND": "/Users/yourname/Sounds/ping.wav",
+    "AGENT_PING_VOLUME": "50"
   }
 }
 ```
@@ -108,11 +115,11 @@ These override the extension's settings panel if both are present.
 
 ## Platform notes
 
-| Platform | How sound plays |
-| -------- | --------------- |
-| macOS    | `afplay` — built in, nothing extra needed |
-| Windows  | PowerShell — built in, nothing extra needed |
-| Linux    | Requires `paplay` (PulseAudio) or `aplay` |
+| Platform | How sound plays | Volume control |
+| -------- | --------------- | -------------- |
+| macOS    | `afplay` — built in, nothing extra needed | Supported |
+| Windows  | PowerShell — built in, nothing extra needed | Not supported — uses system volume |
+| Linux    | Requires `paplay` (PulseAudio) or `aplay` | `paplay` supported, `aplay` uses system volume |
 
 ---
 
