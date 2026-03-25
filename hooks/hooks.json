@@ -20,12 +20,22 @@
         ]
       }
     ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx --yes agent-ping@latest notification"
+          }
+        ]
+      }
+    ],
     "PermissionRequest": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "npx --yes agent-ping@latest permission"
+            "command": "npx --yes agent-ping@latest notification"
           }
         ]
       }

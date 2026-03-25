@@ -12,7 +12,14 @@ function resolveSound(config: Config, event: 'stop' | 'notification'): string {
 function isActionable(stdin: string): { actionable: boolean; type: string } {
   let payload: { notification_type?: string; hook_event_name?: string } = {};
   try { payload = JSON.parse(stdin); } catch { /* ignore */ }
-  if (payload.hook_event_name === 'StopFailure') return { actionable: true, type: 'StopFailure' };
+
+  // Hook-level events — always actionable (PermissionRequest, StopFailure)
+  const hookEvent = payload.hook_event_name ?? '';
+  if (hookEvent === 'PermissionRequest' || hookEvent === 'StopFailure') {
+    return { actionable: true, type: hookEvent };
+  }
+
+  // Notification-level filtering
   const type = payload.notification_type ?? '';
   return { actionable: ACTIONABLE_TYPES.has(type), type };
 }

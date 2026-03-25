@@ -62,6 +62,13 @@ describe('handleEvent — notification', () => {
     expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 
+  it('plays ping for PermissionRequest', async () => {
+    const { handleEvent } = require('../src/ping');
+    const stdin = JSON.stringify({ hook_event_name: 'PermissionRequest', tool_name: 'Bash' });
+    await handleEvent('notification', stdin, baseConfig);
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
+  });
+
   it('plays nothing for StopFailure when notificationEnabled is false', async () => {
     const { handleEvent } = require('../src/ping');
     const stdin = JSON.stringify({ hook_event_name: 'StopFailure' });

@@ -1,13 +1,15 @@
 # Changelog
 
-## [1.2.1] — 2026-03-25
+## [1.2.2] — 2026-03-25
 
 ### Fixed
 - Notifications now always filter through actionable types — previously the unfiltered path could ping on subagent task completions and other non-interactive events
+- `PermissionRequest` and `StopFailure` hook events are now recognised as actionable by the unified handler
 
-### Removed
-- `--filtered` CLI flag — filtering is now the default and only behavior
-- `handleFilteredNotification` — merged into `handleEvent`
+### Changed
+- Removed `--filtered` CLI flag — filtering is now the default and only behavior
+- Removed `handleFilteredNotification` — merged into `handleEvent`
+- Hook-level events (`PermissionRequest`, `StopFailure`) are checked first, then notification types (`permission_prompt`, `idle_prompt`, `elicitation_dialog`)
 
 ---
 
