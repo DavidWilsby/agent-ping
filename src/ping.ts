@@ -14,13 +14,13 @@ export async function handleEvent(event: EventType, stdin: string, config: Confi
 
   if (event === 'notification') {
     if (!config.notificationEnabled) return;
-    play(resolveSound(config, 'notification'));
+    play(resolveSound(config, 'notification'), config.volume);
     return;
   }
 
   // stop
   if (!config.stopEnabled) return;
-  play(resolveSound(config, 'stop'));
+  play(resolveSound(config, 'stop'), config.volume);
 }
 
 export function handleFilteredNotification(stdin: string, config: Config): void {
@@ -30,5 +30,5 @@ export function handleFilteredNotification(stdin: string, config: Config): void 
   const type = payload.notification_type ?? '';
   if (!ACTIONABLE_TYPES.has(type)) return;
   if (type === 'idle_prompt' && !config.idlePromptEnabled) return;
-  play(resolveSound(config, 'notification'));
+  play(resolveSound(config, 'notification'), config.volume);
 }

@@ -11,6 +11,7 @@ const baseConfig: Config = {
   notificationEnabled: true,
   idlePromptEnabled: true,
   stopEnabled: true,
+  volume: 50,
 };
 
 beforeEach(() => {
@@ -37,28 +38,28 @@ describe('handleEvent — notification', () => {
     const { handleEvent } = require('../src/ping');
     const stdin = JSON.stringify({ notification_type: 'permission_prompt' });
     await handleEvent('notification', stdin, baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 
   it('plays ping for idle_prompt', async () => {
     const { handleEvent } = require('../src/ping');
     const stdin = JSON.stringify({ notification_type: 'idle_prompt' });
     await handleEvent('notification', stdin, baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 
   it('plays ping for elicitation_dialog', async () => {
     const { handleEvent } = require('../src/ping');
     const stdin = JSON.stringify({ notification_type: 'elicitation_dialog' });
     await handleEvent('notification', stdin, baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 
   it('plays ping for StopFailure', async () => {
     const { handleEvent } = require('../src/ping');
     const stdin = JSON.stringify({ hook_event_name: 'StopFailure' });
     await handleEvent('notification', stdin, baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 
   it('plays nothing for StopFailure when notificationEnabled is false', async () => {
@@ -71,7 +72,7 @@ describe('handleEvent — notification', () => {
   it('plays for any notification type', async () => {
     const { handleEvent } = require('../src/ping');
     await handleEvent('notification', '{}', baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 });
 
@@ -80,21 +81,21 @@ describe('handleFilteredNotification', () => {
     const { handleFilteredNotification } = require('../src/ping');
     const stdin = JSON.stringify({ notification_type: 'permission_prompt' });
     handleFilteredNotification(stdin, baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 
   it('plays ping for idle_prompt', () => {
     const { handleFilteredNotification } = require('../src/ping');
     const stdin = JSON.stringify({ notification_type: 'idle_prompt' });
     handleFilteredNotification(stdin, baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 
   it('plays ping for elicitation_dialog', () => {
     const { handleFilteredNotification } = require('../src/ping');
     const stdin = JSON.stringify({ notification_type: 'elicitation_dialog' });
     handleFilteredNotification(stdin, baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 
   it('plays nothing for non-actionable notification types', () => {
@@ -141,7 +142,7 @@ describe('handleFilteredNotification', () => {
     const { handleFilteredNotification } = require('../src/ping');
     const stdin = JSON.stringify({ notification_type: 'elicitation_dialog' });
     handleFilteredNotification(stdin, { ...baseConfig, idlePromptEnabled: false });
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
   });
 });
 
@@ -149,7 +150,7 @@ describe('handleEvent — stop', () => {
   it('plays done sound', async () => {
     const { handleEvent } = require('../src/ping');
     await handleEvent('stop', '{}', baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/done.wav');
+    expect(play).toHaveBeenCalledWith('/sounds/done.wav', 50);
   });
 
   it('plays nothing when stopEnabled is false', async () => {
