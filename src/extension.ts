@@ -61,6 +61,7 @@ function readVSCodeConfig(): Partial<Config> {
   const cfg = vscode.workspace.getConfiguration('agentPing');
   return {
     enabled: cfg.get<boolean>('enabled'),
+    volume: cfg.get<number>('volume'),
     notificationEnabled: cfg.get<boolean>('notificationEnabled'),
     notificationSound: cfg.get<string>('notificationSound') ?? '',
     idlePromptEnabled: cfg.get<boolean>('idlePromptEnabled'),
@@ -113,7 +114,8 @@ function registerTestCommand(
       return;
     }
     try {
-      play(resolvedPath);
+      const volume = cfg.get<number>('volume') ?? 50;
+      play(resolvedPath, volume);
     } catch {
       vscode.window.showErrorMessage('Agent Ping: Could not play sound.');
     }
@@ -160,6 +162,17 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
   registerResetCommand(context, 'agentPing.resetStopSound', 'stopSound');
   registerResetCommand(context, 'agentPing.resetNotificationSound', 'notificationSound');
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('agentPing.resetVolume', async () => {
+      const cfg = vscode.workspace.getConfiguration('agentPing');
+      try {
+        await cfg.update('volume', undefined, vscode.ConfigurationTarget.Global);
+      } catch {
+        vscode.window.showErrorMessage('Agent Ping: Could not reset setting.');
+      }
+    })
+  );
 }
 
 export function deactivate(): void { /* no-op */ }
