@@ -6,9 +6,17 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
 ## Install
 
+> **Tip:** You can paste these instructions into ChatGPT, Claude, or any AI assistant and ask it to walk you through the installation step by step.
+
 1. Download the latest `.vsix` file from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
 
-2. Install the extension in your editor:
+2. Open a terminal and navigate to the folder where you saved the `.vsix` file:
+
+   ```bash
+   cd path/to/folder
+   ```
+
+3. Install the extension in your editor:
 
    ```bash
    # VS Code
@@ -21,13 +29,13 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
    windsurf --install-extension agent-ping-1.1.0.vsix
    ```
 
-3. Install the CLI so Claude's hooks can trigger sounds:
+4. Install the CLI so Claude's hooks can trigger sounds:
 
    ```bash
    npm i -g agent-ping
    ```
 
-4. Reload your editor. Sounds will play automatically from now on — no further setup needed.
+5. Reload your editor. Sounds will play automatically from now on — no further setup needed.
 
 The extension manages your editor settings and sound preferences. The CLI is what Claude's hooks actually call to play sounds — it needs to be installed globally so the hooks can find it. If the CLI is missing, the extension will show a warning with a **Retry** button.
 
@@ -38,10 +46,6 @@ The extension manages your editor settings and sound preferences. The CLI is wha
 1. Download the latest `.vsix` from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
 2. Run the same install command as above — it will replace the existing version automatically.
 3. Reload your editor.
-
-### Upgrading from v1.0.12 or earlier
-
-Older versions used `npx` to run hooks, which added noticeable latency on every event. Starting with v1.0.13, hooks call the globally installed binary directly. Run `npm i -g agent-ping` and reload your editor. The extension will detect the global binary and replace the old npx hooks automatically. If you skip the global install, the old hooks continue to work — you just won't get the speed improvement. If you dismiss the warning, reload your editor to see it again.
 
 ---
 
