@@ -36,13 +36,13 @@ Open your editor settings (`Cmd+,` on Mac, `Ctrl+,` on Windows) and search for *
 
    ```bash
    # VS Code
-   code --install-extension agent-ping-1.2.0.vsix
+   code --install-extension agent-ping-1.2.1.vsix
 
    # Cursor
-   cursor --install-extension agent-ping-1.2.0.vsix
+   cursor --install-extension agent-ping-1.2.1.vsix
 
    # Windsurf
-   windsurf --install-extension agent-ping-1.2.0.vsix
+   windsurf --install-extension agent-ping-1.2.1.vsix
    ```
 
 4. Install the CLI so Claude's hooks can trigger sounds:

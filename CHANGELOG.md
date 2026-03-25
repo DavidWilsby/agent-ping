@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.2.1] — 2026-03-25
+
+### Fixed
+- Notifications now always filter through actionable types — previously the unfiltered path could ping on subagent task completions and other non-interactive events
+
+### Removed
+- `--filtered` CLI flag — filtering is now the default and only behavior
+- `handleFilteredNotification` — merged into `handleEvent`
+
+---
+
 ## [1.2.0] — 2026-03-25
 
 ### Added

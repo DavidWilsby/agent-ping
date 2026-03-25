@@ -7,7 +7,7 @@ export type HookGroup = { hooks?: HookObject[] };
 
 export const HOOK_EVENT_COMMANDS: Record<string, string> = {
   Stop: 'stop',
-  Notification: 'notification --filtered',
+  Notification: 'notification',
   StopFailure: 'notification',
   PermissionRequest: 'notification',
 };

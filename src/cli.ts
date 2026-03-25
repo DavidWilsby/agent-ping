@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { resolveConfig } from './config';
-import { handleEvent, handleFilteredNotification, EventType } from './ping';
+import { handleEvent, EventType } from './ping';
 import { removeHooksAndConfig } from './uninstall';
 
 const arg = process.argv[2];
@@ -17,7 +17,6 @@ if (arg === 'uninstall') {
 }
 
 const event = arg as EventType;
-const filtered = process.argv[3] === '--filtered';
 const validEvents: EventType[] = ['stop', 'notification'];
 
 if (!validEvents.includes(event)) {
@@ -26,12 +25,12 @@ if (!validEvents.includes(event)) {
 
 const config = resolveConfig();
 
-if (event === 'notification' && filtered) {
+if (event === 'notification') {
   let stdin = '';
   process.stdin.setEncoding('utf-8');
   process.stdin.on('data', (chunk: string) => { stdin += chunk; });
   process.stdin.on('end', () => {
-    handleFilteredNotification(stdin, config);
+    handleEvent(event, stdin, config);
   });
 } else {
   handleEvent(event, '', config);
