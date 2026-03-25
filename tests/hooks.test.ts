@@ -10,11 +10,19 @@ jest.mock('fs', () => {
   return { ...actual, existsSync: mockExistsSync };
 });
 
-import { buildHookCommand, applyHookEntry, resolveGlobalBinDir, HookGroup } from '../src/hooks';
+import { buildHookCommand, applyHookEntry, resolveGlobalBinDir, HOOK_EVENT_COMMANDS, HookGroup } from '../src/hooks';
 
 beforeEach(() => {
   mockExecSync.mockReset();
   mockExistsSync.mockReset();
+});
+
+describe('HOOK_EVENT_COMMANDS', () => {
+  it('registers all required hook events', () => {
+    expect(Object.keys(HOOK_EVENT_COMMANDS)).toEqual(
+      expect.arrayContaining(['Stop', 'Notification', 'StopFailure', 'PermissionRequest'])
+    );
+  });
 });
 
 describe('resolveGlobalBinDir', () => {

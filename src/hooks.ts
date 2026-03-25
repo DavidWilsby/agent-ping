@@ -8,6 +8,7 @@ export type HookGroup = { hooks?: HookObject[] };
 export const HOOK_EVENT_COMMANDS: Record<string, string> = {
   Stop: 'stop',
   Notification: 'notification',
+  // Standalone hook events — not covered by Notification
   StopFailure: 'notification',
   PermissionRequest: 'notification',
 };
