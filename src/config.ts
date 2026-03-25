@@ -50,5 +50,16 @@ export function resolveConfig(): Config {
   if (envStop) base.stopSound = envStop;
   if (envNotify) base.notificationSound = envNotify;
 
+  const envVolume = process.env.AGENT_PING_VOLUME;
+  if (envVolume !== undefined) {
+    const parsed = parseInt(envVolume, 10);
+    if (!isNaN(parsed)) base.volume = parsed;
+  }
+
+  if (typeof base.volume !== 'number' || isNaN(base.volume)) {
+    base.volume = BUNDLED_DEFAULTS.volume;
+  }
+  base.volume = Math.max(0, Math.min(100, Math.round(base.volume)));
+
   return base;
 }

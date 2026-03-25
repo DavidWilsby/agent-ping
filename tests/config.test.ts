@@ -13,6 +13,7 @@ beforeEach(() => {
   jest.resetModules();
   delete process.env.AGENT_PING_STOP_SOUND;
   delete process.env.AGENT_PING_NOTIFICATION_SOUND;
+  delete process.env.AGENT_PING_VOLUME;
   mockReadFileSync.mockReset();
 });
 
@@ -85,6 +86,57 @@ describe('resolveConfig', () => {
     const { resolveConfig } = require('../src/config');
     const config = resolveConfig();
     expect(config.stopSound).toBe('/env/stop.wav');
+  });
+  it('AGENT_PING_VOLUME env var overrides config', () => {
+    process.env.AGENT_PING_VOLUME = '80';
+    mockReadFileSync.mockImplementation((p: string) => {
+      if (String(p).includes('.agent-ping')) return JSON.stringify({ volume: 30 });
+      return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
+    });
+    const { resolveConfig } = require('../src/config');
+    const config = resolveConfig();
+    expect(config.volume).toBe(80);
+  });
+
+  it('clamps volume above 100 to 100', () => {
+    mockReadFileSync.mockImplementation((p: string) => {
+      if (String(p).includes('.agent-ping')) return JSON.stringify({ volume: 200 });
+      return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
+    });
+    const { resolveConfig } = require('../src/config');
+    const config = resolveConfig();
+    expect(config.volume).toBe(100);
+  });
+
+  it('clamps volume below 0 to 0', () => {
+    mockReadFileSync.mockImplementation((p: string) => {
+      if (String(p).includes('.agent-ping')) return JSON.stringify({ volume: -10 });
+      return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
+    });
+    const { resolveConfig } = require('../src/config');
+    const config = resolveConfig();
+    expect(config.volume).toBe(0);
+  });
+
+  it('ignores non-numeric AGENT_PING_VOLUME', () => {
+    process.env.AGENT_PING_VOLUME = 'abc';
+    mockReadFileSync.mockImplementation((p: string) => {
+      if (String(p).includes('.agent-ping')) throw new Error('not found');
+      return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
+    });
+    const { resolveConfig } = require('../src/config');
+    const config = resolveConfig();
+    expect(config.volume).toBe(50);
+  });
+
+  it('falls back to default for non-numeric volume in config file', () => {
+    mockReadFileSync.mockImplementation((p: string) => {
+      if (String(p).includes('.agent-ping')) return JSON.stringify({ volume: 'fifty' });
+      return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
+    });
+    const { resolveConfig } = require('../src/config');
+    const config = resolveConfig();
+    expect(config.volume).toBe(50);
   });
 });
 
