@@ -65,6 +65,16 @@ describe('resolveConfig', () => {
     expect(config.stopSound).toBe('/file/stop.wav');
   });
 
+  it('returns default volume of 50 when not configured', () => {
+    mockReadFileSync.mockImplementation((p: string) => {
+      if (String(p).includes('.agent-ping')) throw new Error('not found');
+      return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
+    });
+    const { resolveConfig } = require('../src/config');
+    const config = resolveConfig();
+    expect(config.volume).toBe(50);
+  });
+
   it('env vars override config file values', () => {
     process.env.AGENT_PING_STOP_SOUND = '/env/stop.wav';
     const fileConfig = { stopSound: '/file/stop.wav' };

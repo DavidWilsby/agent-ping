@@ -9,6 +9,7 @@ export interface Config {
   idlePromptEnabled: boolean;
   stopEnabled: boolean;
   stopSound: string;
+  volume: number;
 }
 
 const SOUNDS_DIR = path.join(__dirname, '..', 'sounds');
@@ -20,6 +21,7 @@ export const BUNDLED_DEFAULTS: Config = {
   idlePromptEnabled: true,
   stopEnabled: true,
   stopSound: path.join(SOUNDS_DIR, 'Done.aiff'),
+  volume: 50,
 };
 
 function readConfigFile(): Partial<Config> {
