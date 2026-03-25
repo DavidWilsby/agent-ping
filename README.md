@@ -4,6 +4,22 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
 ---
 
+## Settings
+
+Open your editor settings (`Cmd+,` on Mac, `Ctrl+,` on Windows) and search for **Agent Ping**.
+
+| Setting | Description | Default |
+| ------- | ----------- | ------- |
+| **Enabled** | Enable or disable Agent Ping entirely | On |
+| **Volume** | Global volume for all sounds (0 = mute, 100 = full volume) | 50 |
+| **Notification Enabled** | Enable or disable the Notification event sound | On |
+| **Notification Sound** | Custom sound file for notifications (WAV, MP3, AIFF) | Bundled default |
+| **Idle Prompt Enabled** | Play the notification sound when Claude is waiting for input | Off |
+| **Stop Enabled** | Enable or disable the Stop event sound | On |
+| **Stop Sound** | Custom sound file for the stop event (WAV, MP3, AIFF) | Bundled default |
+
+---
+
 ## Install
 
 > **Tip:** You can paste these instructions into ChatGPT, Claude, or any AI assistant and ask it to walk you through the installation step by step.
@@ -20,13 +36,13 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
    ```bash
    # VS Code
-   code --install-extension agent-ping-1.1.0.vsix
+   code --install-extension agent-ping-1.2.0.vsix
 
    # Cursor
-   cursor --install-extension agent-ping-1.1.0.vsix
+   cursor --install-extension agent-ping-1.2.0.vsix
 
    # Windsurf
-   windsurf --install-extension agent-ping-1.1.0.vsix
+   windsurf --install-extension agent-ping-1.2.0.vsix
    ```
 
 4. Install the CLI so Claude's hooks can trigger sounds:
@@ -80,18 +96,7 @@ The extension manages your editor settings and sound preferences. The CLI is wha
 
 ## Custom sounds
 
-Open your editor settings (`Cmd+,` on Mac, `Ctrl+,` on Windows) and search for **Agent Ping**. Each sound event has a **Choose file…** link you can click to pick any WAV, MP3, or AIFF file from your computer.
-
-- **Notification** — plays when Claude asks a question, needs your permission, or is waiting for input
-- **Stop** — plays when Claude finishes a task
-
-Use **Test sound** to preview, and **Reset to default** to go back to the bundled sound.
-
----
-
-## Volume
-
-Open your editor settings and search for **Agent Ping**. The **Volume** setting controls how loud all sounds play (0 = mute, 100 = full volume). The default is 50.
+Each sound setting has a **Choose file…** link to pick a file, **Test sound** to preview, and **Reset to default** to go back to the bundled sound.
 
 ---
 

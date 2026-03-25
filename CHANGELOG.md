@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0] — 2026-03-25
+
+### Added
+- **Volume** setting — global volume control for all sounds (0–100, default 50). Supported on macOS (`afplay`) and Linux (`paplay`). Windows and `aplay` use system volume.
+- `AGENT_PING_VOLUME` environment variable override for CLI-only users
+- Settings table in README
+
+### Changed
+- **Idle Prompt** default changed from enabled to disabled
+- Improved install instructions for non-technical users
+
+---
+
 ## [1.1.0] — 2026-03-25
 
 ### Changed

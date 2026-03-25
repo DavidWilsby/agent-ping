@@ -18,7 +18,7 @@ export const BUNDLED_DEFAULTS: Config = {
   enabled: true,
   notificationEnabled: true,
   notificationSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
-  idlePromptEnabled: true,
+  idlePromptEnabled: false,
   stopEnabled: true,
   stopSound: path.join(SOUNDS_DIR, 'Done.aiff'),
   volume: 50,
