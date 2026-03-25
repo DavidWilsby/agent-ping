@@ -1,8 +1,7 @@
-import { spawn, spawnSync } from 'child_process';
+import { spawn } from 'child_process';
 
 jest.mock('child_process', () => ({
   spawn: jest.fn().mockReturnValue({ unref: jest.fn(), on: jest.fn() }),
-  spawnSync: jest.fn().mockReturnValue({ status: 0 }),
 }));
 
 jest.mock('fs', () => ({
@@ -10,13 +9,10 @@ jest.mock('fs', () => ({
 }));
 
 const mockSpawn = spawn as jest.MockedFunction<typeof spawn>;
-const mockSpawnSync = spawnSync as jest.MockedFunction<typeof spawnSync>;
 
 beforeEach(() => {
   mockSpawn.mockClear();
   mockSpawn.mockReturnValue({ unref: jest.fn(), on: jest.fn() } as any);
-  mockSpawnSync.mockClear();
-  mockSpawnSync.mockReturnValue({ status: 0 } as any);
 });
 
 describe('play', () => {
@@ -24,20 +20,41 @@ describe('play', () => {
     const fs = require('fs');
     fs.existsSync.mockReturnValueOnce(false);
     const { play } = require('../src/player');
-    play('/nonexistent/sound.wav');
+    play('/nonexistent/sound.wav', 50);
     expect(mockSpawn).not.toHaveBeenCalled();
   });
 
-  it('calls afplay on macOS', () => {
+  it('does nothing if volume is 0', () => {
+    const { play } = require('../src/player');
+    play('/test/sound.wav', 0);
+    expect(mockSpawn).not.toHaveBeenCalled();
+  });
+
+  it('calls afplay with -v flag on macOS', () => {
     const originalPlatform = process.platform;
     Object.defineProperty(process, 'platform', { value: 'darwin', configurable: true });
     const { play } = require('../src/player');
-    play('/test/sound.wav');
-    expect(mockSpawn).toHaveBeenCalledWith('afplay', ['/test/sound.wav'], { detached: true, stdio: 'ignore' });
+    play('/test/sound.wav', 50);
+    expect(mockSpawn).toHaveBeenCalledWith(
+      'afplay', ['-v', '0.5', '/test/sound.wav'],
+      { detached: true, stdio: 'ignore' }
+    );
     Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
   });
 
-  it('calls paplay on Linux', () => {
+  it('maps volume 100 to afplay -v 1', () => {
+    const originalPlatform = process.platform;
+    Object.defineProperty(process, 'platform', { value: 'darwin', configurable: true });
+    const { play } = require('../src/player');
+    play('/test/sound.wav', 100);
+    expect(mockSpawn).toHaveBeenCalledWith(
+      'afplay', ['-v', '1', '/test/sound.wav'],
+      { detached: true, stdio: 'ignore' }
+    );
+    Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
+  });
+
+  it('calls paplay with --volume flag on Linux', () => {
     const originalPlatform = process.platform;
     Object.defineProperty(process, 'platform', { value: 'linux', configurable: true });
     jest.resetModules();
@@ -47,8 +64,11 @@ describe('play', () => {
     jest.mock('fs', () => ({ existsSync: jest.fn().mockReturnValue(true) }));
     const { play } = require('../src/player');
     const { spawn: s } = require('child_process');
-    play('/test/sound.wav');
-    expect(s).toHaveBeenCalledWith('paplay', ['/test/sound.wav'], expect.any(Object));
+    play('/test/sound.wav', 50);
+    expect(s).toHaveBeenCalledWith(
+      'paplay', ['--volume=32768', '/test/sound.wav'],
+      expect.any(Object)
+    );
     Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
   });
 });

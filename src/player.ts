@@ -1,16 +1,19 @@
-import { spawn, spawnSync } from 'child_process';
+import { spawn } from 'child_process';
 import * as fs from 'fs';
 
-export function play(soundPath: string): void {
+export function play(soundPath: string, volume: number): void {
+  if (volume === 0) return;
   if (!fs.existsSync(soundPath)) return;
 
   if (process.platform === 'darwin') {
-    spawn('afplay', [soundPath], { detached: true, stdio: 'ignore' }).unref();
+    const v = String(volume / 100);
+    spawn('afplay', ['-v', v, soundPath], { detached: true, stdio: 'ignore' }).unref();
     return;
   }
 
   if (process.platform === 'linux') {
-    const proc = spawn('paplay', [soundPath], { detached: true, stdio: 'ignore' });
+    const v = String(Math.round(volume / 100 * 65536));
+    const proc = spawn('paplay', [`--volume=${v}`, soundPath], { detached: true, stdio: 'ignore' });
     proc.on('error', () => {
       spawn('aplay', [soundPath], { detached: true, stdio: 'ignore' }).unref();
     });
