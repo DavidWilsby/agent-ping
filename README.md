@@ -12,13 +12,13 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
    ```bash
    # VS Code
-   code --install-extension agent-ping-1.0.14.vsix
+   code --install-extension agent-ping-1.0.15.vsix
 
    # Cursor
-   cursor --install-extension agent-ping-1.0.14.vsix
+   cursor --install-extension agent-ping-1.0.15.vsix
 
    # Windsurf
-   windsurf --install-extension agent-ping-1.0.14.vsix
+   windsurf --install-extension agent-ping-1.0.15.vsix
    ```
 
 3. Install the CLI so Claude's hooks can trigger sounds:

@@ -74,6 +74,62 @@ describe('handleEvent — notification', () => {
   });
 });
 
+describe('handleFilteredNotification', () => {
+  it('plays ping for permission_prompt', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    const stdin = JSON.stringify({ notification_type: 'permission_prompt' });
+    handleFilteredNotification(stdin, baseConfig);
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+  });
+
+  it('plays ping for idle_prompt', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    const stdin = JSON.stringify({ notification_type: 'idle_prompt' });
+    handleFilteredNotification(stdin, baseConfig);
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+  });
+
+  it('plays ping for elicitation_dialog', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    const stdin = JSON.stringify({ notification_type: 'elicitation_dialog' });
+    handleFilteredNotification(stdin, baseConfig);
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
+  });
+
+  it('plays nothing for non-actionable notification types', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    const stdin = JSON.stringify({ notification_type: 'task_completed' });
+    handleFilteredNotification(stdin, baseConfig);
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it('plays nothing when notification_type is missing', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    handleFilteredNotification('{}', baseConfig);
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it('plays nothing for invalid JSON', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    handleFilteredNotification('not json', baseConfig);
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it('plays nothing when disabled', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    const stdin = JSON.stringify({ notification_type: 'idle_prompt' });
+    handleFilteredNotification(stdin, { ...baseConfig, enabled: false });
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it('plays nothing when notificationEnabled is false', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    const stdin = JSON.stringify({ notification_type: 'idle_prompt' });
+    handleFilteredNotification(stdin, { ...baseConfig, notificationEnabled: false });
+    expect(play).not.toHaveBeenCalled();
+  });
+});
+
 describe('handleEvent — stop', () => {
   it('plays done sound', async () => {
     const { handleEvent } = require('../src/ping');

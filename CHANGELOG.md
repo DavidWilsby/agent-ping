@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.15] — 2026-03-25
+
+### Fixed
+- Notification sound no longer fires on every event — now only plays for actionable notifications (`permission_prompt`, `idle_prompt`, `elicitation_dialog`) instead of everything except `permission_prompt`
+
+---
+
 ## [1.0.14] — 2026-03-24
 
 ### Fixed
