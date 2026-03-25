@@ -63,6 +63,7 @@ function readVSCodeConfig(): Partial<Config> {
     enabled: cfg.get<boolean>('enabled'),
     notificationEnabled: cfg.get<boolean>('notificationEnabled'),
     notificationSound: cfg.get<string>('notificationSound') ?? '',
+    idlePromptEnabled: cfg.get<boolean>('idlePromptEnabled'),
     stopEnabled: cfg.get<boolean>('stopEnabled'),
     stopSound: cfg.get<string>('stopSound') ?? '',
   };

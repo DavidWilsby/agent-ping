@@ -1,7 +1,7 @@
 {
   "name": "agent-ping",
   "displayName": "Agent Ping",
-  "version": "1.0.15",
+  "version": "1.1.0",
   "description": "Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed.",
   "publisher": "dawi",
   "license": "MIT",
@@ -71,14 +71,20 @@
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseNotificationSound) · [Test sound](command:agentPing.testNotificationSound) · [Reset to default](command:agentPing.resetNotificationSound)"
         },
-        "agentPing.stopEnabled": {
+        "agentPing.idlePromptEnabled": {
           "order": 4,
+          "type": "boolean",
+          "default": true,
+          "description": "Play the notification sound when Claude is waiting for your input (idle prompt)."
+        },
+        "agentPing.stopEnabled": {
+          "order": 5,
           "type": "boolean",
           "default": true,
           "description": "Enable or disable the Stop event sound."
         },
         "agentPing.stopSound": {
-          "order": 5,
+          "order": 6,
           "type": "string",
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseStopSound) · [Test sound](command:agentPing.testStopSound) · [Reset to default](command:agentPing.resetStopSound)"

@@ -6,6 +6,7 @@ export interface Config {
   enabled: boolean;
   notificationEnabled: boolean;
   notificationSound: string;
+  idlePromptEnabled: boolean;
   stopEnabled: boolean;
   stopSound: string;
 }
@@ -16,6 +17,7 @@ export const BUNDLED_DEFAULTS: Config = {
   enabled: true,
   notificationEnabled: true,
   notificationSound: path.join(SOUNDS_DIR, 'Ping.aiff'),
+  idlePromptEnabled: true,
   stopEnabled: true,
   stopSound: path.join(SOUNDS_DIR, 'Done.aiff'),
 };

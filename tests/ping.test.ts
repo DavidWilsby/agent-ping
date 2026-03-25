@@ -9,6 +9,7 @@ const baseConfig: Config = {
   notificationSound: '/sounds/ping.wav',
   stopSound: '/sounds/done.wav',
   notificationEnabled: true,
+  idlePromptEnabled: true,
   stopEnabled: true,
 };
 
@@ -127,6 +128,20 @@ describe('handleFilteredNotification', () => {
     const stdin = JSON.stringify({ notification_type: 'idle_prompt' });
     handleFilteredNotification(stdin, { ...baseConfig, notificationEnabled: false });
     expect(play).not.toHaveBeenCalled();
+  });
+
+  it('plays nothing for idle_prompt when idlePromptEnabled is false', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    const stdin = JSON.stringify({ notification_type: 'idle_prompt' });
+    handleFilteredNotification(stdin, { ...baseConfig, idlePromptEnabled: false });
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it('still plays for other types when idlePromptEnabled is false', () => {
+    const { handleFilteredNotification } = require('../src/ping');
+    const stdin = JSON.stringify({ notification_type: 'elicitation_dialog' });
+    handleFilteredNotification(stdin, { ...baseConfig, idlePromptEnabled: false });
+    expect(play).toHaveBeenCalledWith('/sounds/ping.wav');
   });
 });
 

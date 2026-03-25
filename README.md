@@ -12,13 +12,13 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
    ```bash
    # VS Code
-   code --install-extension agent-ping-1.0.15.vsix
+   code --install-extension agent-ping-1.1.0.vsix
 
    # Cursor
-   cursor --install-extension agent-ping-1.0.15.vsix
+   cursor --install-extension agent-ping-1.1.0.vsix
 
    # Windsurf
-   windsurf --install-extension agent-ping-1.0.15.vsix
+   windsurf --install-extension agent-ping-1.1.0.vsix
    ```
 
 3. Install the CLI so Claude's hooks can trigger sounds:
@@ -45,6 +45,35 @@ Older versions used `npx` to run hooks, which added noticeable latency on every 
 
 ---
 
+## Uninstall
+
+1. Run the cleanup command to remove hooks and config:
+
+   ```bash
+   agent-ping uninstall
+   ```
+
+2. Remove the extension from your editor:
+
+   ```bash
+   # VS Code
+   code --uninstall-extension dawi.agent-ping
+
+   # Cursor
+   cursor --uninstall-extension dawi.agent-ping
+
+   # Windsurf
+   windsurf --uninstall-extension dawi.agent-ping
+   ```
+
+3. Remove the global CLI:
+
+   ```bash
+   npm uninstall -g agent-ping
+   ```
+
+---
+
 ## Custom sounds
 
 Open your editor settings (`Cmd+,` on Mac, `Ctrl+,` on Windows) and search for **Agent Ping**. Each sound event has a **Choose file…** link you can click to pick any WAV, MP3, or AIFF file from your computer.
@@ -56,9 +85,9 @@ Use **Test sound** to preview, and **Reset to default** to go back to the bundle
 
 ---
 
-## Advanced: custom sounds via environment variables
+## Custom sounds without the extension
 
-If you prefer, you can set sound paths directly in `~/.claude/settings.json`:
+If you use the CLI without the VS Code extension (e.g., Claude Code in a terminal), you can set sound paths via environment variables in `~/.claude/settings.json`:
 
 ```json
 {
@@ -69,10 +98,7 @@ If you prefer, you can set sound paths directly in `~/.claude/settings.json`:
 }
 ```
 
-- `AGENT_PING_STOP_SOUND` — plays when the agent finishes a task
-- `AGENT_PING_NOTIFICATION_SOUND` — plays when the agent asks a question, sends a notification, or needs your permission
-
-Environment variables take priority over the settings panel.
+These override the extension's settings panel if both are present.
 
 ---
 

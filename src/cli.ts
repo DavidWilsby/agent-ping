@@ -1,8 +1,22 @@
 #!/usr/bin/env node
 import { resolveConfig } from './config';
 import { handleEvent, handleFilteredNotification, EventType } from './ping';
+import { removeHooksAndConfig } from './uninstall';
 
-const event = process.argv[2] as EventType;
+const arg = process.argv[2];
+
+if (arg === '--version' || arg === '-v') {
+  const { version } = require('../package.json');
+  console.log(version);
+  process.exit(0);
+}
+
+if (arg === 'uninstall') {
+  removeHooksAndConfig();
+  process.exit(0);
+}
+
+const event = arg as EventType;
 const filtered = process.argv[3] === '--filtered';
 const validEvents: EventType[] = ['stop', 'notification'];
 

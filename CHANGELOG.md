@@ -1,9 +1,15 @@
 # Changelog
 
-## [1.0.15] — 2026-03-25
+## [1.1.0] — 2026-03-25
 
-### Fixed
-- Notification sound no longer fires on every event — now only plays for actionable notifications (`permission_prompt`, `idle_prompt`, `elicitation_dialog`) instead of everything except `permission_prompt`
+### Changed
+- Notification sound now only plays for actionable events (`permission_prompt`, `idle_prompt`, `elicitation_dialog`) — no longer pings on task completions and other non-actionable notifications
+
+### Added
+- **Idle Prompt** setting — toggle whether Claude waiting for input plays a sound (enabled by default)
+- `agent-ping uninstall` command — removes hooks from `~/.claude/settings.json` and deletes `~/.agent-ping/` config
+- `agent-ping --version` flag
+- Uninstall section in README
 
 ---
 

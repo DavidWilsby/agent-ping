@@ -27,6 +27,8 @@ export function handleFilteredNotification(stdin: string, config: Config): void 
   if (!config.enabled || !config.notificationEnabled) return;
   let payload: { notification_type?: string } = {};
   try { payload = JSON.parse(stdin); } catch { /* ignore */ }
-  if (!ACTIONABLE_TYPES.has(payload.notification_type ?? '')) return;
+  const type = payload.notification_type ?? '';
+  if (!ACTIONABLE_TYPES.has(type)) return;
+  if (type === 'idle_prompt' && !config.idlePromptEnabled) return;
   play(resolveSound(config, 'notification'));
 }
