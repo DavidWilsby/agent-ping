@@ -3,7 +3,7 @@ import { play } from './player';
 
 export type EventType = 'stop' | 'notification';
 
-const ACTIONABLE_TYPES = new Set(['permission_prompt', 'idle_prompt', 'elicitation_dialog']);
+const ACTIONABLE_TYPES = new Set(['idle_prompt', 'elicitation_dialog']);
 
 function resolveSound(config: Config, event: 'stop' | 'notification'): string {
   return event === 'stop' ? config.stopSound : config.notificationSound;
@@ -19,7 +19,8 @@ function isActionable(stdin: string): { actionable: boolean; type: string } {
     return { actionable: true, type: hookEvent };
   }
 
-  // Notification-level filtering
+  // Notification-level filtering — permission_prompt is excluded because the
+  // PermissionRequest hook already handles it (faster, and avoids double pings).
   const type = payload.notification_type ?? '';
   return { actionable: ACTIONABLE_TYPES.has(type), type };
 }

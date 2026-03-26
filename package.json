@@ -1,7 +1,7 @@
 {
   "name": "agent-ping",
   "displayName": "Agent Ping",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed.",
   "publisher": "dawi",
   "license": "MIT",

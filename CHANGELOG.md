@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3] — 2026-03-26
+
+### Fixed
+- Permission prompts no longer play twice — `permission_prompt` notification type removed from actionable set since the `PermissionRequest` hook already handles it
+
+---
+
 ## [1.2.2] — 2026-03-25
 
 ### Fixed
