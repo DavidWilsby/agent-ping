@@ -13,6 +13,7 @@
     "url": "https://github.com/DavidWilsby/agent-ping/issues"
   },
   "homepage": "https://github.com/DavidWilsby/agent-ping#readme",
+  "icon": "icon.png",
   "keywords": [
     "claude",
     "ai",
