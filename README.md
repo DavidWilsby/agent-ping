@@ -2,7 +2,65 @@
 
 ![Agent Ping banner](https://raw.githubusercontent.com/DavidWilsby/agent-ping/master/banner.png)
 
-Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed. Works with Claude Code, Cursor, and Windsurf.
+Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed. Works with VS Code and any VS Code-based editor (Cursor, Windsurf, etc.).
+
+---
+
+## Install
+
+### Editor extension
+
+1. Open the Extensions panel (`Cmd+Shift+X` / `Ctrl+Shift+X`) and search for **Agent Ping**, or install from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=dawi.agent-ping).
+
+2. Install the CLI so Claude's hooks can trigger sounds:
+
+   ```bash
+   npm i -g agent-ping
+   ```
+
+3. Reload your editor. Sounds will play automatically — no further setup needed.
+
+The extension manages your settings and sound preferences. The CLI is what actually plays the sounds when Claude triggers a hook — it needs to be installed globally so the hooks can find it. If the CLI is missing, the extension will show a warning with a **Retry** button.
+
+### CLI only
+
+If you use Claude Code in a terminal without an editor, you only need the CLI:
+
+```bash
+npm i -g agent-ping
+```
+
+Sounds will play automatically after the next time Claude runs. See [CLI-only configuration](#cli-only-configuration) for customization options.
+
+---
+
+## Updating
+
+Updates are automatic via the Marketplace. Reload your editor after updating.
+
+To update the CLI, run `npm i -g agent-ping` again.
+
+---
+
+## Uninstall
+
+1. Remove hooks and config:
+
+   ```bash
+   agent-ping uninstall
+   ```
+
+2. Remove the extension from the Extensions panel, or from the command line:
+
+   ```bash
+   code --uninstall-extension dawi.agent-ping
+   ```
+
+3. Remove the CLI:
+
+   ```bash
+   npm uninstall -g agent-ping
+   ```
 
 ---
 
@@ -20,91 +78,13 @@ Open your editor settings (`Cmd+,` on Mac, `Ctrl+,` on Windows) and search for *
 | **Stop Enabled** | Enable or disable the Stop event sound | On |
 | **Stop Sound** | Custom sound file for the stop event (WAV, MP3, AIFF) | Bundled default |
 
----
-
-## Install
-
-> **Tip:** You can paste these instructions into ChatGPT, Claude, or any AI assistant and ask it to walk you through the installation step by step.
-
-1. Download the latest `.vsix` file from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
-
-2. Open a terminal and navigate to the folder where you saved the `.vsix` file:
-
-   ```bash
-   cd path/to/folder
-   ```
-
-3. Install the extension in your editor:
-
-   ```bash
-   # VS Code
-   code --install-extension agent-ping-1.2.3.vsix
-
-   # Cursor
-   cursor --install-extension agent-ping-1.2.3.vsix
-
-   # Windsurf
-   windsurf --install-extension agent-ping-1.2.3.vsix
-   ```
-
-4. Install the CLI so Claude's hooks can trigger sounds:
-
-   ```bash
-   npm i -g agent-ping
-   ```
-
-5. Reload your editor. Sounds will play automatically from now on — no further setup needed.
-
-The extension manages your editor settings and sound preferences. The CLI is what Claude's hooks actually call to play sounds — it needs to be installed globally so the hooks can find it. If the CLI is missing, the extension will show a warning with a **Retry** button.
+Each sound setting has a **Choose file...** link to pick a file, **Test sound** to preview, and **Reset to default** to go back to the bundled sound.
 
 ---
 
-## Updating
+## CLI-only configuration
 
-1. Download the latest `.vsix` from [GitHub Releases](https://github.com/DavidWilsby/agent-ping/releases).
-2. Run the same install command as above — it will replace the existing version automatically.
-3. Reload your editor.
-
----
-
-## Uninstall
-
-1. Run the cleanup command to remove hooks and config:
-
-   ```bash
-   agent-ping uninstall
-   ```
-
-2. Remove the extension from your editor:
-
-   ```bash
-   # VS Code
-   code --uninstall-extension dawi.agent-ping
-
-   # Cursor
-   cursor --uninstall-extension dawi.agent-ping
-
-   # Windsurf
-   windsurf --uninstall-extension dawi.agent-ping
-   ```
-
-3. Remove the global CLI:
-
-   ```bash
-   npm uninstall -g agent-ping
-   ```
-
----
-
-## Custom sounds
-
-Each sound setting has a **Choose file…** link to pick a file, **Test sound** to preview, and **Reset to default** to go back to the bundled sound.
-
----
-
-## Custom sounds without the extension
-
-If you use the CLI without the VS Code extension (e.g., Claude Code in a terminal), you can set sound paths via environment variables in `~/.claude/settings.json`:
+If you use the CLI without the editor extension, you can customize sounds via environment variables in `~/.claude/settings.json`:
 
 ```json
 {
