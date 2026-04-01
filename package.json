@@ -1,13 +1,13 @@
 {
   "name": "agent-ping-vscode",
-  "displayName": "Agent Ping",
+  "displayName": "Agent Ping for Claude",
   "version": "1.2.5",
   "description": "Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed.",
   "publisher": "dawi",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DavidWilsby/agent-ping.git"
+    "url": "git+https://github.com/DavidWilsby/agent-ping.git"
   },
   "bugs": {
     "url": "https://github.com/DavidWilsby/agent-ping/issues"
