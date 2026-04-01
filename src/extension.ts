@@ -48,7 +48,7 @@ async function ensureGlobalInstall(): Promise<string | null> {
 
   while (true) {
     const choice = await vscode.window.showWarningMessage(
-      'Agent Ping requires a global install. Run: npm i -g agent-ping',
+      'Agent Ping requires a global install. Run: npm i -g agentping',
       'Retry',
     );
     if (choice !== 'Retry') return null;

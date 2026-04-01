@@ -10,7 +10,7 @@ import { HOOK_EVENT_COMMANDS, HookGroup } from './hooks';
 export function removeHooksAndConfig(): void {
   removeClaudeHooks();
   removeConfigDir();
-  console.log('agent-ping uninstalled. You can now run: npm uninstall -g agent-ping');
+  console.log('agent-ping uninstalled. You can now run: npm uninstall -g agentping');
 }
 
 function removeClaudeHooks(): void {

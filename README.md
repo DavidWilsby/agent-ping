@@ -10,12 +10,12 @@ Plays a sound when Claude finishes responding, asks a question, or needs your pe
 
 ### Editor extension
 
-1. Open the Extensions panel (`Cmd+Shift+X` / `Ctrl+Shift+X`) and search for **Agent Ping**, or install from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=dawi.agent-ping).
+1. Open the Extensions panel (`Cmd+Shift+X` / `Ctrl+Shift+X`) and search for **Agent Ping**, or install from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=dawi.agentping).
 
 2. Install the CLI so Claude's hooks can trigger sounds:
 
    ```bash
-   npm i -g agent-ping
+   npm i -g agentping
    ```
 
 3. Reload your editor. Sounds will play automatically — no further setup needed.
@@ -27,7 +27,7 @@ The extension manages your settings and sound preferences. The CLI is what actua
 If you use Claude Code in a terminal without an editor, you only need the CLI:
 
 ```bash
-npm i -g agent-ping
+npm i -g agentping
 ```
 
 Sounds will play automatically after the next time Claude runs. See [CLI-only configuration](#cli-only-configuration) for customization options.
@@ -38,7 +38,7 @@ Sounds will play automatically after the next time Claude runs. See [CLI-only co
 
 Updates are automatic via the Marketplace. Reload your editor after updating.
 
-To update the CLI, run `npm i -g agent-ping` again.
+To update the CLI, run `npm i -g agentping` again.
 
 ---
 
@@ -53,13 +53,13 @@ To update the CLI, run `npm i -g agent-ping` again.
 2. Remove the extension from the Extensions panel, or from the command line:
 
    ```bash
-   code --uninstall-extension dawi.agent-ping
+   code --uninstall-extension dawi.agentping
    ```
 
 3. Remove the CLI:
 
    ```bash
-   npm uninstall -g agent-ping
+   npm uninstall -g agentping
    ```
 
 ---

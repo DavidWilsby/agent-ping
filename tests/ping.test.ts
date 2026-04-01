@@ -34,11 +34,11 @@ describe('handleEvent — notification', () => {
     expect(play).not.toHaveBeenCalled();
   });
 
-  it('plays ping for permission_prompt', async () => {
+  it('does not play for permission_prompt (handled by PermissionRequest hook)', async () => {
     const { handleEvent } = require('../src/ping');
     const stdin = JSON.stringify({ notification_type: 'permission_prompt' });
     await handleEvent('notification', stdin, baseConfig);
-    expect(play).toHaveBeenCalledWith('/sounds/ping.wav', 50);
+    expect(play).not.toHaveBeenCalled();
   });
 
   it('plays ping for idle_prompt', async () => {
