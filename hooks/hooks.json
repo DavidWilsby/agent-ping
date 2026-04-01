@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx --yes agentping@latest stop"
+            "command": "npx --yes agent-ping-vscode@latest stop"
           }
         ]
       }
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx --yes agentping@latest notification"
+            "command": "npx --yes agent-ping-vscode@latest notification"
           }
         ]
       }
@@ -25,7 +25,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx --yes agentping@latest notification"
+            "command": "npx --yes agent-ping-vscode@latest notification"
           }
         ]
       }
@@ -35,7 +35,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx --yes agentping@latest notification"
+            "command": "npx --yes agent-ping-vscode@latest notification"
           }
         ]
       }

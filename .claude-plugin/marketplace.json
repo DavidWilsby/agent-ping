@@ -1,9 +1,9 @@
 {
-  "name": "agentping",
+  "name": "agent-ping-vscode",
   "owner": { "name": "David Wilsby" },
   "plugins": [
     {
-      "name": "agentping",
+      "name": "agent-ping-vscode",
       "source": ".",
       "description": "Plays a sound when Claude finishes responding"
     }
