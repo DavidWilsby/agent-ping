@@ -4,13 +4,13 @@ import * as os from 'os';
 import { HOOK_EVENT_COMMANDS, HookGroup } from './hooks';
 
 /**
- * Removes agent-ping hooks from ~/.claude/settings.json
- * and deletes the ~/.agent-ping config directory.
+ * Removes agent-ping-vscode hooks from ~/.claude/settings.json
+ * and deletes the ~/.agent-ping-vscode config directory.
  */
 export function removeHooksAndConfig(): void {
   removeClaudeHooks();
   removeConfigDir();
-  console.log('agent-ping uninstalled. You can now run: npm uninstall -g agent-ping-vscode');
+  console.log('agent-ping-vscode uninstalled. You can now run: npm uninstall -g agent-ping-vscode-vscode');
 }
 
 function removeClaudeHooks(): void {
@@ -33,7 +33,7 @@ function removeClaudeHooks(): void {
     if (!groups) continue;
 
     const filtered = groups.filter(
-      group => !group.hooks?.some(h => h.command?.includes('agent-ping'))
+      group => !group.hooks?.some(h => h.command?.includes('agent-ping-vscode'))
     );
 
     if (filtered.length !== groups.length) {
@@ -54,10 +54,10 @@ function removeClaudeHooks(): void {
 }
 
 function removeConfigDir(): void {
-  const configDir = path.join(os.homedir(), '.agent-ping');
+  const configDir = path.join(os.homedir(), '.agent-ping-vscode');
   try {
     fs.rmSync(configDir, { recursive: true });
-    console.log('Removed ~/.agent-ping/');
+    console.log('Removed ~/.agent-ping-vscode/');
   } catch {
     // Directory doesn't exist — nothing to do
   }

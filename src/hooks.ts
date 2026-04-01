@@ -15,7 +15,7 @@ export const HOOK_EVENT_COMMANDS: Record<string, string> = {
 
 /**
  * Attempts to resolve the directory containing the globally installed
- * `agent-ping` binary using a two-step strategy:
+ * `agent-ping-vscode` binary using a two-step strategy:
  *  1. Shell detection via `which` (macOS/Linux) or `where` (Windows)
  *  2. npm prefix fallback — checks `$(npm config get prefix)/bin/` (macOS/Linux only)
  *
@@ -30,7 +30,7 @@ export function resolveGlobalBinDir(): string | null {
 
   // Step 1 — shell detection
   try {
-    const cmd = isWindows ? 'where agent-ping' : 'which agent-ping';
+    const cmd = isWindows ? 'where agent-ping-vscode' : 'which agent-ping-vscode';
     const opts = { encoding: 'utf-8' as const };
     const result = (execSync(cmd, opts) as string).trim();
     const firstLine = result.split('\n')[0].trim();
@@ -42,7 +42,7 @@ export function resolveGlobalBinDir(): string | null {
     try {
       const opts = { encoding: 'utf-8' as const };
       const prefix = (execSync('npm config get prefix', opts) as string).trim();
-      const binPath = path.join(prefix, 'bin', 'agent-ping');
+      const binPath = path.join(prefix, 'bin', 'agent-ping-vscode');
       if (fs.existsSync(binPath)) return path.join(prefix, 'bin');
     } catch { /* fall through */ }
   }
@@ -53,21 +53,21 @@ export function resolveGlobalBinDir(): string | null {
 /**
  * Builds the hook command string for a given event command argument.
  *
- * macOS/Linux: `PATH="<binDir>:$PATH" agent-ping <cmdArg>`
- * Windows: `agent-ping <cmdArg>` (bare; PATH injection syntax differs)
+ * macOS/Linux: `PATH="<binDir>:$PATH" agent-ping-vscode <cmdArg>`
+ * Windows: `agent-ping-vscode <cmdArg>` (bare; PATH injection syntax differs)
  */
 export function buildHookCommand(cmdArg: string, binDir: string | null): string {
   const isWindows = process.platform === 'win32';
   if (!isWindows && binDir) {
-    return `PATH="${binDir}:$PATH" agent-ping ${cmdArg}`;
+    return `PATH="${binDir}:$PATH" agent-ping-vscode ${cmdArg}`;
   }
-  return `agent-ping ${cmdArg}`;
+  return `agent-ping-vscode ${cmdArg}`;
 }
 
 /**
  * Applies the three-branch merge logic for a single hook event's group array:
- *  1. New-style hook present (agent-ping, no npx) — no change
- *  2. Old-style hook present (agent-ping + npx) — replace the group in place
+ *  1. New-style hook present (agent-ping-vscode, no npx) — no change
+ *  2. Old-style hook present (agent-ping-vscode + npx) — replace the group in place
  *  3. Neither — append a new group
  *
  * Returns the updated groups array and whether a change was made.
@@ -77,12 +77,12 @@ export function applyHookEntry(
   command: string
 ): { groups: HookGroup[]; changed: boolean } {
   const newStyleExists = existing.some(group =>
-    group.hooks?.some(h => h.command?.includes('agent-ping') && !h.command?.includes('npx'))
+    group.hooks?.some(h => h.command?.includes('agent-ping-vscode') && !h.command?.includes('npx'))
   );
   if (newStyleExists) return { groups: existing, changed: false };
 
   const oldStyleIdx = existing.findIndex(group =>
-    group.hooks?.some(h => h.command?.includes('agent-ping') && h.command?.includes('npx'))
+    group.hooks?.some(h => h.command?.includes('agent-ping-vscode') && h.command?.includes('npx'))
   );
 
   const newGroup: HookGroup = { hooks: [{ type: 'command', command }] };

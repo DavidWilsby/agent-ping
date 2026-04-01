@@ -25,7 +25,7 @@ export const BUNDLED_DEFAULTS: Config = {
 };
 
 function readConfigFile(): Partial<Config> {
-  const configPath = path.join(os.homedir(), '.agent-ping', 'config.json');
+  const configPath = path.join(os.homedir(), '.agent-ping-vscode', 'config.json');
   try {
     const content = fs.readFileSync(configPath, 'utf-8');
     return JSON.parse(content) as Partial<Config>;

@@ -32,7 +32,7 @@ describe('resolveGlobalBinDir', () => {
   });
 
   it('returns bin dir when `which` finds the binary', () => {
-    mockExecSync.mockReturnValueOnce('/usr/local/bin/agent-ping\n');
+    mockExecSync.mockReturnValueOnce('/usr/local/bin/agent-ping-vscode\n');
     expect(resolveGlobalBinDir()).toBe('/usr/local/bin');
   });
 
@@ -69,24 +69,24 @@ describe('buildHookCommand', () => {
   it('prepends PATH on macOS/Linux when binDir is provided', () => {
     Object.defineProperty(process, 'platform', { value: 'darwin' });
     expect(buildHookCommand('stop', '/usr/local/bin')).toBe(
-      'PATH="/usr/local/bin:$PATH" agent-ping stop'
+      'PATH="/usr/local/bin:$PATH" agent-ping-vscode stop'
     );
   });
 
   it('returns bare command when binDir is null', () => {
-    expect(buildHookCommand('notification', null)).toBe('agent-ping notification');
+    expect(buildHookCommand('notification', null)).toBe('agent-ping-vscode notification');
   });
 
   it('returns bare command on Windows even with binDir', () => {
     Object.defineProperty(process, 'platform', { value: 'win32' });
-    expect(buildHookCommand('stop', 'C:\\npm\\bin')).toBe('agent-ping stop');
+    expect(buildHookCommand('stop', 'C:\\npm\\bin')).toBe('agent-ping-vscode stop');
   });
 });
 
 describe('applyHookEntry', () => {
-  const command = 'PATH="/usr/local/bin:$PATH" agent-ping stop';
+  const command = 'PATH="/usr/local/bin:$PATH" agent-ping-vscode stop';
 
-  it('appends new group when no agent-ping hooks exist', () => {
+  it('appends new group when no agent-ping-vscode hooks exist', () => {
     const existing: HookGroup[] = [];
     const result = applyHookEntry(existing, command);
     expect(result.changed).toBe(true);
@@ -96,7 +96,7 @@ describe('applyHookEntry', () => {
 
   it('skips when new-style hook already present', () => {
     const existing: HookGroup[] = [
-      { hooks: [{ type: 'command', command: 'PATH="/usr/local/bin:$PATH" agent-ping stop' }] },
+      { hooks: [{ type: 'command', command: 'PATH="/usr/local/bin:$PATH" agent-ping-vscode stop' }] },
     ];
     const result = applyHookEntry(existing, command);
     expect(result.changed).toBe(false);
@@ -106,7 +106,7 @@ describe('applyHookEntry', () => {
   it('replaces old-style npx hook in place', () => {
     const existing: HookGroup[] = [
       { hooks: [{ type: 'command', command: 'echo before' }] },
-      { hooks: [{ type: 'command', command: 'npx --yes agent-ping@latest stop' }] },
+      { hooks: [{ type: 'command', command: 'npx --yes agent-ping-vscode@latest stop' }] },
       { hooks: [{ type: 'command', command: 'echo after' }] },
     ];
     const result = applyHookEntry(existing, command);

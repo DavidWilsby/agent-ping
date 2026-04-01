@@ -47,7 +47,7 @@ To update the CLI, run `npm i -g agent-ping-vscode` again.
 1. Remove hooks and config:
 
    ```bash
-   agent-ping uninstall
+   agent-ping-vscode uninstall
    ```
 
 2. Remove the extension from the Extensions panel, or from the command line:

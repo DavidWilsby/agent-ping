@@ -71,7 +71,7 @@ function readVSCodeConfig(): Partial<Config> {
 }
 
 function writeConfigFile(config: Partial<Config>): void {
-  const dir = path.join(os.homedir(), '.agent-ping');
+  const dir = path.join(os.homedir(), '.agent-ping-vscode');
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'config.json'), JSON.stringify(config, null, 2), 'utf-8');
 }
