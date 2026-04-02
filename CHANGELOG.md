@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1] — 2026-04-02
+
+### Fixed
+- Changelog was missing from the v1.4.0 published package — rebuilt with no other changes
+
+---
+
 ## [1.4.0] — 2026-04-02
 
 ### Added
