@@ -1,8 +1,12 @@
 import { Config } from '../src/config';
 
 jest.mock('../src/player', () => ({ play: jest.fn() }));
+jest.mock('../src/dnd', () => ({ isDndActive: jest.fn().mockReturnValue(false) }));
+jest.mock('../src/notifier', () => ({ showNotification: jest.fn() }));
 
 const { play } = require('../src/player');
+const { isDndActive } = require('../src/dnd');
+const { showNotification } = require('../src/notifier');
 
 const baseConfig: Config = {
   enabled: true,
@@ -12,10 +16,16 @@ const baseConfig: Config = {
   idlePromptEnabled: true,
   stopEnabled: true,
   volume: 50,
+  respectDnd: true,
+  osNotificationsEnabled: false,
+  alertMode: 'sound',
 };
 
 beforeEach(() => {
   (play as jest.Mock).mockClear();
+  (isDndActive as jest.Mock).mockClear();
+  (isDndActive as jest.Mock).mockReturnValue(false);
+  (showNotification as jest.Mock).mockClear();
 });
 
 describe('handleEvent — enabled: false', () => {
@@ -23,6 +33,29 @@ describe('handleEvent — enabled: false', () => {
     const { handleEvent } = require('../src/ping');
     await handleEvent('notification', '{}', { ...baseConfig, enabled: false });
     expect(play).not.toHaveBeenCalled();
+  });
+});
+
+describe('handleEvent — DND', () => {
+  it('plays nothing when DND is active and respectDnd is true', async () => {
+    (isDndActive as jest.Mock).mockReturnValueOnce(true);
+    const { handleEvent } = require('../src/ping');
+    await handleEvent('stop', '', { ...baseConfig, respectDnd: true });
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it('plays sound when DND is active but respectDnd is false', async () => {
+    (isDndActive as jest.Mock).mockReturnValue(true);
+    const { handleEvent } = require('../src/ping');
+    await handleEvent('stop', '', { ...baseConfig, respectDnd: false });
+    expect(play).toHaveBeenCalled();
+  });
+
+  it('plays sound when DND is inactive and respectDnd is true', async () => {
+    (isDndActive as jest.Mock).mockReturnValue(false);
+    const { handleEvent } = require('../src/ping');
+    await handleEvent('stop', '', { ...baseConfig, respectDnd: true });
+    expect(play).toHaveBeenCalled();
   });
 });
 
@@ -121,5 +154,65 @@ describe('handleEvent — stop', () => {
     const { handleEvent } = require('../src/ping');
     await handleEvent('stop', '{}', { ...baseConfig, stopEnabled: false });
     expect(play).not.toHaveBeenCalled();
+  });
+});
+
+describe('handleEvent — OS notifications', () => {
+  it('shows OS notification and plays sound when mode is "both"', async () => {
+    const { handleEvent } = require('../src/ping');
+    await handleEvent('stop', '', {
+      ...baseConfig,
+      osNotificationsEnabled: true,
+      alertMode: 'both',
+    });
+    expect(play).toHaveBeenCalled();
+    expect(showNotification).toHaveBeenCalled();
+  });
+
+  it('shows OS notification only when mode is "notification"', async () => {
+    const { handleEvent } = require('../src/ping');
+    await handleEvent('stop', '', {
+      ...baseConfig,
+      osNotificationsEnabled: true,
+      alertMode: 'notification',
+    });
+    expect(play).not.toHaveBeenCalled();
+    expect(showNotification).toHaveBeenCalled();
+  });
+
+  it('plays sound only when mode is "sound"', async () => {
+    const { handleEvent } = require('../src/ping');
+    await handleEvent('stop', '', {
+      ...baseConfig,
+      osNotificationsEnabled: true,
+      alertMode: 'sound',
+    });
+    expect(play).toHaveBeenCalled();
+    expect(showNotification).not.toHaveBeenCalled();
+  });
+
+  it('never shows OS notification when osNotificationsEnabled is false', async () => {
+    const { handleEvent } = require('../src/ping');
+    await handleEvent('stop', '', {
+      ...baseConfig,
+      osNotificationsEnabled: false,
+      alertMode: 'both',
+    });
+    expect(play).toHaveBeenCalled();
+    expect(showNotification).not.toHaveBeenCalled();
+  });
+
+  it('passes correct message for PermissionRequest notification', async () => {
+    const { handleEvent } = require('../src/ping');
+    const stdin = JSON.stringify({ hook_event_name: 'PermissionRequest' });
+    await handleEvent('notification', stdin, {
+      ...baseConfig,
+      osNotificationsEnabled: true,
+      alertMode: 'notification',
+    });
+    expect(showNotification).toHaveBeenCalledWith(
+      'Agent Ping',
+      expect.stringContaining('permission')
+    );
   });
 });

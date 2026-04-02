@@ -97,6 +97,30 @@
           "type": "string",
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseStopSound) · [Test sound](command:agentPing.testStopSound) · [Reset to default](command:agentPing.resetStopSound)"
+        },
+        "agentPing.respectDnd": {
+          "order": 8,
+          "type": "boolean",
+          "default": true,
+          "description": "Suppress sounds when macOS Focus / Do Not Disturb is active. Has no effect on other platforms."
+        },
+        "agentPing.osNotificationsEnabled": {
+          "order": 9,
+          "type": "boolean",
+          "default": false,
+          "description": "Show native OS notification banners when events occur."
+        },
+        "agentPing.alertMode": {
+          "order": 10,
+          "type": "string",
+          "default": "sound",
+          "enum": ["sound", "notification", "both"],
+          "enumDescriptions": [
+            "Play a sound only (default behaviour)",
+            "Show a notification banner only (no sound)",
+            "Play a sound and show a notification banner"
+          ],
+          "markdownDescription": "Controls whether Agent Ping plays a sound, shows an OS notification, or both. Only applies when **OS Notifications** is enabled."
         }
       }
     },

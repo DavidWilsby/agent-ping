@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 
+export type AlertMode = 'sound' | 'notification' | 'both';
+
 export interface Config {
   enabled: boolean;
   notificationEnabled: boolean;
@@ -10,6 +12,9 @@ export interface Config {
   stopEnabled: boolean;
   stopSound: string;
   volume: number;
+  respectDnd: boolean;
+  osNotificationsEnabled: boolean;
+  alertMode: AlertMode;
 }
 
 const SOUNDS_DIR = path.join(__dirname, '..', 'sounds');
@@ -22,6 +27,9 @@ export const BUNDLED_DEFAULTS: Config = {
   stopEnabled: true,
   stopSound: path.join(SOUNDS_DIR, 'Done.aiff'),
   volume: 50,
+  respectDnd: true,
+  osNotificationsEnabled: false,
+  alertMode: 'sound',
 };
 
 function readConfigFile(): Partial<Config> {
@@ -60,6 +68,11 @@ export function resolveConfig(): Config {
     base.volume = BUNDLED_DEFAULTS.volume;
   }
   base.volume = Math.max(0, Math.min(100, Math.round(base.volume)));
+
+  const validModes: AlertMode[] = ['sound', 'notification', 'both'];
+  if (!validModes.includes(base.alertMode)) {
+    base.alertMode = BUNDLED_DEFAULTS.alertMode;
+  }
 
   return base;
 }

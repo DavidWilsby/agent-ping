@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { Config, BUNDLED_DEFAULTS } from './config';
+import { Config, BUNDLED_DEFAULTS, AlertMode } from './config';
 import { play } from './player';
 import {
   resolveGlobalBinDir,
@@ -67,6 +67,9 @@ function readVSCodeConfig(): Partial<Config> {
     idlePromptEnabled: cfg.get<boolean>('idlePromptEnabled'),
     stopEnabled: cfg.get<boolean>('stopEnabled'),
     stopSound: cfg.get<string>('stopSound') ?? '',
+    respectDnd: cfg.get<boolean>('respectDnd'),
+    osNotificationsEnabled: cfg.get<boolean>('osNotificationsEnabled'),
+    alertMode: cfg.get<string>('alertMode') as AlertMode,
   };
 }
 

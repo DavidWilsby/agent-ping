@@ -1,5 +1,8 @@
 import { Config } from './config';
 import { play } from './player';
+import { isDndActive } from './dnd';
+import { showNotification } from './notifier';
+import { getEventMessage } from './messages';
 
 export type EventType = 'stop' | 'notification';
 
@@ -25,19 +28,33 @@ function isActionable(stdin: string): { actionable: boolean; type: string } {
   return { actionable: ACTIONABLE_TYPES.has(type), type };
 }
 
+function dispatch(config: Config, soundEvent: 'stop' | 'notification', messageKey: string): void {
+  const mode = config.osNotificationsEnabled ? config.alertMode : 'sound';
+
+  if (mode === 'sound' || mode === 'both') {
+    play(resolveSound(config, soundEvent), config.volume);
+  }
+
+  if (mode === 'notification' || mode === 'both') {
+    const msg = getEventMessage(soundEvent, messageKey);
+    showNotification(msg.title, msg.message);
+  }
+}
+
 export async function handleEvent(event: EventType, stdin: string, config: Config): Promise<void> {
   if (!config.enabled) return;
+  if (config.respectDnd && isDndActive()) return;
 
   if (event === 'notification') {
     if (!config.notificationEnabled) return;
     const { actionable, type } = isActionable(stdin);
     if (!actionable) return;
     if (type === 'idle_prompt' && !config.idlePromptEnabled) return;
-    play(resolveSound(config, 'notification'), config.volume);
+    dispatch(config, 'notification', type);
     return;
   }
 
   // stop
   if (!config.stopEnabled) return;
-  play(resolveSound(config, 'stop'), config.volume);
+  dispatch(config, 'stop', 'stop');
 }

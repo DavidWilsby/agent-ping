@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- **Do Not Disturb support** — sounds are automatically suppressed when macOS Focus / Do Not Disturb is active. Enabled by default; configurable via `agentPing.respectDnd` setting. No effect on other platforms.
+- **OS notification banners** — optionally show native notification banners alongside or instead of sounds. Supports macOS (`osascript`), Linux (`notify-send` with app icon), and Windows (PowerShell toast). Disabled by default; enable via `agentPing.osNotificationsEnabled`.
+- **Alert mode** — new `agentPing.alertMode` setting to choose between `sound`, `notification`, or `both` when OS notifications are enabled.
+- Per-event notification messages (e.g. "Claude has finished the task", "Claude needs your permission to proceed")
+
+---
+
 ## [1.2.3] — 2026-03-26
 
 ### Fixed
