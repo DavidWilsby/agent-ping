@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.4.0] — 2026-04-02
 
 ### Added
 - **Alert mode** — new `agentPing.alertMode` setting to choose between `sound` (default), `notification` (banner only), or `both`.
