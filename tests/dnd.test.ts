@@ -19,20 +19,20 @@ describe('isDndActive', () => {
     Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
   });
 
-  it('returns true when Focus is active on macOS', () => {
+  it('returns true when Focus menu bar item is present', () => {
     const originalPlatform = process.platform;
     Object.defineProperty(process, 'platform', { value: 'darwin', configurable: true });
-    mockExecSync.mockReturnValue('1\n');
+    mockExecSync.mockReturnValue('true\n');
     jest.resetModules();
     const { isDndActive } = require('../src/dnd');
     expect(isDndActive()).toBe(true);
     Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
   });
 
-  it('returns false when Focus is inactive on macOS', () => {
+  it('returns false when Focus menu bar item is absent', () => {
     const originalPlatform = process.platform;
     Object.defineProperty(process, 'platform', { value: 'darwin', configurable: true });
-    mockExecSync.mockReturnValue('0\n');
+    mockExecSync.mockReturnValue('false\n');
     jest.resetModules();
     const { isDndActive } = require('../src/dnd');
     expect(isDndActive()).toBe(false);
@@ -42,7 +42,7 @@ describe('isDndActive', () => {
   it('returns false when the command throws', () => {
     const originalPlatform = process.platform;
     Object.defineProperty(process, 'platform', { value: 'darwin', configurable: true });
-    mockExecSync.mockImplementation(() => { throw new Error('key not found'); });
+    mockExecSync.mockImplementation(() => { throw new Error('osascript failed'); });
     jest.resetModules();
     const { isDndActive } = require('../src/dnd');
     expect(isDndActive()).toBe(false);

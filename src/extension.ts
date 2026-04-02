@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as os from 'os';
 import { Config, BUNDLED_DEFAULTS, AlertMode } from './config';
 import { play } from './player';
+import { LOCK_PATH, EVENT_PATH } from './notifier';
 import {
   resolveGlobalBinDir,
   buildHookCommand,
@@ -68,7 +69,6 @@ function readVSCodeConfig(): Partial<Config> {
     stopEnabled: cfg.get<boolean>('stopEnabled'),
     stopSound: cfg.get<string>('stopSound') ?? '',
     respectDnd: cfg.get<boolean>('respectDnd'),
-    osNotificationsEnabled: cfg.get<boolean>('osNotificationsEnabled'),
     alertMode: cfg.get<string>('alertMode') as AlertMode,
   };
 }
@@ -142,12 +142,56 @@ function registerResetCommand(
   context.subscriptions.push(disposable);
 }
 
+function createLockFile(): void {
+  try {
+    const dir = path.dirname(LOCK_PATH);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(LOCK_PATH, String(process.pid), 'utf-8');
+  } catch {
+    // Best-effort
+  }
+}
+
+function removeLockFile(): void {
+  try {
+    fs.unlinkSync(LOCK_PATH);
+  } catch {
+    // Already gone or never created
+  }
+}
+
+function watchEventFile(context: vscode.ExtensionContext): void {
+  const dir = path.dirname(EVENT_PATH);
+  fs.mkdirSync(dir, { recursive: true });
+
+  let debounce: ReturnType<typeof setTimeout> | undefined;
+  const watcher = fs.watch(dir, (eventType, filename) => {
+    if (filename !== path.basename(EVENT_PATH)) return;
+    if (debounce) clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      try {
+        const content = fs.readFileSync(EVENT_PATH, 'utf-8');
+        fs.unlinkSync(EVENT_PATH);
+        const event = JSON.parse(content) as { title: string; message: string };
+        vscode.window.showInformationMessage(`${event.title}: ${event.message}`);
+      } catch {
+        // File already consumed or invalid
+      }
+    }, 50);
+  });
+
+  context.subscriptions.push({ dispose: () => watcher.close() });
+}
+
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   const binDir = await ensureGlobalInstall();
   if (binDir) {
     installClaudeHooks(binDir);
   }
   writeConfigFile(readVSCodeConfig());
+
+  createLockFile();
+  watchEventFile(context);
 
   const disposable = vscode.workspace.onDidChangeConfiguration((e) => {
     if (e.affectsConfiguration('agentPing')) {
@@ -178,4 +222,6 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   );
 }
 
-export function deactivate(): void { /* no-op */ }
+export function deactivate(): void {
+  removeLockFile();
+}

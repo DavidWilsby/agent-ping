@@ -3,10 +3,32 @@
 ## [Unreleased]
 
 ### Added
-- **Do Not Disturb support** — sounds are automatically suppressed when macOS Focus / Do Not Disturb is active. Enabled by default; configurable via `agentPing.respectDnd` setting. No effect on other platforms.
-- **OS notification banners** — optionally show native notification banners alongside or instead of sounds. Supports macOS (`osascript`), Linux (`notify-send` with app icon), and Windows (PowerShell toast). Disabled by default; enable via `agentPing.osNotificationsEnabled`.
-- **Alert mode** — new `agentPing.alertMode` setting to choose between `sound`, `notification`, or `both` when OS notifications are enabled.
+- **Alert mode** — new `agentPing.alertMode` setting to choose between `sound` (default), `notification` (banner only), or `both`.
+- **Notification banners** — when the editor extension is running, banners appear as native VS Code/Cursor notifications. For CLI-only users, banners fall back to OS-native notifications via `osascript` (macOS), `notify-send` (Linux), or PowerShell toast (Windows).
+- **Focus mode support** — opt-in sound suppression when any macOS Focus mode is active (Do Not Disturb, Work, etc.). Notification banners are always sent and filtered by macOS per your Focus mode settings. Enable via `agentPing.respectDnd` (off by default — requires macOS accessibility permissions). No effect on other platforms.
+- **`agent-ping-vscode config`** — interactive TUI for CLI-only users to change settings from the terminal.
 - Per-event notification messages (e.g. "Claude has finished the task", "Claude needs your permission to proceed")
+
+---
+
+## [1.3.0] — 2026-04-01
+
+### Changed
+- Renamed CLI binary from `agent-ping` to `agent-ping-vscode` for consistency across npm, Marketplace, and CLI
+- Config directory changed from `~/.agent-ping/` to `~/.agent-ping-vscode/`
+
+---
+
+## [1.2.5] — 2026-04-01
+
+### Changed
+- Renamed package to `agent-ping-vscode` (Marketplace + npm) — Microsoft no longer allows reuse of deleted extension names
+- Restructured README for Marketplace listing — install instructions, settings, and CLI-only usage
+- CLI binary name remains `agent-ping` (unchanged)
+
+### Fixed
+- Extension icon now included in `.vsix` package
+- Stale `permission_prompt` test from v1.2.3
 
 ---
 

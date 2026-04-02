@@ -13,7 +13,6 @@ export interface Config {
   stopSound: string;
   volume: number;
   respectDnd: boolean;
-  osNotificationsEnabled: boolean;
   alertMode: AlertMode;
 }
 
@@ -27,8 +26,7 @@ export const BUNDLED_DEFAULTS: Config = {
   stopEnabled: true,
   stopSound: path.join(SOUNDS_DIR, 'Done.aiff'),
   volume: 50,
-  respectDnd: true,
-  osNotificationsEnabled: false,
+  respectDnd: false,
   alertMode: 'sound',
 };
 

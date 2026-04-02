@@ -30,7 +30,13 @@ If you use Claude Code in a terminal without an editor, you only need the CLI:
 npm i -g agent-ping-vscode
 ```
 
-Sounds will play automatically after the next time Claude runs. See [CLI-only configuration](#cli-only-configuration) for customization options.
+Sounds will play automatically after the next time Claude runs. To configure settings interactively, run:
+
+```bash
+agent-ping-vscode config
+```
+
+See [CLI-only configuration](#cli-only-configuration) for more options.
 
 ---
 
@@ -71,6 +77,8 @@ Open your editor settings (`Cmd+,` on Mac, `Ctrl+,` on Windows) and search for *
 | Setting | Description | Default |
 | ------- | ----------- | ------- |
 | **Enabled** | Enable or disable Agent Ping entirely | On |
+| **Alert Mode** | Play a sound, show an OS notification banner, or both | Sound |
+| **Respect DND** | Suppress sounds when any macOS Focus mode is active (notification banners are managed by macOS). Requires macOS accessibility permissions on first use. | Off |
 | **Volume** | Global volume for all sounds (0 = mute, 100 = full volume) | 50 |
 | **Notification Enabled** | Enable or disable the Notification event sound | On |
 | **Notification Sound** | Custom sound file for notifications (WAV, MP3, AIFF) | Bundled default |
@@ -84,7 +92,25 @@ Each sound setting has a **Choose file...** link to pick a file, **Test sound** 
 
 ## CLI-only configuration
 
-If you use the CLI without the editor extension, you can customize sounds via environment variables in `~/.claude/settings.json`:
+If you use the CLI without the editor extension, you can customize settings in `~/.agent-ping-vscode/config.json`:
+
+```json
+{
+  "enabled": true,
+  "alertMode": "sound",
+  "respectDnd": false,
+  "volume": 50,
+  "notificationEnabled": true,
+  "notificationSound": "",
+  "idlePromptEnabled": false,
+  "stopEnabled": true,
+  "stopSound": ""
+}
+```
+
+Leave sound paths empty to use the bundled defaults, or set an absolute path to a WAV, MP3, or AIFF file.
+
+You can also override sounds and volume via environment variables in `~/.claude/settings.json`:
 
 ```json
 {
@@ -96,17 +122,19 @@ If you use the CLI without the editor extension, you can customize sounds via en
 }
 ```
 
-These override the extension's settings panel if both are present.
+Environment variables take precedence over the config file. When the editor extension is running, it manages the config file — use the editor's settings panel instead.
 
 ---
 
 ## Platform notes
 
-| Platform | How sound plays | Volume control |
-| -------- | --------------- | -------------- |
-| macOS    | `afplay` — built in, nothing extra needed | Supported |
-| Windows  | PowerShell — built in, nothing extra needed | Not supported — uses system volume |
-| Linux    | Requires `paplay` (PulseAudio) or `aplay` | `paplay` supported, `aplay` uses system volume |
+> **Note:** Agent Ping is developed and tested on macOS. Linux and Windows support is provided on a best-effort basis and has not been thoroughly tested. Bug reports and pull requests are welcome.
+
+| Platform | How sound plays | Volume control | Notification banners | Focus / DND |
+| -------- | --------------- | -------------- | -------------------- | ----------- |
+| macOS    | `afplay` — built in, nothing extra needed | Supported | Native editor notification when extension is running; `osascript` fallback for CLI-only (attributed to Script Editor) | Supported — sounds suppressed during any Focus mode; banners filtered by macOS per your Focus settings |
+| Windows  | PowerShell — built in, nothing extra needed | Not supported — uses system volume | Native editor notification when extension is running; PowerShell toast fallback for CLI-only | Not supported |
+| Linux    | Requires `paplay` (PulseAudio) or `aplay` | `paplay` supported, `aplay` uses system volume | Native editor notification when extension is running; `notify-send` fallback for CLI-only (with app icon) | Not supported |
 
 ---
 

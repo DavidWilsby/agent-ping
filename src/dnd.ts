@@ -3,16 +3,28 @@ import { execSync } from 'child_process';
 /**
  * Returns true if macOS Do Not Disturb / Focus mode is currently active.
  * Always returns false on non-macOS platforms.
+ *
+ * Detection uses AppleScript to check whether a "Focus" menu bar item is
+ * present in Control Center.  This works on macOS Monterey through Tahoe
+ * (macOS 26+), unlike the `defaults` approach which broke in Sequoia.
  */
 export function isDndActive(): boolean {
   if (process.platform !== 'darwin') return false;
 
   try {
     const result = execSync(
-      'defaults -currentHost read com.apple.controlcenter "NSStatusItem Visible FocusModes"',
-      { encoding: 'utf-8', timeout: 2000, stdio: ['pipe', 'pipe', 'pipe'] }
+      `osascript -e 'tell application "System Events" to tell its application process "ControlCenter"
+set barItems to every menu bar item of menu bar 1
+repeat with anItem in barItems
+  try
+    if description of anItem is "Focus" then return "true"
+  end try
+end repeat
+return "false"
+end tell'`,
+      { encoding: 'utf-8', timeout: 3000, stdio: ['pipe', 'pipe', 'pipe'] }
     ).trim();
-    return result === '1';
+    return result === 'true';
   } catch {
     return false;
   }

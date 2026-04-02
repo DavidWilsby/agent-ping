@@ -1,7 +1,7 @@
 {
   "name": "agent-ping-vscode",
   "displayName": "Agent Ping for Claude",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed.",
   "publisher": "dawi",
   "license": "MIT",
@@ -60,8 +60,30 @@
           "default": true,
           "description": "Enable or disable Agent Ping entirely."
         },
-        "agentPing.volume": {
+        "agentPing.alertMode": {
           "order": 2,
+          "type": "string",
+          "default": "sound",
+          "enum": [
+            "sound",
+            "notification",
+            "both"
+          ],
+          "enumDescriptions": [
+            "Play a sound only (default behavior)",
+            "Show an OS notification banner only (no sound)",
+            "Play a sound and show an OS notification banner"
+          ],
+          "description": "Controls whether Agent Ping plays a sound, shows an OS notification banner, or both."
+        },
+        "agentPing.respectDnd": {
+          "order": 3,
+          "type": "boolean",
+          "default": false,
+          "description": "Suppress sounds when any macOS Focus mode is active (Do Not Disturb, Work, etc.). Requires macOS accessibility permissions on first use. Notification banners are always managed by macOS — configure allowed apps in System Settings → Focus. Has no effect on other platforms."
+        },
+        "agentPing.volume": {
+          "order": 4,
           "type": "integer",
           "default": 50,
           "minimum": 0,
@@ -69,58 +91,34 @@
           "markdownDescription": "Global volume for all Agent Ping sounds (0 = mute, 100 = full volume).\n\n[Reset to default](command:agentPing.resetVolume)"
         },
         "agentPing.notificationEnabled": {
-          "order": 3,
+          "order": 5,
           "type": "boolean",
           "default": true,
           "description": "Enable or disable the Notification event sound."
         },
         "agentPing.notificationSound": {
-          "order": 4,
+          "order": 6,
           "type": "string",
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseNotificationSound) · [Test sound](command:agentPing.testNotificationSound) · [Reset to default](command:agentPing.resetNotificationSound)"
         },
         "agentPing.idlePromptEnabled": {
-          "order": 5,
+          "order": 7,
           "type": "boolean",
           "default": false,
           "description": "Play the notification sound when Claude is waiting for your input (idle prompt)."
         },
         "agentPing.stopEnabled": {
-          "order": 6,
+          "order": 8,
           "type": "boolean",
           "default": true,
           "description": "Enable or disable the Stop event sound."
         },
         "agentPing.stopSound": {
-          "order": 7,
+          "order": 9,
           "type": "string",
           "default": "",
           "markdownDescription": "Path to a WAV, MP3, or AIFF (.aiff or .aif) sound file. Leave empty to use the bundled default.\n\n[Choose file…](command:agentPing.chooseStopSound) · [Test sound](command:agentPing.testStopSound) · [Reset to default](command:agentPing.resetStopSound)"
-        },
-        "agentPing.respectDnd": {
-          "order": 8,
-          "type": "boolean",
-          "default": true,
-          "description": "Suppress sounds when macOS Focus / Do Not Disturb is active. Has no effect on other platforms."
-        },
-        "agentPing.osNotificationsEnabled": {
-          "order": 9,
-          "type": "boolean",
-          "default": false,
-          "description": "Show native OS notification banners when events occur."
-        },
-        "agentPing.alertMode": {
-          "order": 10,
-          "type": "string",
-          "default": "sound",
-          "enum": ["sound", "notification", "both"],
-          "enumDescriptions": [
-            "Play a sound only (default behaviour)",
-            "Show a notification banner only (no sound)",
-            "Play a sound and show a notification banner"
-          ],
-          "markdownDescription": "Controls whether Agent Ping plays a sound, shows an OS notification, or both. Only applies when **OS Notifications** is enabled."
         }
       }
     },
@@ -169,5 +167,8 @@
     "testMatch": [
       "**/tests/**/*.test.ts"
     ]
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^8.3.2"
   }
 }

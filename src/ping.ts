@@ -29,12 +29,14 @@ function isActionable(stdin: string): { actionable: boolean; type: string } {
 }
 
 function dispatch(config: Config, soundEvent: 'stop' | 'notification', messageKey: string): void {
-  const mode = config.osNotificationsEnabled ? config.alertMode : 'sound';
+  const mode = config.alertMode;
+  const suppressSound = config.respectDnd && isDndActive();
 
-  if (mode === 'sound' || mode === 'both') {
+  if ((mode === 'sound' || mode === 'both') && !suppressSound) {
     play(resolveSound(config, soundEvent), config.volume);
   }
 
+  // Always send notifications — macOS filters per Focus mode settings
   if (mode === 'notification' || mode === 'both') {
     const msg = getEventMessage(soundEvent, messageKey);
     showNotification(msg.title, msg.message);
@@ -43,7 +45,6 @@ function dispatch(config: Config, soundEvent: 'stop' | 'notification', messageKe
 
 export async function handleEvent(event: EventType, stdin: string, config: Config): Promise<void> {
   if (!config.enabled) return;
-  if (config.respectDnd && isDndActive()) return;
 
   if (event === 'notification') {
     if (!config.notificationEnabled) return;
