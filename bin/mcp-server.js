@@ -30264,9 +30264,10 @@ mcpServer.registerTool(
   async (input) => {
     const current = readConfig();
     const key = input.event === "stop" ? "stopSound" : "notificationSound";
-    const updated = { ...current, [key]: input.path };
+    const soundPath = input.path === "default" || input.path === "reset" || input.path === "bundled" ? "" : input.path;
+    const updated = { ...current, [key]: soundPath };
     writeConfig(updated);
-    const label = input.path || "bundled default";
+    const label = soundPath || "bundled default";
     return {
       content: [{ type: "text", text: `${input.event} sound set to: ${label}` }]
     };

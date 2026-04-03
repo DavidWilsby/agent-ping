@@ -2,10 +2,7 @@
   "mcpServers": {
     "agent-ping": {
       "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/bin/mcp-server.js"],
-      "env": {
-        "CLAUDE_PLUGIN_DATA": "${CLAUDE_PLUGIN_DATA}"
-      }
+      "args": ["${CLAUDE_PLUGIN_ROOT}/bin/mcp-server.js"]
     }
   }
 }
