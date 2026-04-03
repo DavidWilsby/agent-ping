@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
@@ -160,6 +161,28 @@ mcpServer.registerTool(
 
     return {
       content: [{ type: "text" as const, text: "Settings unchanged." }],
+    };
+  }
+);
+
+mcpServer.registerTool(
+  "set_sound",
+  {
+    description: "Set a custom sound file for stop or notification events, or reset to bundled default",
+    inputSchema: z.object({
+      event: z.enum(["stop", "notification"]).describe("Which sound to change"),
+      path: z.string().describe("Absolute path to a WAV, MP3, or AIFF file. Empty string to reset to bundled default."),
+    }),
+  },
+  async (input) => {
+    const current = readConfig();
+    const key = input.event === "stop" ? "stopSound" : "notificationSound";
+    const updated = { ...current, [key]: input.path };
+    writeConfig(updated);
+
+    const label = input.path || "bundled default";
+    return {
+      content: [{ type: "text" as const, text: `${input.event} sound set to: ${label}` }],
     };
   }
 );
