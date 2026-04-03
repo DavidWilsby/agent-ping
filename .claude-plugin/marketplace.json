@@ -12,7 +12,7 @@
       "name": "agent-ping",
       "source": "./",
       "description": "Sound alerts and notifications when Claude needs your attention",
-      "version": "2.0.0"
+      "version": "2.0.1"
     }
   ]
 }
