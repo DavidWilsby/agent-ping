@@ -1,4 +1,7 @@
 node_modules/
 bin/
+dist/
+*.vsix
+.vscode/
 docs/
 .superpowers/
