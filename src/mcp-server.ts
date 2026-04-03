@@ -122,6 +122,18 @@ mcpServer.registerTool(
             description: "Play sound when Claude is waiting for input",
             default: current.idlePromptEnabled,
           },
+          stopSound: {
+            type: "string",
+            title: "Custom Stop Sound",
+            description: "Path to sound file (WAV, MP3, AIFF). Leave empty for bundled default.",
+            default: current.stopSound,
+          },
+          notificationSound: {
+            type: "string",
+            title: "Custom Notification Sound",
+            description: "Path to sound file (WAV, MP3, AIFF). Leave empty for bundled default.",
+            default: current.notificationSound,
+          },
         },
       },
     });
@@ -135,8 +147,8 @@ mcpServer.registerTool(
         stopEnabled: result.content.stopEnabled as boolean ?? current.stopEnabled,
         notificationEnabled: result.content.notificationEnabled as boolean ?? current.notificationEnabled,
         idlePromptEnabled: result.content.idlePromptEnabled as boolean ?? current.idlePromptEnabled,
-        stopSound: current.stopSound,
-        notificationSound: current.notificationSound,
+        stopSound: (result.content.stopSound as string) ?? current.stopSound,
+        notificationSound: (result.content.notificationSound as string) ?? current.notificationSound,
       };
 
       writeConfig(updated);
