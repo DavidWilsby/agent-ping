@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 import { resolveConfig } from './config';
 import { handleEvent, EventType } from './ping';
+import { migrateIfNeeded } from './migrate';
+
+migrateIfNeeded();
 
 const arg = process.argv[2];
 
