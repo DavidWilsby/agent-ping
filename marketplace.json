@@ -1,0 +1,15 @@
+{
+  "name": "agent-ping-marketplace",
+  "description": "Agent Ping plugin marketplace",
+  "version": "1.0.0",
+  "owner": {
+    "name": "David Wilsby"
+  },
+  "plugins": [
+    {
+      "name": "agent-ping",
+      "description": "Sound alerts and notifications when Claude needs your attention",
+      "source": "."
+    }
+  ]
+}

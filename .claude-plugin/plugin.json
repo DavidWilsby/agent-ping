@@ -1,6 +1,12 @@
 {
-  "name": "agent-ping-vscode",
-  "description": "Plays a sound when Claude finishes responding. Works in Cursor, Windsurf, and any Claude Code environment.",
-  "version": "1.0.0",
-  "author": { "name": "David Wilsby" }
+  "name": "agent-ping",
+  "version": "2.0.0",
+  "description": "Sound alerts and notifications when Claude needs your attention",
+  "author": {
+    "name": "David Wilsby",
+    "url": "https://github.com/DavidWilsby"
+  },
+  "repository": "https://github.com/DavidWilsby/agent-ping",
+  "license": "MIT",
+  "keywords": ["notifications", "sounds", "alerts", "productivity"]
 }

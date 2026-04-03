@@ -3,7 +3,7 @@
     "target": "ES2020",
     "module": "commonjs",
     "lib": ["ES2020"],
-    "outDir": "dist",
+    "outDir": "bin",
     "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
@@ -11,5 +11,5 @@
     "resolveJsonModule": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "exclude": ["node_modules", "bin", "tests"]
 }
