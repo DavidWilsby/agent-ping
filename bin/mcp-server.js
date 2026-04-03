@@ -30258,7 +30258,7 @@ mcpServer.registerTool(
     description: "Set a custom sound file for stop or notification events, or reset to bundled default",
     inputSchema: external_exports3.object({
       event: external_exports3.enum(["stop", "notification"]).describe("Which sound to change"),
-      path: external_exports3.string().describe("Absolute path to a WAV, MP3, or AIFF file. Empty string to reset to bundled default.")
+      path: external_exports3.string().describe("Absolute path to a WAV, MP3, or AIFF file. IMPORTANT: To reset to bundled default, pass an empty string \u2014 not the word 'default'.")
     })
   },
   async (input) => {

@@ -174,7 +174,7 @@ mcpServer.registerTool(
     description: "Set a custom sound file for stop or notification events, or reset to bundled default",
     inputSchema: z.object({
       event: z.enum(["stop", "notification"]).describe("Which sound to change"),
-      path: z.string().describe("Absolute path to a WAV, MP3, or AIFF file. Empty string to reset to bundled default."),
+      path: z.string().describe("Absolute path to a WAV, MP3, or AIFF file. IMPORTANT: To reset to bundled default, pass an empty string — not the word 'default'."),
     }),
   },
   async (input) => {
