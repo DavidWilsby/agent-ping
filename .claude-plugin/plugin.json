@@ -1,6 +1,6 @@
 {
   "name": "agent-ping",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Sound alerts and notifications when Claude needs your attention",
   "author": {
     "name": "David Wilsby",
