@@ -13,7 +13,7 @@ function showOsNotification(title: string, message: string): void {
     spawn(TERMINAL_NOTIFIER, [
       '-title', title,
       '-message', message,
-      '-appIcon', ICON_PATH,
+      '-sender', 'com.agentping.notifier',
     ], { detached: true, stdio: 'ignore' }).unref();
     return;
   }

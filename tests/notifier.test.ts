@@ -24,7 +24,7 @@ describe('showNotification', () => {
     showNotification('Agent Ping', 'Task done');
     expect(s).toHaveBeenCalledWith(
       expect.stringContaining('terminal-notifier'),
-      expect.arrayContaining(['-title', 'Agent Ping', '-message', 'Task done', '-appIcon']),
+      expect.arrayContaining(['-title', 'Agent Ping', '-message', 'Task done', '-sender', 'com.agentping.notifier']),
       expect.any(Object)
     );
     Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
