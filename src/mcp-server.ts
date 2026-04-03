@@ -178,18 +178,14 @@ mcpServer.registerTool(
     }),
   },
   async (input) => {
-    const configDir = getConfigDir();
-    const configPath = getConfigPath();
     const current = readConfig();
     const key = input.event === "stop" ? "stopSound" : "notificationSound";
     const updated = { ...current, [key]: input.path };
     writeConfig(updated);
 
-    // Read back to confirm
-    const verify = fs.readFileSync(configPath, "utf-8");
-
+    const label = input.path || "bundled default";
     return {
-      content: [{ type: "text" as const, text: `${input.event} sound set to: ${input.path || "bundled default"}\nConfig dir: ${configDir}\nConfig path: ${configPath}\nWritten config: ${verify}` }],
+      content: [{ type: "text" as const, text: `${input.event} sound set to: ${label}` }],
     };
   }
 );
