@@ -30,8 +30,12 @@ export const BUNDLED_DEFAULTS: Config = {
   alertMode: 'sound',
 };
 
+export function getConfigDir(): string {
+  return process.env.CLAUDE_PLUGIN_DATA || path.join(os.homedir(), '.agent-ping-vscode');
+}
+
 function readConfigFile(): Partial<Config> {
-  const configPath = path.join(os.homedir(), '.agent-ping-vscode', 'config.json');
+  const configPath = path.join(getConfigDir(), 'config.json');
   try {
     const content = fs.readFileSync(configPath, 'utf-8');
     return JSON.parse(content) as Partial<Config>;
