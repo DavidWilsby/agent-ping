@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
+    "module": "ES2020",
+    "moduleResolution": "bundler",
     "lib": ["ES2020"],
     "outDir": "bin",
     "rootDir": "src",
@@ -10,6 +11,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "bin", "tests", "src/mcp-server.ts"]
+  "include": ["src/mcp-server.ts"]
 }

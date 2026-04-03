@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/DavidWilsby/agent-ping#readme",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc -p tsconfig.mcp.json",
     "watch": "tsc --watch",
     "test": "jest"
   },
@@ -24,8 +24,10 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@inquirer/input": "^4.0.0",
     "@inquirer/select": "^4.0.0",
-    "@inquirer/input": "^4.0.0"
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.3.6"
   },
   "jest": {
     "preset": "ts-jest",
