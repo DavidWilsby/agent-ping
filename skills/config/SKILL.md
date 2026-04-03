@@ -1,5 +1,5 @@
 ---
-name: agent-ping config
+name: config
 description: Configure agent-ping sound alerts and notification settings
 disable-model-invocation: true
 user-invocable: true
