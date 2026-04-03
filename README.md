@@ -18,7 +18,7 @@ Sounds will play automatically — no further setup needed.
 To configure settings interactively:
 
 ```
-/agent-ping config
+/agent-ping:config
 ```
 
 ---
@@ -33,7 +33,7 @@ To configure settings interactively:
 
 ## Settings
 
-Run `/agent-ping config` to open the interactive settings menu.
+Run `/agent-ping:config` to open the interactive settings menu.
 
 | Setting | Description | Default |
 | ------- | ----------- | ------- |
@@ -99,9 +99,9 @@ If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
 
 ## Troubleshooting
 
-**No sound plays** — Run `/agent-ping config` and check that **Enabled** is on and the relevant event (Notification or Stop) is enabled. Check your system volume.
+**No sound plays** — Run `/agent-ping:config` and check that **Enabled** is on and the relevant event (Notification or Stop) is enabled. Check your system volume.
 
-**Wrong sound plays** — Run `/agent-ping config` and check the Custom Sounds submenu.
+**Wrong sound plays** — Run `/agent-ping:config` and check the Custom Sounds submenu.
 
 **Test it** — Ask Claude "What is 2 + 2?" — you should hear the stop sound when it replies.
 
