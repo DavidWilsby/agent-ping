@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.0.0] — 2026-04-03
+
+### Changed
+- **Repackaged as a Claude Code plugin** — works across CLI, desktop app, and all editors. Install with `/plugin install agent-ping`.
+- Replaced `osascript` with bundled `terminal-notifier` on macOS for polished notification banners with app icon
+- Replaced `@inquirer/prompts` with `@inquirer/select` and `@inquirer/input` (smaller dependency tree, resolves Socket security warnings)
+- Config stored in plugin data directory instead of `~/.agent-ping-vscode/`
+
+### Added
+- Custom sound file paths in the interactive TUI (`/agent-ping config`)
+- Automatic migration from VS Code extension — copies settings and removes legacy hooks on first run
+- Self-hosted marketplace for direct installation from GitHub
+
+### Removed
+- VS Code extension code (deprecated in v1.5.0)
+- `uninstall` CLI command (plugin system handles this)
+- `--version` flag (version comes from plugin manifest)
+
+---
+
 ## [1.4.1] — 2026-04-02
 
 ### Fixed

@@ -2,77 +2,38 @@
 
 ![Agent Ping banner](https://raw.githubusercontent.com/DavidWilsby/agent-ping/master/banner.png)
 
-Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed. Works with VS Code and any VS Code-based editor (Cursor, Windsurf, etc.).
+Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed. Works across Claude Code CLI, desktop app, and all editors.
 
 ---
 
 ## Install
 
-### Editor extension
-
-1. Open the Extensions panel (`Cmd+Shift+X` / `Ctrl+Shift+X`) and search for **Agent Ping**, or install from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=dawi.agent-ping-vscode).
-
-2. Install the CLI so Claude's hooks can trigger sounds:
-
-   ```bash
-   npm i -g agent-ping-vscode
-   ```
-
-3. Reload your editor. Sounds will play automatically — no further setup needed.
-
-The extension manages your settings and sound preferences. The CLI is what actually plays the sounds when Claude triggers a hook — it needs to be installed globally so the hooks can find it. If the CLI is missing, the extension will show a warning with a **Retry** button.
-
-### CLI only
-
-If you use Claude Code in a terminal without an editor, you only need the CLI:
-
-```bash
-npm i -g agent-ping-vscode
+```
+/plugin marketplace add DavidWilsby/agent-ping
+/plugin install agent-ping
 ```
 
-Sounds will play automatically after the next time Claude runs. To configure settings interactively, run:
+Sounds will play automatically — no further setup needed.
 
-```bash
-agent-ping-vscode config
+To configure settings interactively:
+
 ```
-
-See [CLI-only configuration](#cli-only-configuration) for more options.
-
----
-
-## Updating
-
-Updates are automatic via the Marketplace. Reload your editor after updating.
-
-To update the CLI, run `npm i -g agent-ping-vscode` again.
+/agent-ping config
+```
 
 ---
 
 ## Uninstall
 
-1. Remove hooks and config:
-
-   ```bash
-   agent-ping-vscode uninstall
-   ```
-
-2. Remove the extension from the Extensions panel, or from the command line:
-
-   ```bash
-   <editor> --uninstall-extension dawi.agent-ping-vscode
-   ```
-
-3. Remove the CLI:
-
-   ```bash
-   npm uninstall -g agent-ping-vscode
-   ```
+```
+/plugin uninstall agent-ping
+```
 
 ---
 
 ## Settings
 
-Open your editor settings (`Cmd+,` on Mac, `Ctrl+,` on Windows) and search for **Agent Ping**.
+Run `/agent-ping config` to open the interactive settings menu.
 
 | Setting | Description | Default |
 | ------- | ----------- | ------- |
@@ -81,67 +42,71 @@ Open your editor settings (`Cmd+,` on Mac, `Ctrl+,` on Windows) and search for *
 | **Respect DND** | Suppress sounds when any macOS Focus mode is active (notification banners are managed by macOS). Requires macOS accessibility permissions on first use. | Off |
 | **Volume** | Global volume for all sounds (0 = mute, 100 = full volume) | 50 |
 | **Notification Enabled** | Enable or disable the Notification event sound | On |
-| **Notification Sound** | Custom sound file for notifications (WAV, MP3, AIFF) | Bundled default |
 | **Idle Prompt Enabled** | Play the notification sound when Claude is waiting for input | Off |
 | **Stop Enabled** | Enable or disable the Stop event sound | On |
-| **Stop Sound** | Custom sound file for the stop event (WAV, MP3, AIFF) | Bundled default |
+| **Custom Sounds** | Set custom sound file paths (WAV, MP3, AIFF) for stop and notification events | Bundled defaults |
 
-Each sound setting has a **Choose file...** link to pick a file, **Test sound** to preview, and **Reset to default** to go back to the bundled sound.
+You can also override sounds and volume via environment variables:
+
+- `AGENT_PING_VOLUME` — volume (0–100)
+- `AGENT_PING_STOP_SOUND` — absolute path to stop sound file
+- `AGENT_PING_NOTIFICATION_SOUND` — absolute path to notification sound file
+
+Environment variables take precedence over saved settings.
 
 ---
 
-## CLI-only configuration
+## How it works
 
-If you use the CLI without the editor extension, you can customize settings in `~/.agent-ping-vscode/config.json`:
+Agent Ping registers Claude Code hooks for four events:
 
-```json
-{
-  "enabled": true,
-  "alertMode": "sound",
-  "respectDnd": false,
-  "volume": 50,
-  "notificationEnabled": true,
-  "notificationSound": "",
-  "idlePromptEnabled": false,
-  "stopEnabled": true,
-  "stopSound": ""
-}
-```
+| Event | When it fires |
+| ----- | ------------- |
+| **Stop** | Claude finishes responding |
+| **Notification** | Claude sends a notification (filtered to actionable types only) |
+| **PermissionRequest** | Claude needs your permission to proceed |
+| **StopFailure** | Claude encounters an error and needs attention |
 
-Leave sound paths empty to use the bundled defaults, or set an absolute path to a WAV, MP3, or AIFF file.
-
-You can also override sounds and volume via environment variables in `~/.claude/settings.json`:
-
-```json
-{
-  "env": {
-    "AGENT_PING_STOP_SOUND": "/Users/yourname/Sounds/done.wav",
-    "AGENT_PING_NOTIFICATION_SOUND": "/Users/yourname/Sounds/ping.wav",
-    "AGENT_PING_VOLUME": "50"
-  }
-}
-```
-
-Environment variables take precedence over the config file. When the editor extension is running, it manages the config file — use the editor's settings panel instead.
+When a hook fires, Agent Ping plays a sound and/or shows an OS notification based on your alert mode setting.
 
 ---
 
 ## Platform notes
 
-> **Note:** Agent Ping is developed and tested on macOS. Linux and Windows support is provided on a best-effort basis and has not been thoroughly tested. Bug reports and pull requests are welcome.
+> **Note:** Agent Ping is developed and tested on macOS. Linux and Windows support is provided on a best-effort basis. Bug reports and pull requests are welcome.
 
 | Platform | How sound plays | Volume control | Notification banners | Focus / DND |
 | -------- | --------------- | -------------- | -------------------- | ----------- |
-| macOS    | `afplay` — built in, nothing extra needed | Supported | Native editor notification when extension is running; `osascript` fallback for CLI-only (attributed to Script Editor) | Supported — sounds suppressed during any Focus mode; banners filtered by macOS per your Focus settings |
-| Windows  | PowerShell — built in, nothing extra needed | Not supported — uses system volume | Native editor notification when extension is running; PowerShell toast fallback for CLI-only | Not supported |
-| Linux    | Requires `paplay` (PulseAudio) or `aplay` | `paplay` supported, `aplay` uses system volume | Native editor notification when extension is running; `notify-send` fallback for CLI-only (with app icon) | Not supported |
+| macOS | `afplay` — built in | Supported | `terminal-notifier` (bundled) with app icon | Supported — sounds suppressed during any Focus mode; banners filtered by macOS |
+| Windows | PowerShell — built in | Not supported — uses system volume | PowerShell toast | Not supported |
+| Linux | `paplay` (PulseAudio) or `aplay` | `paplay` supported, `aplay` uses system volume | `notify-send` with app icon | Not supported |
+
+---
+
+## Migrating from the VS Code extension
+
+If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
+
+1. Install the plugin (see [Install](#install) above)
+2. The plugin automatically copies your settings and removes the old hooks on first run
+3. Uninstall the old extension:
+   - VS Code: `code --uninstall-extension dawi.agent-ping-vscode`
+   - Cursor: `cursor --uninstall-extension dawi.agent-ping-vscode`
+   - Windsurf: `windsurf --uninstall-extension dawi.agent-ping-vscode`
+4. Optionally remove the global npm package: `npm uninstall -g agent-ping-vscode`
 
 ---
 
 ## Troubleshooting
 
-**No sound plays** — Check your system volume. Open editor settings (`Cmd+,`) and search Agent Ping — make sure **Enabled** is on and the relevant event (Notification or Stop) is also enabled. If you set a custom sound path, make sure the file exists at that exact location.
+**No sound plays** — Run `/agent-ping config` and check that **Enabled** is on and the relevant event (Notification or Stop) is enabled. Check your system volume.
 
-**Wrong sound plays** — Open editor settings and search Agent Ping to review which sound is set for each event.
+**Wrong sound plays** — Run `/agent-ping config` and check the Custom Sounds submenu.
 
 **Test it** — Ask Claude "What is 2 + 2?" — you should hear the stop sound when it replies.
+
+---
+
+## License
+
+MIT
