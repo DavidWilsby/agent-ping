@@ -32,7 +32,10 @@ const DEFAULTS: Config = {
 };
 
 function getConfigDir(): string {
-  return process.env.CLAUDE_PLUGIN_DATA || path.join(os.homedir(), ".agent-ping-vscode");
+  const envVal = process.env.CLAUDE_PLUGIN_DATA;
+  // Guard against unresolved ${...} substitution variables
+  if (envVal && !envVal.includes("${")) return envVal;
+  return path.join(os.homedir(), ".agent-ping-vscode");
 }
 
 function getConfigPath(): string {
@@ -175,14 +178,18 @@ mcpServer.registerTool(
     }),
   },
   async (input) => {
+    const configDir = getConfigDir();
+    const configPath = getConfigPath();
     const current = readConfig();
     const key = input.event === "stop" ? "stopSound" : "notificationSound";
     const updated = { ...current, [key]: input.path };
     writeConfig(updated);
 
-    const label = input.path || "bundled default";
+    // Read back to confirm
+    const verify = fs.readFileSync(configPath, "utf-8");
+
     return {
-      content: [{ type: "text" as const, text: `${input.event} sound set to: ${label}` }],
+      content: [{ type: "text" as const, text: `${input.event} sound set to: ${input.path || "bundled default"}\nConfig dir: ${configDir}\nConfig path: ${configPath}\nWritten config: ${verify}` }],
     };
   }
 );

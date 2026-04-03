@@ -31,7 +31,10 @@ export const BUNDLED_DEFAULTS: Config = {
 };
 
 export function getConfigDir(): string {
-  return process.env.CLAUDE_PLUGIN_DATA || path.join(os.homedir(), '.agent-ping-vscode');
+  const envVal = process.env.CLAUDE_PLUGIN_DATA;
+  // Guard against unresolved ${...} substitution variables
+  if (envVal && !envVal.includes('${')) return envVal;
+  return path.join(os.homedir(), '.agent-ping-vscode');
 }
 
 function readConfigFile(): Partial<Config> {
