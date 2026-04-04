@@ -1,12 +1,19 @@
 # Agent Ping
 
+[![Version](https://img.shields.io/badge/version-2.1.1-blue)](https://github.com/DavidWilsby/agent-ping/releases) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE) ![Platforms: macOS · Linux · Windows](https://img.shields.io/badge/platforms-macOS%20·%20Linux%20·%20Windows-lightgrey)
+
 ![Agent Ping banner](https://raw.githubusercontent.com/DavidWilsby/agent-ping/master/banner.png)
 
-Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed. Works across Claude Code CLI, desktop app, and all editors.
+Sound alerts and OS notifications when Claude needs your attention — so you can step away and come back when needed. Works across Claude Code CLI and all editors (VS Code, Cursor, Windsurf, JetBrains).
+
+- **Zero config** — install and it just works, sounds play automatically
+- **Four events** — stop, notification, permission request, and error
+- **Customizable** — choose sounds, set volume, toggle OS notification banners
+- **Cross-platform** — macOS, Linux, and Windows support
 
 ---
 
-## Install
+## Quick start
 
 ```
 /plugin marketplace add DavidWilsby/agent-ping
@@ -87,7 +94,7 @@ When a hook fires, Agent Ping plays a sound and/or shows an OS notification base
 
 If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
 
-1. Install the plugin (see [Install](#install) above)
+1. Install the plugin (see [Quick start](#quick-start) above)
 2. The plugin automatically copies your settings and removes the old hooks on first run
 3. Uninstall the old extension:
    - VS Code: `code --uninstall-extension dawi.agent-ping-vscode`
