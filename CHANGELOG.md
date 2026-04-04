@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0] — 2026-04-04
+
+### Added
+- Conversational settings — ask Claude to change volume, alert mode, or any setting without opening the form
+- `set_setting` MCP tool for direct config changes
+
+### Fixed
+- Legacy hook cleanup now runs on every launch — the extension could reinstall hooks after migration cleaned them
+- Minified MCP server bundle (1MB → 566KB)
+
+---
+
 ## [2.0.0] — 2026-04-04
 
 ### Changed

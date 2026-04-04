@@ -191,5 +191,35 @@ mcpServer.registerTool(
   }
 );
 
+mcpServer.registerTool(
+  "set_setting",
+  {
+    description: "Change an Agent Ping setting. Use for volume, alert mode, enabled, DND, or per-event toggles.",
+    inputSchema: z.object({
+      setting: z.enum(["enabled", "alertMode", "respectDnd", "volume", "stopEnabled", "notificationEnabled", "idlePromptEnabled"]).describe("Which setting to change"),
+      value: z.string().describe("The new value. For booleans: 'true' or 'false'. For volume: '0' to '100'. For alertMode: 'sound', 'notification', or 'both'."),
+    }),
+  },
+  async (input) => {
+    const current = readConfig();
+
+    let parsedValue: boolean | number | string;
+    if (input.setting === "volume") {
+      parsedValue = Math.max(0, Math.min(100, parseInt(input.value, 10) || 50));
+    } else if (input.setting === "alertMode") {
+      parsedValue = ["sound", "notification", "both"].includes(input.value) ? input.value : current.alertMode;
+    } else {
+      parsedValue = input.value === "true";
+    }
+
+    const updated = { ...current, [input.setting]: parsedValue };
+    writeConfig(updated);
+
+    return {
+      content: [{ type: "text" as const, text: `${input.setting} set to: ${parsedValue}` }],
+    };
+  }
+);
+
 const transport = new StdioServerTransport();
 mcpServer.connect(transport).catch(console.error);
