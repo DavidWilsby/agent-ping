@@ -103,6 +103,8 @@ If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
 
 **Wrong sound plays** — Run `/agent-ping:config` and check the Custom Sounds submenu.
 
+**Double banners or pings** — If you previously used the VS Code extension, it may reinstall its hooks alongside the plugin's. Uninstall the extension to fix this: `code --uninstall-extension dawi.agent-ping-vscode` (or `cursor` / `windsurf`).
+
 **Test it** — Ask Claude "What is 2 + 2?" — you should hear the stop sound when it replies.
 
 ---
