@@ -1,6 +1,8 @@
 # Agent Ping
 
-[![Version](https://img.shields.io/badge/version-2.1.1-blue)](https://github.com/DavidWilsby/agent-ping/releases) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE) ![Platforms: macOS · Linux · Windows](https://img.shields.io/badge/platforms-macOS%20·%20Linux%20·%20Windows-lightgrey)
+[![Version](https://img.shields.io/badge/version-2.1.1-blue)](https://github.com/DavidWilsby/agent-ping/releases) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+**Platforms:** macOS · Linux · Windows
 
 ![Agent Ping banner](https://raw.githubusercontent.com/DavidWilsby/agent-ping/master/banner.png)
 
