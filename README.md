@@ -105,6 +105,8 @@ If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
 
 **Double banners or pings** — If you previously used the VS Code extension, it may reinstall its hooks alongside the plugin's. Uninstall the extension to fix this: `code --uninstall-extension dawi.agent-ping-vscode` (or `cursor` / `windsurf`).
 
+**Plugin doesn't work in Claude Desktop app** — Hooks, MCP tools, and skills do not currently work in the Claude Desktop app's Code tab. This is a known platform limitation where the desktop app excludes plugin-scoped settings. See [#27398](https://github.com/anthropics/claude-code/issues/27398). The plugin works fully in the CLI and IDE extensions (VS Code, Cursor, Windsurf, JetBrains).
+
 **Test it** — Ask Claude "What is 2 + 2?" — you should hear the stop sound when it replies.
 
 ---
