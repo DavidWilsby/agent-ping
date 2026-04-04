@@ -2,6 +2,20 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
+/**
+ * Hook installation — writes Claude Code hook entries to ~/.claude/settings.json.
+ *
+ * This is how Agent Ping integrates with Claude Code: it registers shell commands
+ * that run when Claude finishes a task (Stop), sends a notification, encounters an
+ * error (StopFailure), or asks for permission (PermissionRequest). The commands call
+ * the globally installed agent-ping-vscode CLI binary which plays sounds and/or
+ * shows OS notifications based on the user's settings.
+ *
+ * Socket.dev flags this as medium risk because it sees settings.json modification
+ * and command execution. This is expected and necessary behavior for a Claude Code
+ * hook integration — no data is sent externally.
+ */
+
 export type HookObject = { type?: string; command?: string };
 export type HookGroup = { hooks?: HookObject[] };
 

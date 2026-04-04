@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.5.0] — 2026-04-04
+
+### Changed
+- Replaced `@inquirer/prompts` with `@inquirer/select` (smaller dependency footprint, resolves Socket.dev warnings for unused transitive dependencies)
+- Replaced `osascript` notifications with bundled `terminal-notifier` on macOS — shows notifications with Agent Ping app icon
+- Removed VS Code native notification path — all notifications now use OS-native banners for a consistent experience
+
+### Added
+- Deprecation notice directing users to the new Claude Code plugin (shown weekly, dismissible)
+- Security section in README explaining settings.json modifications
+- Inline code comments for Socket.dev transparency
+- Migration guide for switching to the Claude Code plugin
+- Custom sound file paths in the interactive TUI (`agent-ping-vscode config`)
+
+---
+
 ## [1.4.1] — 2026-04-02
 
 ### Fixed

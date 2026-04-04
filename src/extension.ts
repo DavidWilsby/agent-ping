@@ -4,7 +4,6 @@ import * as path from 'path';
 import * as os from 'os';
 import { Config, BUNDLED_DEFAULTS, AlertMode } from './config';
 import { play } from './player';
-import { LOCK_PATH, EVENT_PATH } from './notifier';
 import {
   resolveGlobalBinDir,
   buildHookCommand,
@@ -13,6 +12,15 @@ import {
   HookGroup,
 } from './hooks';
 
+/**
+ * Registers Claude Code hooks in ~/.claude/settings.json so that Agent Ping
+ * is notified when Claude finishes, asks a question, or encounters an error.
+ * This is the core integration mechanism — the hooks call the agent-ping-vscode
+ * CLI binary which plays sounds and/or shows OS notifications.
+ *
+ * Socket.dev flags this file modification as medium risk. This is expected
+ * behavior for a Claude Code hook integration.
+ */
 function installClaudeHooks(binDir: string): void {
   const settingsPath = path.join(os.homedir(), '.claude', 'settings.json');
 
@@ -142,56 +150,12 @@ function registerResetCommand(
   context.subscriptions.push(disposable);
 }
 
-function createLockFile(): void {
-  try {
-    const dir = path.dirname(LOCK_PATH);
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(LOCK_PATH, String(process.pid), 'utf-8');
-  } catch {
-    // Best-effort
-  }
-}
-
-function removeLockFile(): void {
-  try {
-    fs.unlinkSync(LOCK_PATH);
-  } catch {
-    // Already gone or never created
-  }
-}
-
-function watchEventFile(context: vscode.ExtensionContext): void {
-  const dir = path.dirname(EVENT_PATH);
-  fs.mkdirSync(dir, { recursive: true });
-
-  let debounce: ReturnType<typeof setTimeout> | undefined;
-  const watcher = fs.watch(dir, (eventType, filename) => {
-    if (filename !== path.basename(EVENT_PATH)) return;
-    if (debounce) clearTimeout(debounce);
-    debounce = setTimeout(() => {
-      try {
-        const content = fs.readFileSync(EVENT_PATH, 'utf-8');
-        fs.unlinkSync(EVENT_PATH);
-        const event = JSON.parse(content) as { title: string; message: string };
-        vscode.window.showInformationMessage(`${event.title}: ${event.message}`);
-      } catch {
-        // File already consumed or invalid
-      }
-    }, 50);
-  });
-
-  context.subscriptions.push({ dispose: () => watcher.close() });
-}
-
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   const binDir = await ensureGlobalInstall();
   if (binDir) {
     installClaudeHooks(binDir);
   }
   writeConfigFile(readVSCodeConfig());
-
-  createLockFile();
-  watchEventFile(context);
 
   const disposable = vscode.workspace.onDidChangeConfiguration((e) => {
     if (e.affectsConfiguration('agentPing')) {
@@ -220,8 +184,32 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       }
     })
   );
+
+  // --- Deprecation notice ---
+  const DEPRECATION_KEY = 'agentPing.deprecationDismissed';
+  const DEPRECATION_LAST_SHOWN_KEY = 'agentPing.deprecationLastShown';
+  const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+  const dismissed = context.globalState.get<boolean>(DEPRECATION_KEY, false);
+  if (!dismissed) {
+    const lastShown = context.globalState.get<number>(DEPRECATION_LAST_SHOWN_KEY, 0);
+    const now = Date.now();
+    if (now - lastShown > ONE_WEEK_MS) {
+      context.globalState.update(DEPRECATION_LAST_SHOWN_KEY, now);
+      const choice = await vscode.window.showInformationMessage(
+        'This extension is deprecated. Agent Ping is now a Claude Code plugin — install with one command instead for cross-platform support.',
+        'Learn more',
+        "Don't show again"
+      );
+      if (choice === 'Learn more') {
+        vscode.env.openExternal(vscode.Uri.parse('https://github.com/DavidWilsby/agent-ping'));
+      } else if (choice === "Don't show again") {
+        context.globalState.update(DEPRECATION_KEY, true);
+      }
+    }
+  }
 }
 
 export function deactivate(): void {
-  removeLockFile();
+  // nothing to clean up
 }

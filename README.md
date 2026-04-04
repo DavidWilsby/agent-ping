@@ -4,6 +4,8 @@
 
 Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed. Works with VS Code and any VS Code-based editor (Cursor, Windsurf, etc.).
 
+> **⚠️ This extension is deprecated.** Agent Ping is now a [Claude Code plugin](https://github.com/DavidWilsby/agent-ping) that works across CLI, desktop app, and all editors — no extension needed. **[Migrate to the plugin →](#migrating-from-the-vs-code-extension)**
+
 ---
 
 ## Install
@@ -138,6 +140,24 @@ Environment variables take precedence over the config file. When the editor exte
 
 ---
 
+## Migrating from the VS Code extension
+
+Agent Ping is now available as a Claude Code plugin with cross-platform support. To migrate:
+
+1. Install the plugin:
+   ```
+   /plugin marketplace add DavidWilsby/agent-ping
+   /plugin install agent-ping
+   ```
+2. The plugin automatically copies your settings and removes the old hooks on first run
+3. Uninstall the old extension:
+   - VS Code: `code --uninstall-extension dawi.agent-ping-vscode`
+   - Cursor: `cursor --uninstall-extension dawi.agent-ping-vscode`
+   - Windsurf: `windsurf --uninstall-extension dawi.agent-ping-vscode`
+4. Optionally remove the global npm package: `npm uninstall -g agent-ping-vscode`
+
+---
+
 ## Troubleshooting
 
 **No sound plays** — Check your system volume. Open editor settings (`Cmd+,`) and search Agent Ping — make sure **Enabled** is on and the relevant event (Notification or Stop) is also enabled. If you set a custom sound path, make sure the file exists at that exact location.
@@ -145,3 +165,9 @@ Environment variables take precedence over the config file. When the editor exte
 **Wrong sound plays** — Open editor settings and search Agent Ping to review which sound is set for each event.
 
 **Test it** — Ask Claude "What is 2 + 2?" — you should hear the stop sound when it replies.
+
+## Security
+
+This extension modifies `~/.claude/settings.json` to register Claude Code hooks — this is how it knows when to play sounds. The hooks call the `agent-ping-vscode` binary with event names (`stop`, `notification`). No data is sent externally. The extension also writes a lock file and event file to `~/.agent-ping-vscode/` for coordination between the editor and CLI.
+
+Socket.dev flags this as medium risk because it sees settings.json modification and command execution. This is expected and necessary behavior for a Claude Code hook integration.

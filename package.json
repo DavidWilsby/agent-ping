@@ -1,7 +1,7 @@
 {
   "name": "agent-ping-vscode",
   "displayName": "Agent Ping for Claude",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Plays a sound when Claude finishes responding, asks a question, or needs your permission — so you can step away and come back when needed.",
   "publisher": "dawi",
   "license": "MIT",
@@ -169,6 +169,7 @@
     ]
   },
   "dependencies": {
-    "@inquirer/prompts": "^8.3.2"
+    "@inquirer/select": "^4.0.0",
+    "@inquirer/input": "^4.0.0"
   }
 }
