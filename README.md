@@ -15,7 +15,7 @@ Sound alerts and OS notifications when Claude needs your attention — so you ca
 
 ---
 
-## Quick start
+## ⚡️ Quick start
 
 ```
 /plugin marketplace add DavidWilsby/agent-ping
@@ -34,7 +34,7 @@ To configure settings interactively:
 
 ---
 
-## Uninstall
+## 🧹 Uninstall
 
 ```
 /plugin uninstall agent-ping
@@ -42,7 +42,7 @@ To configure settings interactively:
 
 ---
 
-## Settings
+## ⚙️ Settings
 
 Run `/agent-ping:config` to open the interactive settings menu.
 
@@ -59,7 +59,7 @@ Run `/agent-ping:config` to open the interactive settings menu.
 
 ---
 
-## How it works
+## 🔍 How it works
 
 Agent Ping registers Claude Code hooks for four events:
 
@@ -74,7 +74,7 @@ When a hook fires, Agent Ping plays a sound and/or shows an OS notification base
 
 ---
 
-## Platform notes
+## 📱 Platform notes
 
 > **Note:** Agent Ping is developed and tested on macOS. Linux and Windows support is provided on a best-effort basis. Bug reports and pull requests are welcome.
 
@@ -86,7 +86,7 @@ When a hook fires, Agent Ping plays a sound and/or shows an OS notification base
 
 ---
 
-## Migrating from the VS Code extension
+## 🔄 Migrating from the VS Code extension
 
 If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
 
@@ -100,7 +100,7 @@ If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
 
 ---
 
-## Troubleshooting
+## 🐛 Troubleshooting
 
 **No sound plays** — Run `/agent-ping:config` and check that **Enabled** is on and the relevant event (Notification or Stop) is enabled. Check your system volume.
 
@@ -112,7 +112,7 @@ If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
 
 ---
 
-## Using the VS Code extension (legacy)
+## 👾 Using the VS Code extension (legacy)
 
 If you prefer the editor extension, it's still available on [Open VSX](https://open-vsx.org/extension/dawi/agent-ping-vscode) and works with VS Code, Cursor, and Windsurf. The extension is no longer actively developed but remains functional.
 
@@ -126,6 +126,6 @@ export AGENT_PING_NOTIFICATION_SOUND=/path/to/sound.wav
 
 ---
 
-## License
+## 📄 License
 
 [MIT](LICENSE)
