@@ -88,23 +88,9 @@ function removeLegacyHooks() {
 }
 function migrateIfNeeded() {
     const markerPath = getMarkerPath();
-    const firstRun = !fs.existsSync(markerPath);
-    // Config copy only on first run
-    if (firstRun) {
-        copyLegacyConfig();
-        try {
-            const targetDir = (0, config_1.getConfigDir)();
-            fs.mkdirSync(targetDir, { recursive: true });
-            fs.writeFileSync(markerPath, new Date().toISOString(), 'utf-8');
-        }
-        catch {
-            // Best-effort
-        }
-    }
-    // Check for legacy hooks on every launch — the extension may reinstall
-    // them after we clean them. This is a fast check (<1ms) so the cost is
-    // negligible. We can't use a flag here because the extension can
-    // reinstall hooks at any time without our knowledge.
+    if (fs.existsSync(markerPath))
+        return;
+    copyLegacyConfig();
     const hooksRemoved = removeLegacyHooks();
     if (hooksRemoved) {
         console.log(`
@@ -113,5 +99,14 @@ Legacy Agent Ping hooks cleaned up. To avoid double pings, uninstall the old VS 
   - Cursor:    cursor --uninstall-extension dawi.agent-ping-vscode
   - Windsurf:  windsurf --uninstall-extension dawi.agent-ping-vscode
 `);
+    }
+    // Write marker so migration doesn't run again
+    try {
+        const targetDir = (0, config_1.getConfigDir)();
+        fs.mkdirSync(targetDir, { recursive: true });
+        fs.writeFileSync(markerPath, new Date().toISOString(), 'utf-8');
+    }
+    catch {
+        // Best-effort
     }
 }
