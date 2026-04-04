@@ -20,7 +20,7 @@ Sound alerts and OS notifications when Claude needs your attention — so you ca
 /plugin install agent-ping
 ```
 
-Sounds will play automatically — no further setup needed.
+Sounds will play automatically — no further setup needed. You don't need to clone this repo.
 
 To configure settings interactively:
 
@@ -126,4 +126,4 @@ If you prefer the editor extension, it's still available on [Open VSX](https://o
 
 ## License
 
-MIT
+[MIT](LICENSE)
