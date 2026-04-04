@@ -57,14 +57,6 @@ Run `/agent-ping:config` to open the interactive settings menu.
 | **Stop Enabled** | Enable or disable the Stop event sound | On |
 | **Custom Sounds** | Set custom sound file paths (WAV, MP3, AIFF) for stop and notification events | Bundled defaults |
 
-You can also override sounds and volume via environment variables:
-
-- `AGENT_PING_VOLUME` — volume (0–100)
-- `AGENT_PING_STOP_SOUND` — absolute path to stop sound file
-- `AGENT_PING_NOTIFICATION_SOUND` — absolute path to notification sound file
-
-Environment variables take precedence over saved settings.
-
 ---
 
 ## How it works
@@ -123,6 +115,14 @@ If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
 ## Using the VS Code extension (legacy)
 
 If you prefer the editor extension, it's still available on [Open VSX](https://open-vsx.org/extension/dawi/agent-ping-vscode) and works with VS Code, Cursor, and Windsurf. The extension is no longer actively developed but remains functional.
+
+Extension users can override sounds and volume via environment variables in their shell profile (e.g. `~/.zshrc`):
+
+```bash
+export AGENT_PING_VOLUME=75
+export AGENT_PING_STOP_SOUND=/path/to/sound.wav
+export AGENT_PING_NOTIFICATION_SOUND=/path/to/sound.wav
+```
 
 ---
 
