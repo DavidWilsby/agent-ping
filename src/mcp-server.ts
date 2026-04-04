@@ -65,7 +65,7 @@ const mcpServer = new McpServer({
 mcpServer.registerTool(
   "configure",
   {
-    description: "Open the Agent Ping settings form",
+    description: "Open the Agent Ping settings form. ONLY use when the user explicitly asks to see or open the settings, NOT when they ask to change a specific setting. For specific changes, use set_setting or set_sound instead.",
     inputSchema: {},
   },
   async () => {

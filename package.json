@@ -1,6 +1,6 @@
 {
   "name": "agent-ping",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Sound alerts and notifications when Claude needs your attention — Claude Code plugin",
   "license": "MIT",
   "repository": {
