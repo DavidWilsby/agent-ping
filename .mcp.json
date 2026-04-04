@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "agent-ping": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/bin/mcp-server.js"]
+    }
+  }
+}

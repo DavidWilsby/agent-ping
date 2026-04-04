@@ -1,11 +1,8 @@
 import select from '@inquirer/select';
 import input from '@inquirer/input';
-import { resolveConfig, BUNDLED_DEFAULTS, AlertMode, Config } from './config';
+import { resolveConfig, getConfigDir, BUNDLED_DEFAULTS, AlertMode, Config } from './config';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as os from 'os';
-
-const CONFIG_PATH = path.join(os.homedir(), '.agent-ping-vscode', 'config.json');
 
 const CANCELLED = Symbol('cancelled');
 
@@ -44,9 +41,10 @@ async function cancellableInput(opts: Parameters<typeof input>[0]): Promise<stri
 }
 
 function saveConfig(config: Partial<Config>): void {
-  const dir = path.dirname(CONFIG_PATH);
-  fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), 'utf-8');
+  const configDir = getConfigDir();
+  fs.mkdirSync(configDir, { recursive: true });
+  const configPath = path.join(configDir, 'config.json');
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
 }
 
 function onOff(value: boolean): string {
@@ -182,5 +180,6 @@ export async function configure(): Promise<void> {
   });
 
   console.clear();
-  console.log('\n  Settings saved to ~/.agent-ping-vscode/config.json\n');
+  const configDir = getConfigDir();
+  console.log(`\n  Settings saved to ${configDir}/config.json\n`);
 }

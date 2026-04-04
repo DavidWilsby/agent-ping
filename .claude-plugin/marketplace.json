@@ -1,11 +1,18 @@
 {
-  "name": "agent-ping-vscode",
-  "owner": { "name": "David Wilsby" },
+  "name": "agent-ping",
+  "owner": {
+    "name": "David Wilsby"
+  },
+  "metadata": {
+    "description": "Agent Ping plugin marketplace",
+    "version": "1.0.0"
+  },
   "plugins": [
     {
-      "name": "agent-ping-vscode",
-      "source": ".",
-      "description": "Plays a sound when Claude finishes responding"
+      "name": "agent-ping",
+      "source": "./",
+      "description": "Sound alerts and notifications when Claude needs your attention",
+      "version": "2.0.0"
     }
   ]
 }

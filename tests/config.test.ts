@@ -14,13 +14,15 @@ beforeEach(() => {
   delete process.env.AGENT_PING_STOP_SOUND;
   delete process.env.AGENT_PING_NOTIFICATION_SOUND;
   delete process.env.AGENT_PING_VOLUME;
+  delete process.env.CLAUDE_PLUGIN_DATA;
+  process.env.CLAUDE_PLUGIN_DATA = '/tmp/test-plugin-data';
   mockReadFileSync.mockReset();
 });
 
 describe('resolveConfig', () => {
   it('returns bundled defaults when no env vars or config file', () => {
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) throw new Error('not found');
+      if (String(p).includes('test-plugin-data')) throw new Error('not found');
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -35,7 +37,7 @@ describe('resolveConfig', () => {
   it('env var AGENT_PING_STOP_SOUND overrides stop sound', () => {
     process.env.AGENT_PING_STOP_SOUND = '/custom/stop.wav';
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) throw new Error('not found');
+      if (String(p).includes('test-plugin-data')) throw new Error('not found');
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -46,7 +48,7 @@ describe('resolveConfig', () => {
   it('env var AGENT_PING_NOTIFICATION_SOUND overrides notification sound', () => {
     process.env.AGENT_PING_NOTIFICATION_SOUND = '/custom/ping.wav';
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) throw new Error('not found');
+      if (String(p).includes('test-plugin-data')) throw new Error('not found');
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -57,7 +59,7 @@ describe('resolveConfig', () => {
   it('config file values override bundled defaults', () => {
     const fileConfig = { enabled: false, stopSound: '/file/stop.wav' };
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) return JSON.stringify(fileConfig);
+      if (String(p).includes('test-plugin-data')) return JSON.stringify(fileConfig);
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -68,7 +70,7 @@ describe('resolveConfig', () => {
 
   it('returns default volume of 50 when not configured', () => {
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) throw new Error('not found');
+      if (String(p).includes('test-plugin-data')) throw new Error('not found');
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -80,7 +82,7 @@ describe('resolveConfig', () => {
     process.env.AGENT_PING_STOP_SOUND = '/env/stop.wav';
     const fileConfig = { stopSound: '/file/stop.wav' };
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) return JSON.stringify(fileConfig);
+      if (String(p).includes('test-plugin-data')) return JSON.stringify(fileConfig);
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -90,7 +92,7 @@ describe('resolveConfig', () => {
   it('AGENT_PING_VOLUME env var overrides config', () => {
     process.env.AGENT_PING_VOLUME = '80';
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) return JSON.stringify({ volume: 30 });
+      if (String(p).includes('test-plugin-data')) return JSON.stringify({ volume: 30 });
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -100,7 +102,7 @@ describe('resolveConfig', () => {
 
   it('clamps volume above 100 to 100', () => {
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) return JSON.stringify({ volume: 200 });
+      if (String(p).includes('test-plugin-data')) return JSON.stringify({ volume: 200 });
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -110,7 +112,7 @@ describe('resolveConfig', () => {
 
   it('clamps volume below 0 to 0', () => {
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) return JSON.stringify({ volume: -10 });
+      if (String(p).includes('test-plugin-data')) return JSON.stringify({ volume: -10 });
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -121,7 +123,7 @@ describe('resolveConfig', () => {
   it('ignores non-numeric AGENT_PING_VOLUME', () => {
     process.env.AGENT_PING_VOLUME = 'abc';
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) throw new Error('not found');
+      if (String(p).includes('test-plugin-data')) throw new Error('not found');
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
@@ -131,12 +133,24 @@ describe('resolveConfig', () => {
 
   it('falls back to default for non-numeric volume in config file', () => {
     mockReadFileSync.mockImplementation((p: string) => {
-      if (String(p).includes('.agent-ping-vscode')) return JSON.stringify({ volume: 'fifty' });
+      if (String(p).includes('test-plugin-data')) return JSON.stringify({ volume: 'fifty' });
       return jest.requireActual<typeof import('fs')>('fs').readFileSync(p, 'utf-8');
     });
     const { resolveConfig } = require('../src/config');
     const config = resolveConfig();
     expect(config.volume).toBe(50);
+  });
+
+  it('reads config from CLAUDE_PLUGIN_DATA when set', () => {
+    process.env.CLAUDE_PLUGIN_DATA = '/tmp/agent-ping-test';
+    const configContent = JSON.stringify({ volume: 75 });
+    mockReadFileSync.mockImplementation((p: string) => {
+      if (String(p) === '/tmp/agent-ping-test/config.json') return configContent;
+      throw new Error('not found');
+    });
+    const { resolveConfig } = require('../src/config');
+    const config = resolveConfig();
+    expect(config.volume).toBe(75);
   });
 });
 

@@ -1,18 +1,38 @@
 # Changelog
 
+## [2.0.0] — 2026-04-04
+
+### Changed
+- **Repackaged as a Claude Code plugin** — works across CLI, desktop app, and all editors. Install with `/plugin install agent-ping`.
+- Replaced `osascript` with bundled `terminal-notifier` on macOS for polished notification banners with app icon
+- Replaced `@inquirer/prompts` with `@inquirer/select` and `@inquirer/input` (smaller dependency tree, resolves Socket security warnings)
+- Config stored in plugin data directory instead of `~/.agent-ping-vscode/`
+
+### Added
+- Interactive settings form via MCP elicitation (`/agent-ping:config`)
+- Custom sound file paths — set via settings form or ask Claude conversationally
+- Automatic migration from VS Code extension — copies settings and removes legacy hooks on first run
+- Self-hosted marketplace for direct installation from GitHub
+
+### Removed
+- VS Code extension code (deprecated in v1.5.0)
+- `uninstall` CLI command (plugin system handles this)
+- `--version` flag (version comes from plugin manifest)
+
+---
+
 ## [1.5.0] — 2026-04-04
 
 ### Changed
-- Replaced `@inquirer/prompts` with `@inquirer/select` (smaller dependency footprint, resolves Socket.dev warnings for unused transitive dependencies)
+- Replaced `@inquirer/prompts` with `@inquirer/select` + `@inquirer/input` (smaller dependency footprint, resolves Socket.dev warnings)
 - Replaced `osascript` notifications with bundled `terminal-notifier` on macOS — shows notifications with Agent Ping app icon
 - Removed VS Code native notification path — all notifications now use OS-native banners for a consistent experience
 
 ### Added
 - Deprecation notice directing users to the new Claude Code plugin (shown weekly, dismissible)
-- Security section in README explaining settings.json modifications
-- Inline code comments for Socket.dev transparency
-- Migration guide for switching to the Claude Code plugin
 - Custom sound file paths in the interactive TUI (`agent-ping-vscode config`)
+- Security section in README explaining settings.json modifications
+- Migration guide for switching to the Claude Code plugin
 
 ---
 

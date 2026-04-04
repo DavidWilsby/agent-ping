@@ -1,20 +1,11 @@
 #!/usr/bin/env node
 import { resolveConfig } from './config';
 import { handleEvent, EventType } from './ping';
-import { removeHooksAndConfig } from './uninstall';
+import { migrateIfNeeded } from './migrate';
+
+migrateIfNeeded();
 
 const arg = process.argv[2];
-
-if (arg === '--version' || arg === '-v') {
-  const { version } = require('../package.json');
-  console.log(version);
-  process.exit(0);
-}
-
-if (arg === 'uninstall') {
-  removeHooksAndConfig();
-  process.exit(0);
-}
 
 if (arg === 'config') {
   import('./configure').then(({ configure }) => configure()).catch(() => process.exit(1));

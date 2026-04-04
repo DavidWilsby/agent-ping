@@ -12,7 +12,7 @@ beforeEach(() => {
 });
 
 describe('showNotification', () => {
-  it('calls terminal-notifier on macOS with sender', () => {
+  it('calls terminal-notifier on macOS with icon', () => {
     const originalPlatform = process.platform;
     Object.defineProperty(process, 'platform', { value: 'darwin', configurable: true });
     jest.resetModules();
