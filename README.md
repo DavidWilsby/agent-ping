@@ -107,6 +107,12 @@ If you previously used the Agent Ping VS Code extension (v1.4.x or earlier):
 
 ---
 
+## Using the VS Code extension (legacy)
+
+If you prefer the editor extension, it's still available on [Open VSX](https://open-vsx.org/extension/dawi/agent-ping-vscode) and works with VS Code, Cursor, and Windsurf. The extension is no longer actively developed but remains functional.
+
+---
+
 ## License
 
 MIT
