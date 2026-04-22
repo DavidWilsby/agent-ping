@@ -37,6 +37,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("./config");
 const ping_1 = require("./ping");
 const migrate_1 = require("./migrate");
+// Hydrate CLAUDE_PLUGIN_DATA from argv[3] when the hook passed it positionally.
+// This is the cross-platform path: inline `VAR=value cmd` shell syntax does not
+// parse in Windows cmd.exe, so hooks.json passes the data dir as an argument
+// and cli.ts promotes it into the environment before config is resolved.
+const pluginDataArg = process.argv[3];
+if (pluginDataArg && !pluginDataArg.includes('${') && !process.env.CLAUDE_PLUGIN_DATA) {
+    process.env.CLAUDE_PLUGIN_DATA = pluginDataArg;
+}
 (0, migrate_1.migrateIfNeeded)();
 const arg = process.argv[2];
 if (arg === 'config') {
