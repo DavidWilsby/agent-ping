@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "CLAUDE_PLUGIN_DATA=${CLAUDE_PLUGIN_DATA} node ${CLAUDE_PLUGIN_ROOT}/bin/cli.js stop"
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/bin/cli.js\" stop \"${CLAUDE_PLUGIN_DATA}\""
           }
         ]
       }
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "CLAUDE_PLUGIN_DATA=${CLAUDE_PLUGIN_DATA} node ${CLAUDE_PLUGIN_ROOT}/bin/cli.js notification"
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/bin/cli.js\" notification \"${CLAUDE_PLUGIN_DATA}\""
           }
         ]
       }
@@ -25,7 +25,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "CLAUDE_PLUGIN_DATA=${CLAUDE_PLUGIN_DATA} node ${CLAUDE_PLUGIN_ROOT}/bin/cli.js notification"
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/bin/cli.js\" notification \"${CLAUDE_PLUGIN_DATA}\""
           }
         ]
       }
@@ -35,7 +35,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "CLAUDE_PLUGIN_DATA=${CLAUDE_PLUGIN_DATA} node ${CLAUDE_PLUGIN_ROOT}/bin/cli.js notification"
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/bin/cli.js\" notification \"${CLAUDE_PLUGIN_DATA}\""
           }
         ]
       }

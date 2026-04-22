@@ -69,10 +69,11 @@ function showOsNotification(title, message) {
             '$toast = [Windows.UI.Notifications.ToastNotification]::new($template)',
             '[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Agent Ping").Show($toast)',
         ].join('; ');
-        (0, child_process_1.spawn)('powershell', ['-NoProfile', '-c', script], {
-            detached: true,
-            stdio: 'ignore',
-        }).unref();
+        // Windows requires inherited stdio for the toast to actually display. With
+        // { detached: true, stdio: 'ignore' } the PowerShell child runs but Windows
+        // silently drops the toast — likely because the detached, console-less
+        // process has no resolvable AppUserModelID for the toast system.
+        (0, child_process_1.spawn)('powershell', ['-NoProfile', '-c', script]);
         return;
     }
 }
